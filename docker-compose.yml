@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: sales-order-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}
+      - GOOGLE_CLOUD_REGION=${GOOGLE_CLOUD_REGION}
+      - CLOUD_SQL_CONNECTION_NAME=${CLOUD_SQL_CONNECTION_NAME}
+      - CLOUD_SQL_DATABASE_NAME=${CLOUD_SQL_DATABASE_NAME}
+      - CLOUD_SQL_USER=${CLOUD_SQL_USER}
+      - CLOUD_SQL_PASSWORD=${CLOUD_SQL_PASSWORD}
+      - GCS_DOCUMENTS_BUCKET=${GCS_DOCUMENTS_BUCKET}
+      - GCS_PARTS_CATALOG_BUCKET=${GCS_PARTS_CATALOG_BUCKET}
+      - VERTEX_AI_LOCATION=${VERTEX_AI_LOCATION}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DYNAMICS_365_TENANT_ID=${DYNAMICS_365_TENANT_ID}
+      - DYNAMICS_365_CLIENT_ID=${DYNAMICS_365_CLIENT_ID}
+      - DYNAMICS_365_CLIENT_SECRET=${DYNAMICS_365_CLIENT_SECRET}
+      - DYNAMICS_365_RESOURCE_URL=${DYNAMICS_365_RESOURCE_URL}
+    volumes:
+      - ./backend:/app
+      - backend_uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build: ./frontend
+    container_name: sales-order-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000/api/v1
+      - VITE_WS_BASE_URL=ws://localhost:8000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  backend_uploads:
+    driver: local
+
+networks:
+  default:
+    name: sales-order-network

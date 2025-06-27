@@ -1,0 +1,408 @@
+# Google Cloud Monitoring Alert Policies
+# This file defines alert policies for the Sales Order System
+
+# High Error Rate Alert
+high_error_rate:
+  displayName: "Sales Order System - High Error Rate"
+  documentation:
+    content: |
+      This alert triggers when the error rate exceeds 5% over a 5-minute window.
+      
+      ## Immediate Actions:
+      1. Check application logs for recent errors
+      2. Verify service health status
+      3. Check Cloud Run instance health
+      
+      ## Investigation Steps:
+      1. Review error dashboard for error types
+      2. Check external dependency status
+      3. Review recent deployments
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "HTTP Error Rate > 5%"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/http_requests_errors_total"
+          resource.type="cloud_run_revision"
+        aggregations:
+          - alignmentPeriod: "300s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 0.05
+        duration: "300s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+  
+  alertStrategy:
+    autoClose: "1800s"
+    notificationRateLimit:
+      period: "900s"
+
+# High Response Time Alert
+high_latency:
+  displayName: "Sales Order System - High Response Time"
+  documentation:
+    content: |
+      This alert triggers when average response time exceeds 5 seconds.
+      
+      ## Immediate Actions:
+      1. Check if services are under high load
+      2. Verify database performance
+      3. Check for stuck requests
+      
+      ## Investigation Steps:
+      1. Review performance metrics
+      2. Check database slow queries
+      3. Verify external API response times
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "Average Response Time > 5s"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/histogram/http_request_duration_seconds"
+          resource.type="cloud_run_revision"
+        aggregations:
+          - alignmentPeriod: "300s"
+            perSeriesAligner: "ALIGN_MEAN"
+            crossSeriesReducer: "REDUCE_MEAN"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 5.0
+        duration: "600s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+
+# Service Down Alert
+service_down:
+  displayName: "Sales Order System - Service Down"
+  documentation:
+    content: |
+      This alert triggers when the service health check fails.
+      
+      ## Immediate Actions:
+      1. Check Cloud Run service status
+      2. Verify deployment status
+      3. Check for infrastructure issues
+      
+      ## Investigation Steps:
+      1. Review service logs
+      2. Check Cloud Run metrics
+      3. Verify database connectivity
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "Application Health Check Failed"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/gauge/application_health"
+        aggregations:
+          - alignmentPeriod: "60s"
+            perSeriesAligner: "ALIGN_MEAN"
+            crossSeriesReducer: "REDUCE_MEAN"
+        comparison: "COMPARISON_LESS_THAN"
+        thresholdValue: 1.0
+        duration: "180s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+    - "projects/PROJECT_ID/notificationChannels/SMS_CHANNEL_ID"
+  
+  alertStrategy:
+    autoClose: "600s"
+
+# Database Connection Issues
+database_issues:
+  displayName: "Sales Order System - Database Connection Issues"
+  documentation:
+    content: |
+      This alert triggers when database operations have high error rates.
+      
+      ## Immediate Actions:
+      1. Check Cloud SQL instance status
+      2. Verify connection pool settings
+      3. Check for connection leaks
+      
+      ## Investigation Steps:
+      1. Review database logs
+      2. Check Cloud SQL metrics
+      3. Verify VPC connectivity
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "Database Error Rate > 10%"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/database_operations_errors_total"
+        aggregations:
+          - alignmentPeriod: "300s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 0.1
+        duration: "300s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+
+# High Memory Usage
+high_memory_usage:
+  displayName: "Sales Order System - High Memory Usage"
+  documentation:
+    content: |
+      This alert triggers when container memory usage exceeds 90%.
+      
+      ## Immediate Actions:
+      1. Check for memory leaks
+      2. Verify if scaling is needed
+      3. Check large data processing jobs
+      
+      ## Investigation Steps:
+      1. Review memory profiling data
+      2. Check for resource-intensive operations
+      3. Consider increasing memory limits
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "Container Memory Usage > 90%"
+      conditionThreshold:
+        filter: |
+          resource.type="cloud_run_revision"
+          metric.type="run.googleapis.com/container/memory/utilizations"
+        aggregations:
+          - alignmentPeriod: "300s"
+            perSeriesAligner: "ALIGN_MEAN"
+            crossSeriesReducer: "REDUCE_MEAN"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 0.9
+        duration: "600s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+
+# ERP Integration Failures
+erp_integration_failures:
+  displayName: "Sales Order System - ERP Integration Failures"
+  documentation:
+    content: |
+      This alert triggers when ERP integration operations have high failure rates.
+      
+      ## Immediate Actions:
+      1. Check ERP system status
+      2. Verify credentials and authentication
+      3. Check network connectivity
+      
+      ## Investigation Steps:
+      1. Review ERP integration logs
+      2. Check API rate limits
+      3. Verify configuration settings
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "ERP Integration Error Rate > 20%"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/erp_operations_errors_total"
+        aggregations:
+          - alignmentPeriod: "600s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 0.2
+        duration: "300s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+
+# Document Processing Failures
+document_processing_failures:
+  displayName: "Sales Order System - Document Processing Failures"
+  documentation:
+    content: |
+      This alert triggers when document processing has high failure rates.
+      
+      ## Immediate Actions:
+      1. Check document format and quality
+      2. Verify OCR service availability
+      3. Check file processing limits
+      
+      ## Investigation Steps:
+      1. Review document processing logs
+      2. Check supported file formats
+      3. Verify external service connectivity
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "Document Processing Error Rate > 15%"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/document_processing_errors_total"
+        aggregations:
+          - alignmentPeriod: "900s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 0.15
+        duration: "300s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+
+# Low Business Activity
+low_business_activity:
+  displayName: "Sales Order System - Low Business Activity"
+  documentation:
+    content: |
+      This alert triggers when there's unusually low business activity.
+      
+      ## Investigation Steps:
+      1. Check if this is expected (holidays, maintenance)
+      2. Verify system accessibility
+      3. Check customer communication channels
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "Documents Processed < 1 per hour"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/documents_processed_total"
+        aggregations:
+          - alignmentPeriod: "3600s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_LESS_THAN"
+        thresholdValue: 1.0
+        duration: "7200s"  # 2 hours
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+  
+  alertStrategy:
+    autoClose: "3600s"
+
+# Security Alert - Suspicious Activity
+security_suspicious_activity:
+  displayName: "Sales Order System - Suspicious Activity Detected"
+  documentation:
+    content: |
+      This alert triggers when suspicious activity is detected in logs.
+      
+      ## Immediate Actions:
+      1. Review security logs for details
+      2. Check source IP addresses
+      3. Consider blocking suspicious sources
+      
+      ## Investigation Steps:
+      1. Analyze attack patterns
+      2. Review authentication logs
+      3. Check for data exfiltration attempts
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "High Rate of 401/403 Responses"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/http_requests_errors_total"
+          metric.label.status_code=~"40[13]"
+        aggregations:
+          - alignmentPeriod: "300s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 10.0  # 10 auth failures per 5 minutes
+        duration: "300s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"
+    - "projects/PROJECT_ID/notificationChannels/SECURITY_TEAM_CHANNEL_ID"
+  
+  alertStrategy:
+    autoClose: "1800s"
+
+# Quota and Rate Limiting
+quota_exceeded:
+  displayName: "Sales Order System - API Quota Exceeded"
+  documentation:
+    content: |
+      This alert triggers when external API quotas are being exceeded.
+      
+      ## Immediate Actions:
+      1. Check current quota usage
+      2. Implement rate limiting if needed
+      3. Consider quota increase requests
+      
+      ## Investigation Steps:
+      1. Review API usage patterns
+      2. Check for unnecessary API calls
+      3. Optimize API usage efficiency
+    mimeType: "text/markdown"
+  
+  conditions:
+    - displayName: "High Rate of 429 Responses from External APIs"
+      conditionThreshold:
+        filter: |
+          metric.type="custom.googleapis.com/sales_order/counter/external_api_errors_total"
+          metric.label.status_code="429"
+        aggregations:
+          - alignmentPeriod: "300s"
+            perSeriesAligner: "ALIGN_RATE"
+            crossSeriesReducer: "REDUCE_SUM"
+        comparison: "COMPARISON_GREATER_THAN"
+        thresholdValue: 5.0
+        duration: "300s"
+        trigger:
+          count: 1
+  
+  combiner: "OR"
+  enabled: true
+  
+  notificationChannels:
+    - "projects/PROJECT_ID/notificationChannels/EMAIL_CHANNEL_ID"

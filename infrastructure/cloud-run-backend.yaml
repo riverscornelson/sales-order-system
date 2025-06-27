@@ -1,0 +1,82 @@
+# Cloud Run service configuration for backend
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: sales-order-backend
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/execution-environment: gen2
+spec:
+  template:
+    metadata:
+      annotations:
+        # Resource allocation
+        run.googleapis.com/cpu: "1"
+        run.googleapis.com/memory: "2Gi"
+        
+        # Scaling configuration
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "10"
+        run.googleapis.com/execution-environment: gen2
+        
+        # Network configuration
+        run.googleapis.com/vpc-access-connector: projects/PROJECT_ID/locations/us-central1/connectors/vpc-connector
+        run.googleapis.com/vpc-access-egress: private-ranges-only
+        
+        # Cloud SQL configuration
+        run.googleapis.com/cloudsql-instances: PROJECT_ID:us-central1:sales-order-db
+    spec:
+      serviceAccountName: sales-order-backend-sa@PROJECT_ID.iam.gserviceaccount.com
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+      - image: gcr.io/PROJECT_ID/sales-order-backend:latest
+        ports:
+        - name: http1
+          containerPort: 8000
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: GOOGLE_CLOUD_PROJECT
+          value: "PROJECT_ID"
+        - name: CLOUD_SQL_CONNECTION_NAME
+          value: "PROJECT_ID:us-central1:sales-order-db"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: ERP_PROVIDER
+          value: "mock"  # Change to "dynamics" when ready
+        - name: EMBEDDING_PROVIDER
+          value: "vertex"
+        - name: VECTOR_STORE_BUCKET
+          value: "sales-order-vectors-PROJECT_ID"
+        - name: UPLOAD_BUCKET
+          value: "sales-order-uploads-PROJECT_ID"
+        - name: CORS_ORIGINS
+          value: "https://sales-order-frontend-uc.a.run.app"
+        envFrom:
+        - secretRef:
+            name: sales-order-secrets
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+          requests:
+            cpu: "100m"
+            memory: "512Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+  traffic:
+  - percent: 100
+    latestRevision: true

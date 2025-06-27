@@ -1,0 +1,93 @@
+# Google Cloud deployment configuration for Sales Order Entry System
+
+# Project configuration
+project_id: "sales-order-system-dev"
+region: "us-central1"
+zone: "us-central1-a"
+
+# Cloud SQL Instance
+cloudsql:
+  instance_name: "sales-order-db"
+  database_version: "POSTGRES_15"
+  tier: "db-f1-micro"
+  disk_size: "20"
+  database_name: "sales_orders"
+  username: "postgres"
+
+# Cloud Storage Buckets
+storage:
+  documents_bucket: "sales-order-documents"
+  parts_catalog_bucket: "sales-order-parts-catalog"
+  backup_bucket: "sales-order-backups"
+
+# Vertex AI Search
+vertex_search:
+  search_app_id: "sales-order-search"
+  data_store_id: "parts-catalog-datastore"
+  location: "global"
+
+# Secret Manager
+secrets:
+  - name: "openai-api-key"
+    value: "sk-your-openai-key-here"
+  - name: "dynamics-365-tenant-id"
+    value: "your-tenant-id"
+  - name: "dynamics-365-client-id"
+    value: "your-client-id"
+  - name: "dynamics-365-client-secret"
+    value: "your-client-secret"
+  - name: "dynamics-365-resource-url"
+    value: "https://your-org.crm.dynamics.com"
+
+# Cloud Run Services
+cloud_run:
+  backend:
+    service_name: "sales-order-backend"
+    image: "gcr.io/PROJECT_ID/sales-order-backend"
+    port: 8000
+    cpu: "1"
+    memory: "2Gi"
+    min_instances: 0
+    max_instances: 10
+    
+  frontend:
+    service_name: "sales-order-frontend"
+    image: "gcr.io/PROJECT_ID/sales-order-frontend"
+    port: 80
+    cpu: "0.5"
+    memory: "1Gi"
+    min_instances: 0
+    max_instances: 5
+
+# API Gateway
+api_gateway:
+  api_id: "sales-order-api"
+  gateway_id: "sales-order-gateway"
+
+# Cloud Monitoring
+monitoring:
+  notification_channels:
+    - email: "admin@example.com"
+  
+  alert_policies:
+    - name: "High Error Rate"
+      condition: "error_rate > 5%"
+    - name: "High Latency"
+      condition: "response_time > 5s"
+
+# IAM
+iam:
+  service_accounts:
+    - name: "sales-order-backend-sa"
+      display_name: "Sales Order Backend Service Account"
+      roles:
+        - "roles/cloudsql.client"
+        - "roles/storage.objectAdmin"
+        - "roles/secretmanager.secretAccessor"
+        - "roles/aiplatform.user"
+        - "roles/discoveryengine.viewer"
+    
+    - name: "sales-order-frontend-sa"
+      display_name: "Sales Order Frontend Service Account"
+      roles:
+        - "roles/storage.objectViewer"

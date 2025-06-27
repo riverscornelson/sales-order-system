@@ -1,0 +1,368 @@
+# Google Cloud Monitoring Dashboards Configuration
+# This file defines monitoring dashboards for the Sales Order System
+
+# Main Application Dashboard
+application_dashboard:
+  displayName: "Sales Order System - Application Overview"
+  mosaicLayout:
+    tiles:
+      # Request Rate and Latency
+      - width: 6
+        height: 4
+        widget:
+          title: "Request Rate (requests/min)"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/counter/http_requests_total"'
+                aggregation:
+                  alignmentPeriod: "60s"
+                  perSeriesAligner: "ALIGN_RATE"
+                  crossSeriesReducer: "REDUCE_SUM"
+            sparkChartView:
+              sparkChartType: "SPARK_LINE"
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        widget:
+          title: "Average Response Time (ms)"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/histogram/http_request_duration_seconds"'
+                aggregation:
+                  alignmentPeriod: "60s"
+                  perSeriesAligner: "ALIGN_MEAN"
+                  crossSeriesReducer: "REDUCE_MEAN"
+            sparkChartView:
+              sparkChartType: "SPARK_LINE"
+      
+      # Error Rate
+      - width: 12
+        height: 4
+        yPos: 4
+        widget:
+          title: "Error Rate by Status Code"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'metric.type="custom.googleapis.com/sales_order/counter/http_requests_errors_total"'
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_RATE"
+                      crossSeriesReducer: "REDUCE_SUM"
+                      groupByFields: ["metric.label.status_code"]
+                plotType: "LINE"
+            timeshiftDuration: "0s"
+            yAxis:
+              label: "Errors/sec"
+              scale: "LINEAR"
+      
+      # Agent Performance
+      - width: 6
+        height: 4
+        yPos: 8
+        widget:
+          title: "Agent Operation Success Rate"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/counter/agent_operations_total"'
+                aggregation:
+                  alignmentPeriod: "300s"
+                  perSeriesAligner: "ALIGN_RATE"
+                  crossSeriesReducer: "REDUCE_SUM"
+                  groupByFields: ["metric.label.success"]
+            sparkChartView:
+              sparkChartType: "SPARK_BAR"
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        yPos: 8
+        widget:
+          title: "Agent Operation Duration"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'metric.type="custom.googleapis.com/sales_order/histogram/agent_operation_duration_seconds"'
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_MEAN"
+                      groupByFields: ["metric.label.agent"]
+                plotType: "LINE"
+            yAxis:
+              label: "Seconds"
+
+# Business Metrics Dashboard
+business_dashboard:
+  displayName: "Sales Order System - Business Metrics"
+  mosaicLayout:
+    tiles:
+      # Document Processing
+      - width: 6
+        height: 4
+        widget:
+          title: "Documents Processed (last 24h)"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/counter/documents_processed_total"'
+                aggregation:
+                  alignmentPeriod: "3600s"
+                  perSeriesAligner: "ALIGN_SUM"
+                  crossSeriesReducer: "REDUCE_SUM"
+            sparkChartView:
+              sparkChartType: "SPARK_BAR"
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        widget:
+          title: "Document Processing Success Rate"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/counter/documents_processed_total" AND metric.label.success="true"'
+                aggregation:
+                  alignmentPeriod: "3600s"
+                  perSeriesAligner: "ALIGN_RATE"
+                  crossSeriesReducer: "REDUCE_SUM"
+            sparkChartView:
+              sparkChartType: "SPARK_LINE"
+      
+      # Order Processing
+      - width: 12
+        height: 4
+        yPos: 4
+        widget:
+          title: "Orders Processed Over Time"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'metric.type="custom.googleapis.com/sales_order/counter/orders_processed_total"'
+                    aggregation:
+                      alignmentPeriod: "3600s"
+                      perSeriesAligner: "ALIGN_RATE"
+                      crossSeriesReducer: "REDUCE_SUM"
+                      groupByFields: ["metric.label.order_type"]
+                plotType: "STACKED_AREA"
+            yAxis:
+              label: "Orders/hour"
+      
+      # ERP Integration
+      - width: 6
+        height: 4
+        yPos: 8
+        widget:
+          title: "ERP Integration Success Rate"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'metric.type="custom.googleapis.com/sales_order/counter/erp_operations_total"'
+                    aggregation:
+                      alignmentPeriod: "300s"
+                      perSeriesAligner: "ALIGN_RATE"
+                      crossSeriesReducer: "REDUCE_SUM"
+                      groupByFields: ["metric.label.provider", "metric.label.success"]
+                plotType: "LINE"
+            yAxis:
+              label: "Operations/min"
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        yPos: 8
+        widget:
+          title: "Average Order Value"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/gauge/order_total_amount"'
+                aggregation:
+                  alignmentPeriod: "3600s"
+                  perSeriesAligner: "ALIGN_MEAN"
+                  crossSeriesReducer: "REDUCE_MEAN"
+            sparkChartView:
+              sparkChartType: "SPARK_LINE"
+
+# Infrastructure Dashboard
+infrastructure_dashboard:
+  displayName: "Sales Order System - Infrastructure"
+  mosaicLayout:
+    tiles:
+      # Cloud Run Metrics
+      - width: 6
+        height: 4
+        widget:
+          title: "Backend Instance Count"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'resource.type="cloud_run_revision" AND resource.label.service_name=~"sales-order-backend.*"'
+                    metricKind: "GAUGE"
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_SUM"
+                plotType: "LINE"
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        widget:
+          title: "Frontend Instance Count"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'resource.type="cloud_run_revision" AND resource.label.service_name=~"sales-order-frontend.*"'
+                    metricKind: "GAUGE"
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_SUM"
+                plotType: "LINE"
+      
+      # Database Metrics
+      - width: 12
+        height: 4
+        yPos: 4
+        widget:
+          title: "Database Connections"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'resource.type="cloudsql_database" AND metric.type="cloudsql.googleapis.com/database/network/connections"'
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_SUM"
+                plotType: "LINE"
+            yAxis:
+              label: "Connections"
+      
+      # Memory and CPU
+      - width: 6
+        height: 4
+        yPos: 8
+        widget:
+          title: "Container Memory Usage"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'resource.type="cloud_run_revision" AND metric.type="run.googleapis.com/container/memory/utilizations"'
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_MEAN"
+                      groupByFields: ["resource.label.service_name"]
+                plotType: "LINE"
+            yAxis:
+              label: "Memory %"
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        yPos: 8
+        widget:
+          title: "Container CPU Usage"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'resource.type="cloud_run_revision" AND metric.type="run.googleapis.com/container/cpu/utilizations"'
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_MEAN"
+                      groupByFields: ["resource.label.service_name"]
+                plotType: "LINE"
+            yAxis:
+              label: "CPU %"
+
+# Error Tracking Dashboard
+error_dashboard:
+  displayName: "Sales Order System - Error Tracking"
+  mosaicLayout:
+    tiles:
+      # Error Rate Over Time
+      - width: 12
+        height: 4
+        widget:
+          title: "Error Rate by Service"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'metric.type="custom.googleapis.com/sales_order/counter/http_requests_errors_total"'
+                    aggregation:
+                      alignmentPeriod: "300s"
+                      perSeriesAligner: "ALIGN_RATE"
+                      crossSeriesReducer: "REDUCE_SUM"
+                      groupByFields: ["resource.label.service_name", "metric.label.status_code"]
+                plotType: "STACKED_BAR"
+            yAxis:
+              label: "Errors/min"
+      
+      # Top Errors
+      - width: 6
+        height: 4
+        yPos: 4
+        widget:
+          title: "Top Error Types (24h)"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/counter/operation_error"'
+                aggregation:
+                  alignmentPeriod: "86400s"
+                  perSeriesAligner: "ALIGN_SUM"
+                  crossSeriesReducer: "REDUCE_SUM"
+                  groupByFields: ["metric.label.error_type"]
+      
+      - width: 6
+        height: 4
+        xPos: 6
+        yPos: 4
+        widget:
+          title: "Database Error Rate"
+          scorecard:
+            timeSeriesQuery:
+              timeSeriesFilter:
+                filter: 'metric.type="custom.googleapis.com/sales_order/counter/database_operations_errors_total"'
+                aggregation:
+                  alignmentPeriod: "300s"
+                  perSeriesAligner: "ALIGN_RATE"
+                  crossSeriesReducer: "REDUCE_SUM"
+            sparkChartView:
+              sparkChartType: "SPARK_LINE"
+      
+      # Health Status
+      - width: 12
+        height: 4
+        yPos: 8
+        widget:
+          title: "Service Health Status"
+          xyChart:
+            dataSets:
+              - timeSeriesQuery:
+                  timeSeriesFilter:
+                    filter: 'metric.type="custom.googleapis.com/sales_order/gauge/application_health"'
+                    aggregation:
+                      alignmentPeriod: "60s"
+                      perSeriesAligner: "ALIGN_MEAN"
+                      crossSeriesReducer: "REDUCE_MEAN"
+                plotType: "LINE"
+            yAxis:
+              label: "Health (1=healthy, 0=unhealthy)"
+              scale: "LINEAR"
