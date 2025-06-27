@@ -1,0 +1,26 @@
+{
+  "test": "quick_workflow",
+  "stages": {
+    "document_analysis": {
+      "content_length": 176,
+      "content_type": "email",
+      "preview": "Order Request\n    \n    Please quote:\n    1. Stainless steel 304 sheet, 12\" x 12\" x 0.25\" - Quantity: 2 pieces\n    \n    Customer: Test Corp\n    Email: test@example.com"
+    },
+    "extraction": {
+      "customer": "Test Corp",
+      "line_items": [
+        {
+          "line_id": "L001",
+          "raw_text": "Stainless steel 304 sheet, 12\" x 12\" x 0.25\" - Quantity: 2 pieces"
+        }
+      ]
+    },
+    "search": [
+      {
+        "line_id": "L001",
+        "found": 5,
+        "top_match": "IMEC12279"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "L001": {
+    "selected_part": "RAW-20256-SH",
+    "confidence": "medium-low",
+    "reasoning": "This part was selected because it is the closest match to the required specifications. However, the dimensions are not an exact match and the availability is unknown, which lowers the confidence level."
+  },
+  "L002": {
+    "selected_part": "RAWAN003406",
+    "confidence": "medium-low",
+    "reasoning": "The selected part, RAWAN003406, is an Aluminum 6061-T6 Plate Angle. While the material is a partial match to the requested Aluminum 6061, the form factor is not an exact match as the requested item is a plate, not an angle. The dimensions of the selected part are not provided, so it's unclear if it matches the requested 10\" x 6\" x 0.5\". The availability, unit price, and supplier are also not provided, which could pose potential risks in terms of availability and cost."
+  },
+  "L003": {
+    "selected_part": "MRAW00884",
+    "confidence": "medium-low",
+    "reasoning": "The selected part MRAW00884 is a Steel 1018 Flat Bar Channel which is a semantic match to the required Carbon Steel 1018 Bar. However, the exact dimensions and form factor are not specified in the description, hence the confidence is medium-low."
+  }
+}

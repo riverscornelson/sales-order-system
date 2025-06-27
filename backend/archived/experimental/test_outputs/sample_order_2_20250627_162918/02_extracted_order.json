@@ -1,0 +1,108 @@
+{
+  "order_id": "ORD-sample_o",
+  "customer": "Unknown Customer",
+  "line_items_count": 5,
+  "line_items": [
+    {
+      "line_id": "L001",
+      "raw_text": "50 pieces of M8x25mm stainless steel socket head cap screws",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "socket head cap screws",
+        "dimensions": {
+          "diameter": "M8",
+          "length": "25mm"
+        },
+        "quantity": 50,
+        "units": "pieces",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    },
+    {
+      "line_id": "L002",
+      "raw_text": "100 units of deep groove ball bearings, 25mm ID, 52mm OD, 15mm width",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "deep groove ball bearings",
+        "dimensions": {
+          "inner_diameter": "25mm",
+          "outer_diameter": "52mm",
+          "width": "15mm"
+        },
+        "quantity": 100,
+        "units": "units",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    },
+    {
+      "line_id": "L003",
+      "raw_text": "25 feet of 316 stainless steel wire rope, 1/4 inch diameter",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "wire rope",
+        "dimensions": {
+          "diameter": "1/4 inch",
+          "length": "25 feet"
+        },
+        "quantity": 1,
+        "units": "piece",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    },
+    {
+      "line_id": "L004",
+      "raw_text": "12 pieces aluminum angle bracket, 3\" x 3\" x 1/4\" thick, with mounting holes",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "angle bracket",
+        "dimensions": {
+          "length": "3\"",
+          "width": "3\"",
+          "thickness": "1/4\""
+        },
+        "quantity": 12,
+        "units": "pieces",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    },
+    {
+      "line_id": "L005",
+      "raw_text": "200 stainless steel flat washers, M8 size",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "flat washers",
+        "dimensions": {
+          "size": "M8"
+        },
+        "quantity": 200,
+        "units": "pieces",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    }
+  ]
+}

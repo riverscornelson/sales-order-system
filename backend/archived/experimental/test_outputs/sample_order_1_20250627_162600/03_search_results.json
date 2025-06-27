@@ -1,0 +1,111 @@
+{
+  "L001": [
+    {
+      "part_number": "QRAW23393",
+      "description": "Stainless Steel 304 Sheet Tube 2.0\" Dia 3.0\" Length",
+      "score": 0.737
+    },
+    {
+      "part_number": "RAW-4953-BE",
+      "description": "Stainless Steel 304 Sheet Beam",
+      "score": 0.7040000000000001
+    },
+    {
+      "part_number": "RAW-CH-02321",
+      "description": "Stainless Steel 304 Sheet Heavy Duty Channel",
+      "score": 0.6270000000000001
+    },
+    {
+      "part_number": "RAW-20256-SH",
+      "description": "Stainless Steel 304 Sheet Precision 1.7743\" x 0.375\" x 2.4376\"",
+      "score": 0.6270000000000001
+    },
+    {
+      "part_number": "IMEC12279",
+      "description": "Stainless Steel 304 Gear",
+      "score": 0.3510000000000001
+    }
+  ],
+  "L002": [
+    {
+      "part_number": "RAWBA002914",
+      "description": "Aluminum 6061-T6 Round Bar Bar 0.3125\" Dia 2.25\" Length",
+      "score": 0.5720000000000001
+    },
+    {
+      "part_number": "RAW-33915-SH",
+      "description": "Aluminum 6061-T6 Round Bar Sheet Food Grade 1.7492\" x 5.5636\" x 0.5\"",
+      "score": 0.5720000000000001
+    },
+    {
+      "part_number": "KRAW30136",
+      "description": "Aluminum 6061-T6 Round Bar Beam",
+      "score": 0.5390000000000001
+    },
+    {
+      "part_number": "RAWPL010411",
+      "description": "Aluminum 6061-T6 Round Bar Plate 0.25\" x 46.1294\" x 10.8683\"",
+      "score": 0.5390000000000001
+    },
+    {
+      "part_number": "GRAW32841",
+      "description": "Aluminum 6061-T6 Round Bar Sheet Corrosion Resistant 0.5\" x 0.875\" x 28.2429\"",
+      "score": 0.5390000000000001
+    }
+  ],
+  "L003": [
+    {
+      "part_number": "QRAW35424",
+      "description": "Steel 1018 Plate Plate 1.425\" x 15.8045\" x 1.8566\"",
+      "score": 0.5720000000000001
+    },
+    {
+      "part_number": "RAWPL007008",
+      "description": "Steel 1018 Plate 1.0891\" x 21.3524\" x 10.075\"",
+      "score": 0.5720000000000001
+    },
+    {
+      "part_number": "RAW-PL-12700",
+      "description": "Steel 1018 Round Bar Plate Precision 1.4437\" x 4.0\" x 5.0\"",
+      "score": 0.5720000000000001
+    },
+    {
+      "part_number": "RAW-22653-PI",
+      "description": "Steel 1018 Plate Pipe 1.0156\" Dia Heavy Duty 3.5\" Length",
+      "score": 0.5720000000000001
+    },
+    {
+      "part_number": "RAW-TU-24829",
+      "description": "Steel 1018 Plate Tube 0.3125\" Dia Corrosion Resistant 1.375\" Length",
+      "score": 0.5720000000000001
+    }
+  ],
+  "L004": [],
+  "L005": [
+    {
+      "part_number": "IRAW25629",
+      "description": "Copper C110 Sheet Corrosion Resistant Beam",
+      "score": 0.737
+    },
+    {
+      "part_number": "ZRAW18485",
+      "description": "Copper C110 Sheet Channel",
+      "score": 0.737
+    },
+    {
+      "part_number": "RAWCH029311",
+      "description": "Copper C110 Sheet Corrosion Resistant Channel",
+      "score": 0.737
+    },
+    {
+      "part_number": "RAW-CH-27656",
+      "description": "Copper C110 Sheet Food Grade Channel",
+      "score": 0.737
+    },
+    {
+      "part_number": "RAW-10341-CH",
+      "description": "Copper C110 Sheet Channel",
+      "score": 0.627
+    }
+  ]
+}

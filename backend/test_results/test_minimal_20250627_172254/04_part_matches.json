@@ -1,0 +1,7 @@
+{
+  "L001": {
+    "selected_part": "RAW-20256-SH",
+    "confidence": "medium",
+    "reasoning": "The selected part, RAW-20256-SH, is a Stainless Steel 304 Sheet which matches the material and form factor requirement of the line item. However, the dimensions of the part are not specified in the line item, hence the exact match cannot be confirmed. The similarity score is also not very high, indicating that there might be some differences in the specifications. The availability, unit price, and supplier details are not provided, hence the availability vs demand, price reasonableness, and supplier reliability cannot be assessed. There are no special requirements specified in the line item, hence it is assumed that the part meets all the requirements."
+  }
+}

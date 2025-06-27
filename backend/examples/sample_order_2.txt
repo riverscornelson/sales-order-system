@@ -1,0 +1,23 @@
+Purchase Order Request
+
+Customer: TechParts Industries
+Contact: Sarah Johnson
+Email: sarah.j@techparts.com
+Phone: (555) 987-6543
+
+Order Details:
+
+- 50 pieces of M8x25mm stainless steel socket head cap screws
+- 100 units of deep groove ball bearings, 25mm ID, 52mm OD, 15mm width
+- 25 feet of 316 stainless steel wire rope, 1/4 inch diameter
+- 12 pieces aluminum angle bracket, 3" x 3" x 1/4" thick, with mounting holes
+- 200 stainless steel flat washers, M8 size
+
+Special Requirements:
+- All stainless steel components must be 316 grade
+- Need material certifications for all items
+- Ship to our Dallas facility
+
+Thanks,
+Sarah Johnson
+Procurement Department

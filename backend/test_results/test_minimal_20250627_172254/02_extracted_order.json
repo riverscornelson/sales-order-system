@@ -1,0 +1,24 @@
+{
+  "order_id": "ORD-test_min",
+  "customer": "Unknown Customer",
+  "line_items_count": 1,
+  "line_items": [
+    {
+      "line_id": "L001",
+      "raw_text": "Stainless steel 304 sheet - 1 piece",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "sheet",
+        "dimensions": null,
+        "quantity": 1,
+        "units": null,
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    }
+  ]
+}

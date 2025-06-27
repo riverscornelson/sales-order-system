@@ -1,0 +1,70 @@
+{
+  "order_id": "ORD-test_upl",
+  "customer": "Unknown Customer",
+  "line_items_count": 3,
+  "line_items": [
+    {
+      "line_id": "L001",
+      "raw_text": "Stainless Steel 304 Sheet - 12\" x 8\" x 0.25\" thick - Qty: 5 pieces",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "Sheet",
+        "dimensions": {
+          "length": "12",
+          "width": "8",
+          "thickness": "0.25"
+        },
+        "quantity": 5,
+        "units": "inches",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    },
+    {
+      "line_id": "L002",
+      "raw_text": "Aluminum 6061 Plate - 10\" x 6\" x 0.5\" thick - Qty: 3 pieces",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "Plate",
+        "dimensions": {
+          "length": "10",
+          "width": "6",
+          "thickness": "0.5"
+        },
+        "quantity": 3,
+        "units": "inches",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    },
+    {
+      "line_id": "L003",
+      "raw_text": "Carbon Steel 1018 Bar - 8\" x 4\" x 0.375\" thick - Qty: 10 pieces",
+      "extracted_specs": {
+        "material_grade": null,
+        "form": "Bar",
+        "dimensions": {
+          "length": "8",
+          "width": "4",
+          "thickness": "0.375"
+        },
+        "quantity": 10,
+        "units": "inches",
+        "tolerances": null,
+        "surface_finish": null,
+        "heat_treatment": null,
+        "certifications": null,
+        "special_requirements": null,
+        "grade_equivalents": null
+      }
+    }
+  ]
+}
