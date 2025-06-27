@@ -17,8 +17,7 @@ class FullDescriptionStrategy(SearchStrategy):
         return await self.parts_catalog.search_parts(
             query,
             filters,
-            top_k=top_k,
-            search_type="description"
+            top_k=top_k
         )
 
 
@@ -42,6 +41,5 @@ class NormalizedDescriptionStrategy(SearchStrategy):
         return await self.parts_catalog.search_parts(
             normalized,
             filters,
-            top_k=top_k,
-            search_type="normalized"
+            top_k=top_k
         )

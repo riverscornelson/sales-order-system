@@ -24,8 +24,7 @@ class KeyTermsStrategy(SearchStrategy):
         return await self.parts_catalog.search_parts(
             search_query,
             filters,
-            top_k=top_k,
-            search_type="key_terms"
+            top_k=top_k
         )
     
     def _extract_key_terms(self, text: str) -> List[str]:

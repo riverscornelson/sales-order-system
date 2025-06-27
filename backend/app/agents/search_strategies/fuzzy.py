@@ -35,8 +35,7 @@ class FuzzyMatchStrategy(SearchStrategy):
                 matches = await self.parts_catalog.search_parts(
                     phrase,
                     filters,
-                    top_k=3,
-                    search_type="fuzzy"
+                    top_k=3
                 )
                 
                 # Mark as fuzzy matches

@@ -1,5 +1,5 @@
-import React, { useEffect, useState, memo, useCallback } from 'react';
-import { HealthStatus } from '../../types';
+import { useEffect, useState, memo, useCallback } from 'react';
+import type { HealthStatus } from '../../types';
 
 interface BackendStatusProps {
   apiUrl?: string;

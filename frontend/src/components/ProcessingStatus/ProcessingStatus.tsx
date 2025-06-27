@@ -1,5 +1,5 @@
-import React, { memo, useMemo } from 'react';
-import { ProcessingCard as ProcessingCardType } from '../../types';
+import { memo, useMemo } from 'react';
+import type { ProcessingCard as ProcessingCardType } from '../../types';
 import { ProcessingCard } from './ProcessingCard';
 
 interface ProcessingStatusProps {

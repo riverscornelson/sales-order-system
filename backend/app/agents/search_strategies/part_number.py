@@ -17,21 +17,11 @@ class PartNumberStrategy(SearchStrategy):
         # Clean part number
         cleaned_query = query.strip().upper()
         
-        # Try exact match first
+        # Use the parts catalog's search_parts method (without search_type)
         results = await self.parts_catalog.search_parts(
             cleaned_query,
             filters,
-            top_k=top_k,
-            search_type="part_number"
+            top_k=top_k
         )
-        
-        # If no results, try partial match
-        if not results and len(cleaned_query) > 3:
-            results = await self.parts_catalog.search_parts(
-                cleaned_query,
-                filters,
-                top_k=top_k,
-                search_type="part_number_partial"
-            )
         
         return results

@@ -30,7 +30,7 @@ export function usePerformance(componentName: string) {
     }));
 
     // Log slow renders in development
-    if (process.env.NODE_ENV === 'development' && renderTime > 16) {
+    if (renderTime > 16) {
       console.warn(`Slow render detected in ${componentName}: ${renderTime.toFixed(2)}ms`);
     }
   });

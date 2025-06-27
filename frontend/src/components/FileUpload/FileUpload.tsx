@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import { useState, useCallback, memo } from 'react';
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { WebSocketMessage } from '../types';
+import type { WebSocketMessage } from '../types';
 
 interface UseWebSocketOptions {
   onMessage?: (message: WebSocketMessage) => void;
@@ -14,10 +14,21 @@ export function useWebSocket(url: string | null, options: UseWebSocketOptions = 
   const wsRef = useRef<WebSocket | null>(null);
 
   const connect = useCallback(() => {
-    if (!url || wsRef.current?.readyState === WebSocket.OPEN) return;
+    if (!url) {
+      console.log('⚠️ WebSocket URL not available yet');
+      return;
+    }
+    
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      console.log('WebSocket already connected');
+      return;
+    }
 
-    const ws = new WebSocket(url);
-    wsRef.current = ws;
+    console.log('🔌 Connecting to WebSocket:', url);
+    
+    try {
+      const ws = new WebSocket(url);
+      wsRef.current = ws;
 
     ws.onopen = () => {
       console.log('✅ WebSocket connected');
@@ -43,8 +54,14 @@ export function useWebSocket(url: string | null, options: UseWebSocketOptions = 
 
     ws.onerror = (error) => {
       console.error('❌ WebSocket error:', error);
+      setIsConnected(false);
       options.onError?.(error);
     };
+    
+    } catch (error) {
+      console.error('❌ Failed to create WebSocket:', error);
+      setIsConnected(false);
+    }
   }, [url, options]);
 
   const disconnect = useCallback(() => {

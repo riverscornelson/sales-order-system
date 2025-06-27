@@ -4,7 +4,7 @@ import uuid
 import structlog
 import asyncio
 from ..models.schemas import OrderProcessingSession, DocumentType, ProcessingStatus
-from ..agents.supervisor_local import LocalSupervisorAgent
+from ..agents.simple_demo import SimpleDemoAgent
 from ..services.websocket_manager import WebSocketManager
 
 logger = structlog.get_logger()
@@ -21,9 +21,9 @@ async def process_document_background(session_id: str, client_id: str, filename:
         # Initialize supervisor with OpenAI API key when needed
         global supervisor
         if supervisor is None:
-            logger.info("📡 Initializing LOCAL supervisor agent...")
-            supervisor = LocalSupervisorAgent(websocket_manager)
-            logger.info("✅ LOCAL supervisor agent initialized")
+            logger.info("📡 Initializing SIMPLE demo agent...")
+            supervisor = SimpleDemoAgent(websocket_manager)
+            logger.info("✅ SIMPLE demo agent initialized")
         
         logger.info("🤖 Starting agent workflow", filename=filename, content_length=len(content))
         await supervisor.process_document(session_id, client_id, filename, content)
