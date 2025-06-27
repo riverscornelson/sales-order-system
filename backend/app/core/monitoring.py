@@ -7,8 +7,15 @@ from collections import defaultdict, deque
 import threading
 import asyncio
 
-from google.cloud import monitoring_v3
-from google.api_core import exceptions as gcp_exceptions
+# Make Google Cloud monitoring optional for local development
+try:
+    from google.cloud import monitoring_v3
+    from google.api_core import exceptions as gcp_exceptions
+    GCP_MONITORING_AVAILABLE = True
+except ImportError:
+    monitoring_v3 = None
+    gcp_exceptions = None
+    GCP_MONITORING_AVAILABLE = False
 
 from .config import settings
 from .logging import get_logger
@@ -34,7 +41,7 @@ class MetricsCollector:
         
         # Initialize Google Cloud Monitoring client
         self.client = None
-        if settings.ENVIRONMENT != "test":
+        if settings.ENVIRONMENT != "test" and GCP_MONITORING_AVAILABLE:
             try:
                 self.client = monitoring_v3.MetricServiceClient()
                 self.project_name = f"projects/{settings.GOOGLE_CLOUD_PROJECT}"
@@ -79,7 +86,7 @@ class MetricsCollector:
     
     async def _send_to_cloud_monitoring(self, metric: MetricData):
         """Send metric to Google Cloud Monitoring."""
-        if not self.client:
+        if not self.client or not GCP_MONITORING_AVAILABLE:
             return
         
         try:
@@ -106,10 +113,11 @@ class MetricsCollector:
                 time_series=[series]
             )
             
-        except gcp_exceptions.GoogleAPIError as e:
-            self.logger.warning(f"Failed to send metric to Cloud Monitoring: {e}")
         except Exception as e:
-            self.logger.error(f"Unexpected error sending metric: {e}")
+            if GCP_MONITORING_AVAILABLE and gcp_exceptions and isinstance(e, gcp_exceptions.GoogleAPIError):
+                self.logger.warning(f"Failed to send metric to Cloud Monitoring: {e}")
+            else:
+                self.logger.error(f"Unexpected error sending metric: {e}")
     
     def get_metrics_summary(self) -> Dict[str, Any]:
         """Get a summary of collected metrics."""

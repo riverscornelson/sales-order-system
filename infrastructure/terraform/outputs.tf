@@ -59,3 +59,8 @@ output "subnet_name" {
   description = "VPC subnet name"
   value       = google_compute_subnetwork.subnet.name
 }
+
+output "backend_url" {
+  description = "Backend service URL"
+  value       = google_cloud_run_v2_service.backend.uri
+}

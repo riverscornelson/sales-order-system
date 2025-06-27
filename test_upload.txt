@@ -1,0 +1,19 @@
+From: john.smith@manufacturer.com
+To: sales@metalworks.com
+Subject: Quote Request - Stainless Steel Components
+
+Hi,
+
+We need a quote for the following items:
+
+1. Stainless Steel 304 Sheet - 12" x 8" x 0.25" thick - Qty: 5 pieces
+2. Aluminum 6061 Plate - 10" x 6" x 0.5" thick - Qty: 3 pieces  
+3. Carbon Steel 1018 Bar - 8" x 4" x 0.375" thick - Qty: 10 pieces
+
+Please provide pricing and availability.
+
+Best regards,
+John Smith
+Manufacturing Engineer
+ABC Manufacturing Inc.
+Phone: (555) 123-4567

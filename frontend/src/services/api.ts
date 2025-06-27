@@ -1,43 +1,50 @@
-import axios from 'axios';
-import { UploadResponse, OrderProcessingSession, OrderData } from '../types/api';
+import { UploadResponse, SessionData } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 30000,
-});
+export class ApiService {
+  private baseUrl: string;
 
-export const apiService = {
-  // Upload document
-  uploadDocument: async (file: File): Promise<UploadResponse> => {
+  constructor(baseUrl: string = API_BASE_URL) {
+    this.baseUrl = baseUrl;
+  }
+
+  async uploadFile(file: File): Promise<UploadResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    
-    const response = await api.post<UploadResponse>('/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+
+    const response = await fetch(`${this.baseUrl}/api/v1/upload`, {
+      method: 'POST',
+      body: formData,
     });
+
+    if (!response.ok) {
+      throw new Error(`Upload failed: ${response.statusText}`);
+    }
+
+    return response.json();
+  }
+
+  async getSession(sessionId: string): Promise<SessionData> {
+    const response = await fetch(`${this.baseUrl}/api/v1/sessions/${sessionId}`);
     
-    return response.data;
-  },
+    if (!response.ok) {
+      throw new Error(`Failed to fetch session: ${response.statusText}`);
+    }
 
-  // Get session status
-  getSessionStatus: async (sessionId: string): Promise<OrderProcessingSession> => {
-    const response = await api.get<OrderProcessingSession>(`/sessions/${sessionId}`);
-    return response.data;
-  },
+    return response.json();
+  }
 
-  // Submit order to ERP
-  submitOrder: async (sessionId: string, orderData: OrderData): Promise<any> => {
-    const response = await api.post(`/orders/${sessionId}/submit`, orderData);
-    return response.data;
-  },
+  async checkHealth() {
+    const response = await fetch(`${this.baseUrl}/api/v1/health`);
+    return response.json();
+  }
 
-  // Health check
-  healthCheck: async (): Promise<any> => {
-    const response = await api.get('/health');
-    return response.data;
-  },
-};
+  getWebSocketUrl(clientId: string): string {
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsHost = this.baseUrl.replace(/^https?:/, wsProtocol);
+    return `${wsHost}/ws/${clientId}`;
+  }
+}
+
+export const apiService = new ApiService();

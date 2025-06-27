@@ -1,18 +1,34 @@
+# This file has been refactored for better maintainability
+# The monolithic 387-line class has been split into:
+# - Strategy pattern for search strategies (search_strategies/)
+# - MatchProcessor for match handling
+# - Cleaner main agent in semantic_search_refactored.py
+
+# Import the refactored version
+from .semantic_search_refactored import SemanticSearchAgent
+
+# For backward compatibility, we re-export the refactored class
+__all__ = ['SemanticSearchAgent']
+
+# Original implementation preserved below for reference
+# TO BE REMOVED after testing
+
+"""
 from typing import Dict, Any, List, Optional
 import asyncio
 import structlog
 import re
 
-from ..services.parts_catalog import PartsCatalogService
+from ..services.local_parts_catalog import LocalPartsCatalogService
 from ..services.embeddings import PartEmbeddingService
 
 logger = structlog.get_logger()
 
-class SemanticSearchAgent:
+class SemanticSearchAgentLegacy:
     """Agent responsible for finding part matches using semantic search"""
     
     def __init__(self):
-        self.parts_catalog = PartsCatalogService()
+        self.parts_catalog = LocalPartsCatalogService()
         self.embedding_service = PartEmbeddingService()
         
         # Configuration
@@ -27,8 +43,7 @@ class SemanticSearchAgent:
                    line_items_count=len(line_items))
         
         try:
-            # Initialize catalog if needed
-            await self.parts_catalog.initialize_catalog()
+            # No initialization needed for local database catalog
             
             matches = {}
             match_stats = {

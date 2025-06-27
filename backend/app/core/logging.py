@@ -6,8 +6,15 @@ from datetime import datetime
 from typing import Any, Dict, Optional
 
 import structlog
-from google.cloud import logging as cloud_logging
 from structlog.processors import JSONRenderer
+
+# Make Google Cloud logging optional for local development
+try:
+    from google.cloud import logging as cloud_logging
+    CLOUD_LOGGING_AVAILABLE = True
+except ImportError:
+    cloud_logging = None
+    CLOUD_LOGGING_AVAILABLE = False
 
 try:
     from .config import settings
@@ -24,7 +31,7 @@ class GoogleCloudLogHandler(logging.Handler):
     
     def __init__(self):
         super().__init__()
-        if settings.ENVIRONMENT != "test":
+        if settings.ENVIRONMENT != "test" and CLOUD_LOGGING_AVAILABLE:
             try:
                 self.client = cloud_logging.Client()
                 self.client.setup_logging()

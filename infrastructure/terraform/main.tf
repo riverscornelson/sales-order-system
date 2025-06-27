@@ -265,6 +265,99 @@ resource "google_monitoring_notification_channel" "email" {
   }
 }
 
+# Store secrets
+resource "google_secret_manager_secret_version" "openai_api_key" {
+  secret      = google_secret_manager_secret.openai_api_key.id
+  secret_data = var.openai_api_key
+}
+
+resource "google_secret_manager_secret_version" "database_url" {
+  secret      = google_secret_manager_secret.database_url.id
+  secret_data = "postgresql://${google_sql_user.user.name}:${var.db_password}@${google_sql_database_instance.main.private_ip_address}:5432/${google_sql_database.database.name}?sslmode=require"
+}
+
+# Cloud Run services
+resource "google_cloud_run_v2_service" "backend" {
+  name     = "sales-order-backend"
+  location = var.region
+  
+  template {
+    service_account = google_service_account.backend_sa.email
+    
+    scaling {
+      min_instance_count = var.backend_min_instances
+      max_instance_count = var.backend_max_instances
+    }
+    
+    vpc_access {
+      connector = google_vpc_access_connector.connector.id
+    }
+    
+    containers {
+      image = var.backend_image
+      
+      resources {
+        limits = {
+          cpu    = var.backend_cpu
+          memory = var.backend_memory
+        }
+      }
+      
+      env {
+        name  = "ENVIRONMENT"
+        value = var.environment
+      }
+      
+      env {
+        name = "OPENAI_API_KEY"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.openai_api_key.secret_id
+            version = "latest"
+          }
+        }
+      }
+      
+      env {
+        name = "DATABASE_URL"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.database_url.secret_id
+            version = "latest"
+          }
+        }
+      }
+      
+      env {
+        name  = "GOOGLE_CLOUD_PROJECT"
+        value = var.project_id
+      }
+      
+      ports {
+        container_port = 8000
+      }
+    }
+  }
+  
+  traffic {
+    percent = 100
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+  }
+  
+  depends_on = [
+    google_project_service.services,
+    google_secret_manager_secret_version.openai_api_key
+  ]
+}
+
+# Allow public access to backend
+resource "google_cloud_run_v2_service_iam_binding" "backend_public" {
+  location = google_cloud_run_v2_service.backend.location
+  name     = google_cloud_run_v2_service.backend.name
+  role     = "roles/run.invoker"
+  members  = ["allUsers"]
+}
+
 # Alerting policies
 resource "google_monitoring_alert_policy" "high_error_rate" {
   display_name = "High Error Rate - Sales Order System"
@@ -274,9 +367,9 @@ resource "google_monitoring_alert_policy" "high_error_rate" {
     display_name = "Cloud Run Error Rate > 5%"
     
     condition_threshold {
-      filter          = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=~\"sales-order-.*\""
+      filter          = "resource.type=\"cloud_run_revision\""
       duration        = "300s"
-      comparison      = "COMPARISON_GREATER_THAN"
+      comparison      = "COMPARISON_GT"
       threshold_value = 0.05
       
       aggregations {
@@ -301,9 +394,9 @@ resource "google_monitoring_alert_policy" "high_latency" {
     display_name = "Cloud Run Request Latency > 5s"
     
     condition_threshold {
-      filter          = "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=~\"sales-order-.*\""
+      filter          = "resource.type=\"cloud_run_revision\""
       duration        = "300s"
-      comparison      = "COMPARISON_GREATER_THAN"
+      comparison      = "COMPARISON_GT"
       threshold_value = 5000
       
       aggregations {

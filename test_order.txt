@@ -1,0 +1,47 @@
+PURCHASE ORDER REQUEST
+
+Date: June 27, 2025
+Customer Information:
+Company: Acme Manufacturing Corp
+Contact: Sarah Johnson
+Email: sarah.johnson@acme-manufacturing.com
+Phone: (555) 123-4567
+Address: 123 Industrial Blvd, Detroit, MI 48201
+
+Order Details:
+PO Number: PO-2025-0627-001
+
+Items Requested:
+1. Steel Bearings - Part# SB-2024A
+   Quantity: 25 units
+   Unit Price: $12.50
+   Total: $312.50
+
+2. Hydraulic Pump Assembly - Part# HPA-500X
+   Quantity: 2 units  
+   Unit Price: $245.00
+   Total: $490.00
+
+3. Control Valve Set - Part# CVS-100B
+   Quantity: 8 units
+   Unit Price: $35.75
+   Total: $286.00
+
+Subtotal: $1,088.50
+Tax (8.5%): $92.52
+Shipping: $45.00
+TOTAL: $1,226.02
+
+Delivery Instructions:
+Ship to: Acme Manufacturing - Warehouse B
+Delivery Date Requested: July 15, 2025
+Special Instructions: Please coordinate delivery with warehouse manager Tom Wilson (ext. 234)
+
+Payment Terms: Net 30 Days
+Approved By: Sarah Johnson, Purchasing Manager
+Authorization Code: AUTH-2025-JUN-127
+
+Notes:
+- This is an urgent order for production line maintenance
+- Please confirm availability and delivery timeline
+- Quality certificates required for all parts

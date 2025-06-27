@@ -99,3 +99,9 @@ variable "frontend_max_instances" {
   type        = number
   default     = 5
 }
+
+variable "openai_api_key" {
+  description = "OpenAI API key for language model integration"
+  type        = string
+  sensitive   = true
+}

@@ -1,108 +1,79 @@
-import { useEffect, useRef, useCallback } from 'react';
-import { WebSocketService } from '../services/websocket';
-import { WebSocketMessage } from '../types/api';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { WebSocketMessage } from '../types';
 
 interface UseWebSocketOptions {
   onMessage?: (message: WebSocketMessage) => void;
-  onConnect?: () => void;
-  onDisconnect?: () => void;
+  onOpen?: () => void;
+  onClose?: () => void;
   onError?: (error: Event) => void;
-  reconnectAttempts?: number;
-  reconnectDelay?: number;
 }
 
-export const useWebSocket = (
-  clientId: string,
-  options: UseWebSocketOptions = {}
-) => {
-  const {
-    onMessage,
-    onConnect,
-    onDisconnect,
-    onError,
-    reconnectAttempts = 5,
-    reconnectDelay = 1000
-  } = options;
+export function useWebSocket(url: string | null, options: UseWebSocketOptions = {}) {
+  const [isConnected, setIsConnected] = useState(false);
+  const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
-  const wsRef = useRef<WebSocketService | null>(null);
-  const reconnectCountRef = useRef(0);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const connect = useCallback(() => {
+    if (!url || wsRef.current?.readyState === WebSocket.OPEN) return;
 
-  const connect = useCallback(async () => {
-    try {
-      if (wsRef.current) {
-        wsRef.current.disconnect();
+    const ws = new WebSocket(url);
+    wsRef.current = ws;
+
+    ws.onopen = () => {
+      console.log('✅ WebSocket connected');
+      setIsConnected(true);
+      options.onOpen?.();
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const message = JSON.parse(event.data);
+        setLastMessage(message);
+        options.onMessage?.(message);
+      } catch (error) {
+        console.error('Failed to parse WebSocket message:', error);
       }
+    };
 
-      const ws = new WebSocketService(clientId);
-      wsRef.current = ws;
+    ws.onclose = () => {
+      console.log('🔌 WebSocket disconnected');
+      setIsConnected(false);
+      options.onClose?.();
+    };
 
-      await ws.connect();
-      reconnectCountRef.current = 0;
-      onConnect?.();
-
-      // Set up message listener
-      if (onMessage) {
-        ws.subscribe('', onMessage);
-      }
-
-    } catch (error) {
-      console.error('WebSocket connection failed:', error);
-      onError?.(error as Event);
-      
-      // Attempt reconnection
-      if (reconnectCountRef.current < reconnectAttempts) {
-        reconnectCountRef.current++;
-        reconnectTimeoutRef.current = setTimeout(() => {
-          connect();
-        }, reconnectDelay * reconnectCountRef.current);
-      }
-    }
-  }, [clientId, onMessage, onConnect, onError, reconnectAttempts, reconnectDelay]);
+    ws.onerror = (error) => {
+      console.error('❌ WebSocket error:', error);
+      options.onError?.(error);
+    };
+  }, [url, options]);
 
   const disconnect = useCallback(() => {
-    if (reconnectTimeoutRef.current) {
-      clearTimeout(reconnectTimeoutRef.current);
-      reconnectTimeoutRef.current = null;
-    }
-
     if (wsRef.current) {
-      wsRef.current.disconnect();
+      wsRef.current.close();
       wsRef.current = null;
-    }
-
-    onDisconnect?.();
-  }, [onDisconnect]);
-
-  const sendMessage = useCallback((message: WebSocketMessage) => {
-    if (wsRef.current) {
-      wsRef.current.send(message);
-    } else {
-      console.warn('WebSocket not connected');
     }
   }, []);
 
-  const subscribeToSession = useCallback((sessionId: string, callback: (message: WebSocketMessage) => void) => {
-    if (wsRef.current) {
-      return wsRef.current.subscribe(sessionId, callback);
+  const sendMessage = useCallback((data: unknown) => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(data));
     }
-    return () => {};
   }, []);
 
   useEffect(() => {
-    connect();
-
+    if (url) {
+      connect();
+    }
     return () => {
       disconnect();
     };
-  }, [connect, disconnect]);
+  }, [url, connect, disconnect]);
 
   return {
-    connect,
-    disconnect,
+    isConnected,
+    lastMessage,
     sendMessage,
-    subscribeToSession,
-    isConnected: wsRef.current !== null,
-    reconnectCount: reconnectCountRef.current
+    connect,
+    disconnect
   };
-};
+}
