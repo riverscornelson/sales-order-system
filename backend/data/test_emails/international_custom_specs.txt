@@ -1,0 +1,108 @@
+From: procurement@eurotech-systems.de
+To: international@ussteel.com
+Subject: Anfrage für Spezialstähle - Custom Steel Inquiry for Wind Turbine Project
+Date: Thu, 1 Feb 2024 16:30:45 +0100
+
+Guten Tag / Good afternoon,
+
+I am writing on behalf of EuroTech Systems GmbH regarding a special steel requirement for our wind turbine manufacturing project in Germany. We have been referred to your company by our US partner, WindPower Solutions.
+
+**PROJECT DETAILS:**
+Project: Offshore Wind Farm - North Sea Installation
+Customer: NordWind Energy AG
+Application: Main bearing races and gear components
+Operating Environment: Marine, temperature range -20°C to +60°C
+Expected service life: 25 years minimum
+
+**MATERIAL REQUIREMENTS:**
+
+1. **Bearing Quality Steel (primary requirement)**
+   - Grade: AISI 52100 or equivalent DIN 100Cr6
+   - Form: Round bars, centerless ground
+   - Diameter: 150mm (+0.0/-0.05mm) - very tight tolerance required
+   - Length: 3000mm each
+   - Quantity: 12 pieces
+   - Hardness: 60-65 HRC after heat treatment
+   - Special requirement: Vacuum degassed, ESR (Electro Slag Remelted)
+   - Cleanliness: Maximum inclusion rating per ASTM E45 Method A
+     * Type A: max 1.5 Heavy
+     * Type B: max 1.0 Heavy  
+     * Type C: max 1.0 Heavy
+     * Type D: max 1.5 Heavy
+
+2. **Gear Steel (secondary requirement)**
+   - Grade: AISI 4320 or DIN 20NiCrMo7
+   - Form: Forged rings (if not available, will consider large round bars)
+   - Outer diameter: 800mm
+   - Inner diameter: 600mm (if rings available)
+   - Height: 200mm
+   - Quantity: 6 pieces
+   - Condition: Normalized and stress relieved
+   - Core hardness: 30-37 HRC
+   - Case depth after carburizing: 1.5-2.5mm (we will do heat treatment)
+
+**CERTIFICATIONS REQUIRED:**
+- EN 10204 Type 3.1 material certificates
+- NACE MR0175 compliance (for offshore application)
+- ISO 9001:2015 quality system
+- Lloyds Register or DNV GL approval preferred
+- Dimensional inspection report per ISO 1101
+
+**TECHNICAL SPECIFICATIONS:**
+- All materials must be traceable to heat number
+- Ultrasonic testing per ASTM A388 required
+- Surface finish: Ra 1.6 μm maximum
+- No surface defects > 0.1mm depth allowed
+- Magnetic particle inspection required
+
+**DELIVERY & LOGISTICS:**
+- Delivery address: EuroTech Systems GmbH
+                   Industriestraße 42
+                   28195 Bremen, Germany
+- Port of entry: Bremerhaven
+- Required delivery date: April 15, 2024
+- Incoterms: DAP Bremen (Delivered at Place)
+- Special handling: Materials must be protected from moisture
+- Export documentation: Will need ECCN classification for US export control
+
+**COMMERCIAL TERMS:**
+- Payment: Letter of Credit (confirmed by Deutsche Bank)
+- Currency: USD or EUR (please quote both)
+- Validity: Quote valid for 60 days minimum
+- Price escalation: Fixed price preferred, or escalation clause with 6-month protection
+
+**QUALITY REQUIREMENTS:**
+- First article inspection required before production
+- Witness testing at your facility (our QC engineer will travel)
+- Statistical process control data required
+- Traceability documentation per customer requirements
+
+**ADDITIONAL INFORMATION:**
+- This is a prototype order; production quantities may be 5x larger
+- We are also interested in your machining capabilities for finish parts
+- Potential for long-term supply agreement if quality/delivery performance is good
+- Our engineering team can provide additional drawings/specifications if needed
+
+Could you please provide:
+1. Availability and lead times for requested materials
+2. Pricing in both USD and EUR
+3. Technical data sheets for proposed grades
+4. Quality system certificates
+5. Export license requirements/restrictions
+
+If any of our specifications are unclear or if you need additional information, please don't hesitate to contact me or our technical director, Dr. Klaus Müller (k.mueller@eurotech-systems.de).
+
+We look forward to potentially working with your company on this exciting renewable energy project.
+
+Mit freundlichen Grüßen / Best regards,
+
+Andreas Weber
+Senior Procurement Engineer
+EuroTech Systems GmbH
+Phone: +49 421 555-0187
+Mobile: +49 172 555-0234
+Email: a.weber@eurotech-systems.de
+www.eurotech-systems.de
+
+---
+This email may contain confidential information. If you received this in error, please delete and notify sender.

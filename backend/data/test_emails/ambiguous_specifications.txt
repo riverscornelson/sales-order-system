@@ -1,0 +1,31 @@
+From: purchasing@globalfab.com
+To: quotes@steelsupply.com
+Subject: Re: Material needs for Q2 production run
+Date: Wed, 24 Jan 2024 14:22:18 -0800
+
+Hello,
+
+Following up on our phone conversation yesterday. We discussed several items but I want to make sure we're on the same page. Let me try to recap what we need:
+
+First, we need some stainless plates - I think we said 304 grade? Or was it 316? The engineer mentioned something about food grade requirements, so maybe 316L would be better. The thickness was either 1/4 inch or 6mm (aren't those about the same?). We need enough to make about 20 parts, each part uses roughly a 12x8 piece, but we usually order extra for waste. So maybe 25 sheets? 
+
+Also, we talked about aluminum extrusions. The drawing shows 6061 but our customer might accept 6063 if the price is better. The cross-section is kind of L-shaped - one leg is 3 inches, the other is 2 inches, wall thickness around 1/8". We need about 500 feet total, but your standard lengths are 20ft right? So that would be... 25 pieces? Our shipping dock can handle up to 24ft if that helps with waste.
+
+There's also this special alloy our customer spec'd - something like "17-4 PH" stainless? We need round bars, about 1 inch diameter, maybe 1.25". The customer was vague about the condition - they said "precipitation hardened" but I'm not sure if you heat treat it or we do? We need enough to make 100 bushings, each bushing uses about 2 inches of bar stock, plus machining allowance.
+
+Oh, and we might need some copper sheets too, but that depends on whether the electrical contractor wants to use copper or aluminum for the bus bars. If copper, it's probably 110 grade, maybe 1/8" thick, size TBD. Let's put that on hold for now.
+
+One more thing - all this is for a food processing plant, so cleanliness is important. Do you guys do any special packaging or handling for food-grade applications?
+
+Timeline is kind of tight - we need to start production by March 1st, so materials should arrive by mid-February. Is that realistic?
+
+Please send quotes when you can. Our PO limit is $50K without additional approvals, so hopefully we're in that ballpark.
+
+Thanks,
+Lisa Chen
+Purchasing Agent
+Global Fabrication Inc
+Phone: 555-0142
+lchen@globalfab.com
+
+P.S. - Bob from engineering might call you directly about the 17-4 PH specs. He has strong opinions about heat treatment.

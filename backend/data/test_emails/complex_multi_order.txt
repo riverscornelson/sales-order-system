@@ -1,0 +1,90 @@
+From: procurement@techmanufacturing.com
+To: sales@metalparts.com
+Subject: Urgent Multi-Project Material Requirements - Project Phoenix & Titan
+Date: Mon, 15 Jan 2024 09:15:33 -0500
+
+Hi Sarah,
+
+Hope you're doing well! We have two critical projects that need materials ASAP. Our production schedule is tight, so we need to get these ordered this week.
+
+**PROJECT PHOENIX (P-2024-001)**
+Customer: AeroSpace Dynamics Corp
+Due Date: March 15, 2024
+Priority: HIGH
+
+We need the following materials for our new satellite component housings:
+
+1. Titanium Grade 5 (6Al-4V) sheets
+   - Thickness: 0.125" (±0.005")
+   - Dimensions: 24" x 36" 
+   - Quantity: 12 pieces
+   - Surface finish: Mill finish acceptable
+   - Material cert required (DFARS compliant)
+
+2. Aluminum 7075-T651 rectangular bars
+   - Cross section: 2.5" x 4.0" 
+   - Length: 72" each
+   - Qty: 8 bars
+   - Need material certs and test reports
+
+3. Stainless steel 316L round tubes
+   - OD: 1.500", Wall: 0.065"
+   - Length: 10 feet each
+   - Quantity: 15 tubes
+   - Seamless preferred, welded acceptable if noted
+   - Need dimensional inspection report
+
+**PROJECT TITAN (P-2024-007)**
+Customer: Marine Systems Inc
+Due Date: February 28, 2024
+Priority: CRITICAL
+
+Marine grade materials needed:
+
+1. Inconel 625 round bars (for pump shafts)
+   - Diameter: 3.25" (+0.000"/-0.005")
+   - Length: 48" minimum, 60" preferred
+   - Quantity: 6 pieces
+   - Condition: Solution annealed
+   - Surface: Turned and polished to 125 Ra max
+   - Full material pedigree required
+
+2. Super duplex stainless (2507 or equivalent)
+   - Form: Hexagonal bar
+   - Across flats: 2.0" nominal
+   - Length: 36" each
+   - Qty: 10 pieces
+   - NACE MR0175 compliance required
+
+3. Hastelloy C-276 sheets
+   - Thickness: 0.25"
+   - Size: 48" x 96" 
+   - Quantity: 4 sheets
+   - Condition: Solution annealed and pickled
+   - Need ASME Section II compliance
+
+**ADDITIONAL REQUIREMENTS:**
+- All materials need CoC (Certificate of Compliance)
+- Phoenix project materials can ship to our main facility
+- Titan project materials MUST ship directly to:
+  Marine Systems Inc
+  1500 Harbor Drive
+  Newport News, VA 23601
+  Attn: Jim Rodriguez (757) 555-0123
+
+- Payment terms: Net 30 (we have credit approval CA-2023-891)
+- Please expedite quotes - need pricing by Wednesday EOD
+- If any items are not available, please suggest alternatives with lead times
+
+Can you also check if you have any of these in stock? Our backup suppliers are quoting 8-12 weeks which is too long.
+
+Let me know if you need any additional specifications or have questions. My cell is 555-0187 if you need to reach me directly.
+
+Thanks!
+Mike Thompson
+Senior Procurement Engineer
+TechManufacturing Solutions
+Phone: (412) 555-0187
+Email: m.thompson@techmanufacturing.com
+
+P.S. - We might have a follow-up order for Project Titan if this delivery goes well. Potential for 50% more volume.

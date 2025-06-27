@@ -1,0 +1,103 @@
+From: design@canadianmfg.ca
+To: sales@usametals.com
+Subject: Material Requirements for Automotive Assembly Line - Mixed Units
+Date: Mon, 12 Feb 2024 13:45:28 -0500
+
+Hello,
+
+We're designing a new automotive assembly line that will operate in both our Canadian and US facilities, so we're dealing with a mix of metric and imperial specifications. Our engineers are based in Montreal but our manufacturing partner is in Detroit, which is causing some interesting unit conversion challenges!
+
+**PROJECT OVERVIEW:**
+Automotive transmission housing components
+Production volume: 10,000 units per year
+Quality standard: TS 16949 automotive grade
+
+**MATERIAL REQUIREMENTS:**
+
+1. **Main Housing Material**
+   - Aluminum 6061-T6 plate
+   - Thickness: 25.4mm (exactly 1.000")
+   - Dimensions: 600mm x 400mm (approximately 23.6" x 15.7")
+   - Quantity: 50 pieces
+   - Flatness tolerance: 0.5mm over entire surface
+   - Surface finish: 1.6 μm Ra maximum
+
+2. **Reinforcement Brackets**
+   - Steel grade: AISI 1018 cold rolled
+   - Thickness: 0.250" (6.35mm)
+   - Width: 4 inches (101.6mm exactly)
+   - Length: 300mm (11.811 inches)
+   - Quantity: 200 pieces
+   - Edge condition: Mill edge acceptable
+
+3. **Precision Shafts**
+   - Material: 4140 steel, heat treated
+   - Diameter: 50mm +0.000/-0.025 (approximately 1.9685")
+   - Length: 18 inches ±0.5" (457.2mm ±12.7mm)
+   - Quantity: 25 pieces
+   - Hardness: 30-35 HRC
+   - Straightness: 0.05mm TIR over full length
+
+4. **Bushings**
+   - Bronze C932 (SAE 660)
+   - Outside diameter: 2.125" (53.975mm)
+   - Inside diameter: 1.750" +0.0005"/-0.0000" (44.45mm +0.013/-0.000)
+   - Length: 75mm (2.953")
+   - Quantity: 100 pieces
+   - Surface finish: 32 μin Ra on ID
+
+**SPECIAL REQUIREMENTS:**
+
+All materials must be supplied with dual-unit documentation (both metric and imperial dimensions on certificates).
+
+The aluminum plates need to be cut to metric dimensions (600 x 400mm) but thickness must be exactly 1.000" imperial - this is critical for compatibility with existing tooling.
+
+Heat treatment for the 4140 shafts should result in 32 HRC ±2, with hardness testing done every 6 inches along the length.
+
+**DELIVERY LOGISTICS:**
+- 60% of materials to ship to: 
+  Canadian Manufacturing Ltd
+  1250 Industrial Blvd
+  Montreal, QC H3C 2T5, Canada
+  
+- 40% of materials to ship to:
+  Detroit Assembly LLC  
+  5500 Manufacturing Dr
+  Detroit, MI 48201, USA
+
+**QUALITY DOCUMENTATION:**
+- All material certs to show dimensions in both mm and inches
+- Test reports must reference both ASTM and ISO standards where applicable
+- Hardness testing in both HRC and HV scales
+- Surface roughness in both Ra μm and μin
+
+**PRICING REQUEST:**
+Please quote in both USD and CAD (current exchange rate approximately 1 USD = 1.35 CAD).
+
+**QUESTIONS:**
+1. Can you supply the aluminum with metric cut dimensions but imperial thickness?
+2. Do your material certs automatically show dual units or is this a special request?
+3. What's your tolerance capability on the 50mm diameter shafts in metric units?
+4. Can you ship directly to both Canadian and US locations from the same order?
+
+**ENGINEERING NOTES:**
+Our design engineer (Pierre Dubois) mentions that the shaft diameter is critical - it was originally designed as 2.000" but was changed to 50mm for metric compatibility. However, 50mm = 1.9685", not 2.000". This 0.0315" difference is intentional and required for proper bearing fits in the metric housing.
+
+The bushing ID tolerance of +0.0005"/-0.0000" is unusual but required for press-fit assembly. In metric, this would be +0.013/-0.000mm.
+
+**TIMELINE:**
+We need quotes by Friday Feb 16th
+Material delivery required by April 1st for production startup
+First production run starts April 15th
+
+Thanks for your assistance with this mixed-unit project. It's challenging but the automotive industry is moving toward global standardization.
+
+Best regards,
+
+Marie Lafleur, P.Eng
+Senior Design Engineer  
+Canadian Manufacturing Ltd
+Phone: +1 514 555-0198
+Email: m.lafleur@canadianmfg.ca
+
+P.S. - If you have any questions about the unit conversions, our engineering team has created a detailed conversion table. Pierre can be reached at p.dubois@canadianmfg.ca or +1 514 555-0199.

@@ -2,7 +2,7 @@ import asyncio
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 import structlog
-from langgraph import StateGraph, END
+from langgraph.graph import StateGraph, END
 from langchain_core.messages import HumanMessage
 
 from .workflow_state import WorkflowState, WorkflowStage, AgentStatus

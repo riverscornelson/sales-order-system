@@ -1,14 +1,38 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
 from typing import List
 import uuid
 import structlog
+import asyncio
 from ..models.schemas import OrderProcessingSession, DocumentType, ProcessingStatus
+from ..agents.supervisor_local import LocalSupervisorAgent
+from ..services.websocket_manager import WebSocketManager
 
 logger = structlog.get_logger()
 router = APIRouter(tags=["upload"])
 
+# WebSocket manager will be injected from main.py
+websocket_manager = None
+supervisor = None
+
+async def process_document_background(session_id: str, client_id: str, filename: str, content: str):
+    """Background task to process document through agent workflow"""
+    logger.info("🚀 BACKGROUND TASK STARTED", session_id=session_id, client_id=client_id)
+    try:
+        # Initialize supervisor with OpenAI API key when needed
+        global supervisor
+        if supervisor is None:
+            logger.info("📡 Initializing LOCAL supervisor agent...")
+            supervisor = LocalSupervisorAgent(websocket_manager)
+            logger.info("✅ LOCAL supervisor agent initialized")
+        
+        logger.info("🤖 Starting agent workflow", filename=filename, content_length=len(content))
+        await supervisor.process_document(session_id, client_id, filename, content)
+        logger.info("✅ Document processing completed", session_id=session_id)
+    except Exception as e:
+        logger.error("❌ Document processing failed", session_id=session_id, error=str(e), exc_info=True)
+
 @router.post("/upload")
-async def upload_document(file: UploadFile = File(...)):
+async def upload_document(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     """Upload a PDF or email file for order processing"""
     
     # Validate file type
@@ -36,18 +60,41 @@ async def upload_document(file: UploadFile = File(...)):
         status=ProcessingStatus.PENDING
     )
     
-    logger.info("Document uploaded", 
+    # Read file content
+    content = await file.read()
+    document_content = content.decode('utf-8') if doc_type == DocumentType.EMAIL else str(content)
+    
+    logger.info("📤 Document uploaded", 
                session_id=session_id, 
                filename=file.filename,
-               content_type=file.content_type)
+               content_type=file.content_type,
+               content_size=len(content))
     
-    # TODO: Store file and initiate processing
-    # For now, return session info
+    logger.info("📋 Document content preview", 
+               session_id=session_id,
+               content_preview=document_content[:200] + "..." if len(document_content) > 200 else document_content)
+    
+    # Generate client ID for WebSocket connection
+    client_id = f"client-{session_id}"
+    
+    # Start background processing through agent workflow
+    logger.info("📋 Adding background task", session_id=session_id, client_id=client_id)
+    background_tasks.add_task(
+        process_document_background, 
+        session_id, 
+        client_id, 
+        file.filename or "unknown", 
+        document_content
+    )
+    logger.info("✅ Background task added successfully")
     
     return {
         "session_id": session_id,
+        "client_id": client_id,
         "status": "uploaded",
-        "message": "Document uploaded successfully. Processing will begin shortly."
+        "message": "Document uploaded successfully. Multi-agent processing has started.",
+        "filename": file.filename,
+        "document_type": doc_type.value
     }
 
 @router.get("/sessions/{session_id}")
@@ -62,3 +109,19 @@ async def get_session_status(session_id: str):
         "status": "processing",
         "message": "Session found"
     }
+
+# Debug endpoint to test background tasks
+async def test_background_task():
+    """Simple background task for testing"""
+    logger.info("🧪 TEST BACKGROUND TASK STARTED")
+    import asyncio
+    await asyncio.sleep(1)
+    logger.info("🧪 TEST BACKGROUND TASK COMPLETED")
+
+@router.post("/test-background")
+async def test_background(background_tasks: BackgroundTasks):
+    """Test endpoint to verify background tasks work"""
+    logger.info("🧪 Adding test background task")
+    background_tasks.add_task(test_background_task)
+    logger.info("🧪 Test background task added")
+    return {"message": "Test background task started"}

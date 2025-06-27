@@ -1,0 +1,74 @@
+From: maintenance@powerplant.com
+To: emergency@steelstock.com
+Subject: Followup to yesterday's phone call - Still need those turbine parts
+Date: Wed, 7 Feb 2024 07:12:18 -0600
+
+Hi Jessica,
+
+Thanks for taking my call yesterday evening. As I mentioned, we're in a bit of a bind with our turbine maintenance. Let me put together the information I have so far, but I'm still waiting on some details from our engineering team.
+
+**WHAT I KNOW FOR SURE:**
+We had a turbine blade failure during the ice storm last week. The blade took out some housing components when it failed, and we need to fabricate replacement parts.
+
+The main piece we need is some kind of stainless steel - our maintenance log shows the original part was "SS 410" but the engineer said that might not be right. It's possible it was 416 or 420 stainless. The part number on the damaged piece is mostly worn off but looks like "TB-4401-xxx" where xxx is unreadable.
+
+**APPROXIMATE DIMENSIONS:**
+Based on measurements from the broken pieces:
+- It's roughly cylindrical, about 8 inches in diameter
+- Length is probably 14-16 inches (hard to tell exactly)
+- Wall thickness looks like maybe 1/2 inch, could be 3/8" or 5/8"
+- There's a flange on one end that's about 12 inches across
+- The flange is probably 1 inch thick
+
+**WHAT I'M STILL WAITING FOR:**
+- Exact material specification from engineering
+- Precise dimensions (they're checking the original drawings)
+- Heat treatment requirements 
+- Surface finish specs
+- Whether it needs to be machined or if we can do that here
+
+**TIMELINE PRESSURE:**
+The plant manager is breathing down my neck. We've been running on backup power since the failure, and that's costing us about $5000 per day in lost efficiency. We need to get this fixed ASAP.
+
+**CURRENT PLAN:**
+1. Engineering should have the drawings by this afternoon
+2. I'll send you the exact specs as soon as I get them
+3. If you can find matching material in stock, we can probably start machining while waiting for final confirmation
+
+**QUESTIONS FOR YOU:**
+1. Do you have any 410, 416, or 420 stainless in 8-10" diameter round stock?
+2. What's the largest length you typically stock?
+3. If we need it turned to size, do you have machining capabilities?
+4. Worst case, how fast could you get material if you don't have it in stock?
+
+**ALTERNATIVE APPROACH:**
+If you don't have the right size round stock, could we start with plate and weld it up? I know it's not ideal for a turbine component, but this is an emergency repair to get us through until we can order the proper replacement part (which has a 16-week lead time from the OEM).
+
+Our welder is certified for pressure vessel work and we have post-weld heat treatment capabilities here.
+
+**BUDGET:**
+This is an emergency repair with management approval. Price is secondary to speed right now. We're authorized up to $25K for materials and expedited delivery.
+
+**DELIVERY:**
+We need the material delivered to:
+Riverside Power Plant
+Gate 3 - Maintenance Shop
+1400 River Road  
+Springfield, IL 62701
+
+Our receiving dock is open 24/7 for emergency deliveries. Ask for Tom Rodriguez (night shift supervisor) if delivering after 6 PM.
+
+I should have the complete specifications from engineering by 2 PM today. Can I call you this afternoon once I have all the details?
+
+My direct number is 217-555-0234, or you can reach me on the plant radio at "Maintenance 1" if you need to get hold of me quickly.
+
+Thanks again for your help with this emergency situation.
+
+Dave Williams
+Senior Maintenance Technician
+Riverside Power Plant
+Phone: 217-555-0234
+Radio: Maintenance 1
+Email: d.williams@powerplant.com
+
+P.S. - The plant superintendent mentioned that if you can help us out of this jam quickly, we'll keep you in mind for our regular maintenance material purchases. We typically buy about $150K in steel and alloys per year.

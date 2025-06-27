@@ -7,7 +7,7 @@ import structlog
 from datetime import datetime
 
 from .embeddings import PartEmbeddingService
-from .vector_store import PartsCatalogVectorStore
+from .local_vector_store import LocalPartsCatalogVectorStore
 
 logger = structlog.get_logger()
 
@@ -16,7 +16,7 @@ class PartsCatalogService:
     
     def __init__(self):
         self.embedding_service = PartEmbeddingService()
-        self.vector_store = PartsCatalogVectorStore()
+        self.vector_store = LocalPartsCatalogVectorStore()
         
         # Mock data for development
         self.mock_parts = self._create_mock_parts_catalog()
@@ -267,12 +267,19 @@ class PartsCatalogService:
                 logger.error("Failed to generate query embedding")
                 return []
             
+            # Adjust similarity threshold for mock embeddings
+            min_similarity = 0.5
+            if hasattr(self.embedding_service.embedding_service, 'client') and not self.embedding_service.embedding_service.client:  # Using mock embeddings
+                min_similarity = -1.0  # Accept any similarity for mock embeddings
+                logger.warning("Using mock embeddings - adjusting similarity threshold", 
+                             threshold=min_similarity)
+            
             # Search vector store
             results = await self.vector_store.search_parts(
                 query_embedding, 
                 filters,
                 top_k,
-                min_similarity=0.5
+                min_similarity=min_similarity
             )
             
             # Enhance results with additional scoring
@@ -437,16 +444,22 @@ class PartsCatalogService:
             logger.error("Failed to get catalog stats", error=str(e))
             return {}
     
-    async def load_catalog_from_csv(self, file_path: str) -> bool:
-        """Load parts catalog from CSV file"""
+    async def load_catalog_from_csv(self, file_path: str, batch_size: int = 1000) -> bool:
+        """Load parts catalog from CSV file with batch processing for large datasets"""
         
         try:
-            parts = []
+            logger.info("Starting CSV catalog load", 
+                       file_path=file_path, 
+                       batch_size=batch_size)
+            
+            total_parts = 0
+            indexed_count = 0
+            batch = []
             
             with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
                 reader = csv.DictReader(csvfile)
                 
-                for row in reader:
+                for row_num, row in enumerate(reader, 1):
                     # Convert numeric fields
                     for field in ['unit_price', 'availability', 'weight_per_unit', 'minimum_order']:
                         if row.get(field):
@@ -455,31 +468,139 @@ class PartsCatalogService:
                             except ValueError:
                                 pass
                     
-                    # Parse specifications if present
-                    if row.get('specifications'):
-                        try:
-                            row['specifications'] = json.loads(row['specifications'])
-                        except json.JSONDecodeError:
-                            row['specifications'] = {}
+                    # Reconstruct specifications from flattened CSV
+                    specs = {}
+                    non_spec_fields = {
+                        'part_number', 'description', 'category', 'material', 
+                        'unit_price', 'availability', 'supplier', 'weight_per_unit', 
+                        'minimum_order'
+                    }
                     
-                    parts.append(row)
+                    for key, value in row.items():
+                        if key not in non_spec_fields and value:
+                            # Try to convert to appropriate type
+                            try:
+                                if '.' in str(value):
+                                    specs[key] = float(value)
+                                elif str(value).isdigit():
+                                    specs[key] = int(value)
+                                else:
+                                    specs[key] = value
+                            except ValueError:
+                                specs[key] = value
+                    
+                    if specs:
+                        row['specifications'] = specs
+                    
+                    # Remove specification fields from main row
+                    for key in list(row.keys()):
+                        if key not in non_spec_fields:
+                            del row[key]
+                    
+                    batch.append(row)
+                    total_parts += 1
+                    
+                    # Process batch when it reaches batch_size
+                    if len(batch) >= batch_size:
+                        batch_indexed = await self._process_batch(batch, row_num - len(batch) + 1, row_num)
+                        indexed_count += batch_indexed
+                        batch = []
+                        
+                        # Progress logging for large datasets
+                        if total_parts % 5000 == 0:
+                            logger.info("CSV loading progress", 
+                                       processed=total_parts,
+                                       indexed=indexed_count,
+                                       success_rate=f"{(indexed_count/total_parts)*100:.1f}%")
+                
+                # Process remaining batch
+                if batch:
+                    batch_indexed = await self._process_batch(batch, total_parts - len(batch) + 1, total_parts)
+                    indexed_count += batch_indexed
             
-            # Index all parts
-            indexed_count = 0
-            for part in parts:
-                success = await self.index_part(part)
-                if success:
-                    indexed_count += 1
-            
-            logger.info("Loaded catalog from CSV", 
+            logger.info("CSV catalog load completed", 
                        file_path=file_path,
-                       total_parts=len(parts),
-                       indexed_parts=indexed_count)
+                       total_parts=total_parts,
+                       indexed_parts=indexed_count,
+                       success_rate=f"{(indexed_count/total_parts)*100:.1f}%")
             
             return indexed_count > 0
             
         except Exception as e:
             logger.error("Failed to load catalog from CSV", 
+                        file_path=file_path,
+                        error=str(e))
+            return False
+    
+    async def _process_batch(self, batch: List[Dict[str, Any]], start_row: int, end_row: int) -> int:
+        """Process a batch of parts for indexing"""
+        indexed_count = 0
+        
+        logger.debug("Processing batch", 
+                    start_row=start_row, 
+                    end_row=end_row, 
+                    batch_size=len(batch))
+        
+        # Process parts in parallel for better performance
+        tasks = []
+        for part in batch:
+            tasks.append(self.index_part(part))
+        
+        # Wait for all indexing tasks to complete
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        for i, result in enumerate(results):
+            if isinstance(result, Exception):
+                logger.warning("Failed to index part in batch", 
+                             part_number=batch[i].get("part_number"),
+                             row=start_row + i,
+                             error=str(result))
+            elif result:
+                indexed_count += 1
+        
+        return indexed_count
+    
+    async def load_catalog_from_json(self, file_path: str, batch_size: int = 1000) -> bool:
+        """Load parts catalog from JSON file with batch processing"""
+        
+        try:
+            logger.info("Starting JSON catalog load", 
+                       file_path=file_path, 
+                       batch_size=batch_size)
+            
+            with open(file_path, 'r', encoding='utf-8') as jsonfile:
+                parts = json.load(jsonfile)
+            
+            if not isinstance(parts, list):
+                logger.error("JSON file must contain a list of parts")
+                return False
+            
+            total_parts = len(parts)
+            indexed_count = 0
+            
+            # Process in batches
+            for i in range(0, total_parts, batch_size):
+                batch = parts[i:i + batch_size]
+                batch_indexed = await self._process_batch(batch, i + 1, i + len(batch))
+                indexed_count += batch_indexed
+                
+                # Progress logging
+                if i + batch_size < total_parts and (i + batch_size) % 5000 == 0:
+                    logger.info("JSON loading progress", 
+                               processed=i + batch_size,
+                               indexed=indexed_count,
+                               success_rate=f"{(indexed_count/(i + batch_size))*100:.1f}%")
+            
+            logger.info("JSON catalog load completed", 
+                       file_path=file_path,
+                       total_parts=total_parts,
+                       indexed_parts=indexed_count,
+                       success_rate=f"{(indexed_count/total_parts)*100:.1f}%")
+            
+            return indexed_count > 0
+            
+        except Exception as e:
+            logger.error("Failed to load catalog from JSON", 
                         file_path=file_path,
                         error=str(e))
             return False

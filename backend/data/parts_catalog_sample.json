@@ -1,0 +1,1869 @@
+[
+  {
+    "part_number": "TI-Grade 9-TS-4932x4932x0073",
+    "description": "Titanium Grade 9 Tube Square, 4.932\" x 4.932\" x 0.073\" wall",
+    "category": "Tube Square",
+    "material": "Titanium Grade 9",
+    "specifications": {
+      "units": "inches",
+      "grade": "Grade 9",
+      "condition": "Annealed",
+      "width": 4.932,
+      "height": 4.932,
+      "wall_thickness": 0.073,
+      "length": 120.6
+    },
+    "unit_price": 1712.58,
+    "availability": 572,
+    "supplier": "MetalSupply Direct",
+    "weight_per_unit": 27.8,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AS-A36-BM-403",
+    "description": "Alloy Steel A36 Beam I",
+    "category": "Beam I",
+    "material": "Alloy Steel A36",
+    "specifications": {
+      "units": "inches",
+      "grade": "A36",
+      "heat_treatment": "Normalized"
+    },
+    "unit_price": 6.23,
+    "availability": 822,
+    "supplier": "SteelConnection",
+    "weight_per_unit": 2.83,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BZ-C220-TR-OD6615x0938x145",
+    "description": "Bronze C220 Round Tube, 6.615\" OD x 0.938\" wall x 144.7\" length",
+    "category": "Tube Round",
+    "material": "Bronze C220",
+    "specifications": {
+      "units": "inches",
+      "grade": "C220",
+      "condition": "Heat Treated",
+      "outer_diameter": 6.615,
+      "wall_thickness": 0.938,
+      "length": 144.7
+    },
+    "unit_price": 10375.24,
+    "availability": 537,
+    "supplier": "BrassWorks LLC",
+    "weight_per_unit": 769.01,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "BZ-C630-TS-3532x3532x0155",
+    "description": "Bronze C630 Tube Square, 3.532\" x 3.532\" x 0.155\" wall",
+    "category": "Tube Square",
+    "material": "Bronze C630",
+    "specifications": {
+      "units": "inches",
+      "grade": "C630",
+      "condition": "Heat Treated",
+      "width": 3.532,
+      "height": 3.532,
+      "wall_thickness": 0.155,
+      "length": 165.2
+    },
+    "unit_price": 1657.23,
+    "availability": 345,
+    "supplier": "SteelTech Solutions",
+    "weight_per_unit": 109.88,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "BZ-C954-TX-3733x3519x0323",
+    "description": "Bronze C954 Tube Rectangular, 3.733\" x 3.519\" x 0.323\" wall",
+    "category": "Tube Rectangular",
+    "material": "Bronze C954",
+    "specifications": {
+      "units": "inches",
+      "grade": "C954",
+      "condition": "Work Hardened",
+      "width": 3.733,
+      "height": 3.519,
+      "wall_thickness": 0.323,
+      "length": 217.7
+    },
+    "unit_price": 4616.18,
+    "availability": 626,
+    "supplier": "AlloySupply Corp",
+    "weight_per_unit": 295.13,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BR-C260-TR-OD3577x0234x52",
+    "description": "Brass C260 Round Tube, 3.577\" OD x 0.234\" wall x 52.3\" length",
+    "category": "Tube Round",
+    "material": "Brass C260",
+    "specifications": {
+      "units": "inches",
+      "grade": "C260",
+      "temper": "O60",
+      "outer_diameter": 3.577,
+      "wall_thickness": 0.234,
+      "length": 52.3
+    },
+    "unit_price": 504.44,
+    "availability": 266,
+    "supplier": "MetalCraft Supply",
+    "weight_per_unit": 39.44,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "NI-Inconel 600-BX-6628x3736x74",
+    "description": "Nickel Alloy Inconel 600 Rectangular Bar, 6.628\" x 3.736\" x 73.7\" length",
+    "category": "Bar Rectangular",
+    "material": "Nickel Alloy Inconel 600",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 600",
+      "condition": "Solution Annealed",
+      "width": 6.628,
+      "height": 3.736,
+      "length": 73.7
+    },
+    "unit_price": 45017.9,
+    "availability": 92,
+    "supplier": "IndustrialMetals Inc",
+    "weight_per_unit": 553.41,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BR-C240-FL-928",
+    "description": "Brass C240 Foil, 40.9\" wide x 0.0094\" thick x 854.0 feet",
+    "category": "Foil",
+    "material": "Brass C240",
+    "specifications": {
+      "units": "feet",
+      "grade": "C240",
+      "temper": "H01",
+      "thickness": 0.0094,
+      "width": 40.9,
+      "length": 854.0
+    },
+    "unit_price": 43213.94,
+    "availability": 571,
+    "supplier": "SpecialtyAlloys Ltd",
+    "weight_per_unit": 1208.97,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "TS-S7-AN-207",
+    "description": "Tool Steel S7 Angle, 1.989\" x 6.435\" x 0.911\" thick",
+    "category": "Angle",
+    "material": "Tool Steel S7",
+    "specifications": {
+      "units": "inches",
+      "grade": "S7",
+      "condition": "Annealed",
+      "leg1": 1.989,
+      "leg2": 6.435,
+      "thickness": 0.911,
+      "length": 159.2
+    },
+    "unit_price": 8037.9,
+    "availability": 850,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 306.82,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "TS-O1-BM-492",
+    "description": "Tool Steel O1 Beam I",
+    "category": "Beam I",
+    "material": "Tool Steel O1",
+    "specifications": {
+      "units": "inches",
+      "grade": "O1",
+      "condition": "Annealed"
+    },
+    "unit_price": 75.49,
+    "availability": 473,
+    "supplier": "SteelMasters Ltd",
+    "weight_per_unit": 2.82,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TI-Grade 1-TR-OD8276x0443x180",
+    "description": "Titanium Grade 1 Round Tube, 8.276\" OD x 0.443\" wall x 179.6\" length",
+    "category": "Tube Round",
+    "material": "Titanium Grade 1",
+    "specifications": {
+      "units": "inches",
+      "grade": "Grade 1",
+      "condition": "Solution Treated",
+      "outer_diameter": 8.276,
+      "wall_thickness": 0.443,
+      "length": 179.6
+    },
+    "unit_price": 25659.59,
+    "availability": 327,
+    "supplier": "MetalCraft Supply",
+    "weight_per_unit": 318.06,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "CS-4140-BX-5519x0950x38",
+    "description": "Carbon Steel 4140 Rectangular Bar, 5.519\" x 0.95\" x 37.8\" length",
+    "category": "Bar Rectangular",
+    "material": "Carbon Steel 4140",
+    "specifications": {
+      "units": "inches",
+      "grade": "4140",
+      "finish": "Zinc Plated",
+      "width": 5.519,
+      "height": 0.95,
+      "length": 37.8
+    },
+    "unit_price": 116.54,
+    "availability": 960,
+    "supplier": "SteelWorks Express",
+    "weight_per_unit": 56.16,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "BR-C230-TX-2082x5402x0283",
+    "description": "Brass C230 Tube Rectangular, 2.082\" x 5.402\" x 0.283\" wall",
+    "category": "Tube Rectangular",
+    "material": "Brass C230",
+    "specifications": {
+      "units": "inches",
+      "grade": "C230",
+      "temper": "O50",
+      "width": 2.082,
+      "height": 5.402,
+      "wall_thickness": 0.283,
+      "length": 98.9
+    },
+    "unit_price": 1527.77,
+    "availability": 976,
+    "supplier": "MetalCrafters Inc",
+    "weight_per_unit": 118.83,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "SS-17-4PH-CH-113",
+    "description": "Stainless Steel 17-4PH Channel",
+    "category": "Channel",
+    "material": "Stainless Steel 17-4PH",
+    "specifications": {
+      "units": "inches",
+      "grade": "17-4PH",
+      "finish": "Brushed"
+    },
+    "unit_price": 15.39,
+    "availability": 259,
+    "supplier": "SteelSolutions Pro",
+    "weight_per_unit": 2.89,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BZ-C220-FL-617",
+    "description": "Bronze C220 Foil, 41.0\" wide x 0.005\" thick x 6408.0 feet",
+    "category": "Foil",
+    "material": "Bronze C220",
+    "specifications": {
+      "units": "feet",
+      "grade": "C220",
+      "condition": "As Cast",
+      "thickness": 0.005,
+      "width": 41.0,
+      "length": 6408.0
+    },
+    "unit_price": 165403.17,
+    "availability": 329,
+    "supplier": "BrassWorks LLC",
+    "weight_per_unit": 5007.81,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "SS-321-FL-329",
+    "description": "Stainless Steel 321 Foil, 27.2\" wide x 0.0051\" thick x 9091.0 feet",
+    "category": "Foil",
+    "material": "Stainless Steel 321",
+    "specifications": {
+      "units": "feet",
+      "grade": "321",
+      "finish": "BA",
+      "thickness": 0.0051,
+      "width": 27.2,
+      "length": 9091.0
+    },
+    "unit_price": 74774.48,
+    "availability": 265,
+    "supplier": "SteelWorks Express",
+    "weight_per_unit": 4370.48,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TI-Grade 1-SH-77x37x0260",
+    "description": "Titanium Grade 1 Sheet, 76.57\" x 36.68\" x 0.26\" thick",
+    "category": "Sheet",
+    "material": "Titanium Grade 1",
+    "specifications": {
+      "units": "inches",
+      "grade": "Grade 1",
+      "condition": "Aged",
+      "length": 76.57,
+      "width": 36.68,
+      "thickness": 0.26
+    },
+    "unit_price": 4568.44,
+    "availability": 29,
+    "supplier": "SteelConnection",
+    "weight_per_unit": 118.63,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "NI-Monel 400-TX-4688x2720x0310",
+    "description": "Nickel Alloy Monel 400 Tube Rectangular, 4.688\" x 2.72\" x 0.31\" wall",
+    "category": "Tube Rectangular",
+    "material": "Nickel Alloy Monel 400",
+    "specifications": {
+      "units": "inches",
+      "grade": "Monel 400",
+      "condition": "Aged",
+      "width": 4.688,
+      "height": 2.72,
+      "wall_thickness": 0.31,
+      "length": 196.3
+    },
+    "unit_price": 25572.38,
+    "availability": 324,
+    "supplier": "SteelWorks Express",
+    "weight_per_unit": 250.52,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "TS-S7-TX-1606x4446x0197",
+    "description": "Tool Steel S7 Tube Rectangular, 1.606\" x 4.446\" x 0.197\" wall",
+    "category": "Tube Rectangular",
+    "material": "Tool Steel S7",
+    "specifications": {
+      "units": "inches",
+      "grade": "S7",
+      "condition": "Tempered",
+      "width": 1.606,
+      "height": 4.446,
+      "wall_thickness": 0.197,
+      "length": 203.7
+    },
+    "unit_price": 4797.96,
+    "availability": 607,
+    "supplier": "AluminumDirect",
+    "weight_per_unit": 127.87,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "BZ-C220-BR-D2645x227",
+    "description": "Bronze C220 Round Bar, 2.645\" diameter x 227.4\" length",
+    "category": "Bar Round",
+    "material": "Bronze C220",
+    "specifications": {
+      "units": "inches",
+      "grade": "C220",
+      "condition": "As Cast",
+      "diameter": 2.645,
+      "length": 227.4
+    },
+    "unit_price": 4941.92,
+    "availability": 159,
+    "supplier": "MetalMart Industries",
+    "weight_per_unit": 396.94,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "AS-A992-BS-5692x73",
+    "description": "Alloy Steel A992 Square Bar, 5.692\" x 73.4\" length",
+    "category": "Bar Square",
+    "material": "Alloy Steel A992",
+    "specifications": {
+      "units": "inches",
+      "grade": "A992",
+      "heat_treatment": "Tempered",
+      "side": 5.692,
+      "length": 73.4
+    },
+    "unit_price": 1983.82,
+    "availability": 445,
+    "supplier": "IndustrialMetals Inc",
+    "weight_per_unit": 673.91,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TS-O1-AN-318",
+    "description": "Tool Steel O1 Angle, 4.167\" x 5.981\" x 0.179\" thick",
+    "category": "Angle",
+    "material": "Tool Steel O1",
+    "specifications": {
+      "units": "inches",
+      "grade": "O1",
+      "condition": "Tempered",
+      "leg1": 4.167,
+      "leg2": 5.981,
+      "thickness": 0.179,
+      "length": 150.9
+    },
+    "unit_price": 2006.0,
+    "availability": 563,
+    "supplier": "AluminumDirect",
+    "weight_per_unit": 75.82,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TS-D2-FL-217",
+    "description": "Tool Steel D2 Foil, 14.7\" wide x 0.0081\" thick x 8397.0 feet",
+    "category": "Foil",
+    "material": "Tool Steel D2",
+    "specifications": {
+      "units": "feet",
+      "grade": "D2",
+      "condition": "Hardened",
+      "thickness": 0.0081,
+      "width": 14.7,
+      "length": 8397.0
+    },
+    "unit_price": 419384.66,
+    "availability": 562,
+    "supplier": "CopperSource Ltd",
+    "weight_per_unit": 3378.39,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TI-Grade 7-WR-675",
+    "description": "Titanium Grade 7 Wire, 0.3882\" diameter x 6450.0 feet",
+    "category": "Wire",
+    "material": "Titanium Grade 7",
+    "specifications": {
+      "units": "feet",
+      "grade": "Grade 7",
+      "condition": "Solution Treated",
+      "diameter": 0.3882,
+      "length": 6450.0
+    },
+    "unit_price": 101411.85,
+    "availability": 466,
+    "supplier": "SteelConnection",
+    "weight_per_unit": 1488.2,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "TS-A2-TR-OD3943x0297x58",
+    "description": "Tool Steel A2 Round Tube, 3.943\" OD x 0.297\" wall x 58.2\" length",
+    "category": "Tube Round",
+    "material": "Tool Steel A2",
+    "specifications": {
+      "units": "inches",
+      "grade": "A2",
+      "condition": "Hardened",
+      "outer_diameter": 3.943,
+      "wall_thickness": 0.297,
+      "length": 58.2
+    },
+    "unit_price": 1643.81,
+    "availability": 571,
+    "supplier": "BrassWorks LLC",
+    "weight_per_unit": 55.75,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AS-8620-CH-283",
+    "description": "Alloy Steel 8620 Channel",
+    "category": "Channel",
+    "material": "Alloy Steel 8620",
+    "specifications": {
+      "units": "inches",
+      "grade": "8620",
+      "heat_treatment": "Quenched"
+    },
+    "unit_price": 6.97,
+    "availability": 561,
+    "supplier": "SpecialtyAlloys Ltd",
+    "weight_per_unit": 2.83,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CS-8620-AN-552",
+    "description": "Carbon Steel 8620 Angle, 6.986\" x 4.705\" x 0.127\" thick",
+    "category": "Angle",
+    "material": "Carbon Steel 8620",
+    "specifications": {
+      "units": "inches",
+      "grade": "8620",
+      "finish": "Cold Rolled",
+      "leg1": 6.986,
+      "leg2": 4.705,
+      "thickness": 0.127,
+      "length": 238.5
+    },
+    "unit_price": 211.12,
+    "availability": 170,
+    "supplier": "SteelMasters Ltd",
+    "weight_per_unit": 99.26,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "SS-317-TS-1007x1007x0320",
+    "description": "Stainless Steel 317 Tube Square, 1.007\" x 1.007\" x 0.32\" wall",
+    "category": "Tube Square",
+    "material": "Stainless Steel 317",
+    "specifications": {
+      "units": "inches",
+      "grade": "317",
+      "finish": "BA",
+      "width": 1.007,
+      "height": 1.007,
+      "wall_thickness": 0.32,
+      "length": 117.3
+    },
+    "unit_price": 248.0,
+    "availability": 261,
+    "supplier": "AlumTech Solutions",
+    "weight_per_unit": 29.79,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "SS-316L-BH-HEX4707x75",
+    "description": "Stainless Steel 316L Hexagonal Bar, 4.707\" across flats x 75.0\" length",
+    "category": "Bar Hex",
+    "material": "Stainless Steel 316L",
+    "specifications": {
+      "units": "inches",
+      "grade": "316L",
+      "finish": "Polished",
+      "across_flats": 4.707,
+      "length": 75.0
+    },
+    "unit_price": 6174.93,
+    "availability": 561,
+    "supplier": "SteelMasters Ltd",
+    "weight_per_unit": 1246.77,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "CU-195-TX-7629x3257x0456",
+    "description": "Copper 195 Tube Rectangular, 7.629\" x 3.257\" x 0.456\" wall",
+    "category": "Tube Rectangular",
+    "material": "Copper 195",
+    "specifications": {
+      "units": "inches",
+      "grade": "195",
+      "temper": "Soft",
+      "width": 7.629,
+      "height": 3.257,
+      "wall_thickness": 0.456,
+      "length": 231.9
+    },
+    "unit_price": 13616.04,
+    "availability": 64,
+    "supplier": "SpecialtyAlloys Ltd",
+    "weight_per_unit": 682.31,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "NI-Hastelloy C276-BX-7192x1518x100",
+    "description": "Nickel Alloy Hastelloy C276 Rectangular Bar, 7.192\" x 1.518\" x 100.4\" length",
+    "category": "Bar Rectangular",
+    "material": "Nickel Alloy Hastelloy C276",
+    "specifications": {
+      "units": "inches",
+      "grade": "Hastelloy C276",
+      "condition": "Aged",
+      "width": 7.192,
+      "height": 1.518,
+      "length": 100.4
+    },
+    "unit_price": 27266.44,
+    "availability": 140,
+    "supplier": "AlloyMasters Corp",
+    "weight_per_unit": 332.39,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "BZ-C220-SH-90x74x1689",
+    "description": "Bronze C220 Sheet, 89.56\" x 73.94\" x 1.689\" thick",
+    "category": "Sheet",
+    "material": "Bronze C220",
+    "specifications": {
+      "units": "inches",
+      "grade": "C220",
+      "condition": "As Cast",
+      "length": 89.56,
+      "width": 73.94,
+      "thickness": 1.689
+    },
+    "unit_price": 33631.45,
+    "availability": 540,
+    "supplier": "SteelConnection",
+    "weight_per_unit": 3553.15,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "SS-316-SH-90x50x0406",
+    "description": "Stainless Steel 316 Sheet, 90.04\" x 50.49\" x 0.406\" thick",
+    "category": "Sheet",
+    "material": "Stainless Steel 316",
+    "specifications": {
+      "units": "inches",
+      "grade": "316",
+      "finish": "Brushed",
+      "length": 90.04,
+      "width": 50.49,
+      "thickness": 0.406
+    },
+    "unit_price": 2421.4,
+    "availability": 811,
+    "supplier": "MetalCrafters Inc",
+    "weight_per_unit": 533.05,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "AL-6061-BR-D11558x172",
+    "description": "Aluminum 6061 Round Bar, 11.558\" diameter x 171.6\" length",
+    "category": "Bar Round",
+    "material": "Aluminum 6061",
+    "specifications": {
+      "units": "inches",
+      "grade": "6061",
+      "finish": "Clad",
+      "temper": "H14",
+      "diameter": 11.558,
+      "length": 171.6
+    },
+    "unit_price": 5577.54,
+    "availability": 120,
+    "supplier": "SteelConnection",
+    "weight_per_unit": 1754.86,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "BZ-C954-TX-7949x2347x0084",
+    "description": "Bronze C954 Tube Rectangular, 7.949\" x 2.347\" x 0.084\" wall",
+    "category": "Tube Rectangular",
+    "material": "Bronze C954",
+    "specifications": {
+      "units": "inches",
+      "grade": "C954",
+      "condition": "Heat Treated",
+      "width": 7.949,
+      "height": 2.347,
+      "wall_thickness": 0.084,
+      "length": 132.8
+    },
+    "unit_price": 1196.57,
+    "availability": 150,
+    "supplier": "MetalCraft Supply",
+    "weight_per_unit": 71.78,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "TI-Grade 1-FL-649",
+    "description": "Titanium Grade 1 Foil, 25.1\" wide x 0.0049\" thick x 5012.0 feet",
+    "category": "Foil",
+    "material": "Titanium Grade 1",
+    "specifications": {
+      "units": "feet",
+      "grade": "Grade 1",
+      "condition": "Annealed",
+      "thickness": 0.0049,
+      "width": 25.1,
+      "length": 5012.0
+    },
+    "unit_price": 277275.64,
+    "availability": 258,
+    "supplier": "PremiumSteel Inc",
+    "weight_per_unit": 1201.66,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CU-101-TX-4006x4043x0157",
+    "description": "Copper 101 Tube Rectangular, 4.006\" x 4.043\" x 0.157\" wall",
+    "category": "Tube Rectangular",
+    "material": "Copper 101",
+    "specifications": {
+      "units": "inches",
+      "grade": "101",
+      "temper": "Hard",
+      "width": 4.006,
+      "height": 4.043,
+      "wall_thickness": 0.157,
+      "length": 69.9
+    },
+    "unit_price": 1055.43,
+    "availability": 387,
+    "supplier": "TitaniumPro Inc",
+    "weight_per_unit": 54.91,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "NI-Inconel 718-BS-7932x234",
+    "description": "Nickel Alloy Inconel 718 Square Bar, 7.932\" x 233.6\" length",
+    "category": "Bar Square",
+    "material": "Nickel Alloy Inconel 718",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 718",
+      "condition": "Aged",
+      "side": 7.932,
+      "length": 233.6
+    },
+    "unit_price": 409594.11,
+    "availability": 544,
+    "supplier": "MetalSupply Direct",
+    "weight_per_unit": 4456.82,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BZ-C932-CH-608",
+    "description": "Bronze C932 Channel",
+    "category": "Channel",
+    "material": "Bronze C932",
+    "specifications": {
+      "units": "inches",
+      "grade": "C932",
+      "condition": "Heat Treated"
+    },
+    "unit_price": 34.42,
+    "availability": 467,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 3.18,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "NI-Monel 400-BR-D7794x108",
+    "description": "Nickel Alloy Monel 400 Round Bar, 7.794\" diameter x 108.5\" length",
+    "category": "Bar Round",
+    "material": "Nickel Alloy Monel 400",
+    "specifications": {
+      "units": "inches",
+      "grade": "Monel 400",
+      "condition": "Cold Worked",
+      "diameter": 7.794,
+      "length": 108.5
+    },
+    "unit_price": 135951.15,
+    "availability": 343,
+    "supplier": "AlumTech Solutions",
+    "weight_per_unit": 1569.74,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "AS-4340-SH-122x54x0521",
+    "description": "Alloy Steel 4340 Sheet, 121.87\" x 54.45\" x 0.521\" thick",
+    "category": "Sheet",
+    "material": "Alloy Steel 4340",
+    "specifications": {
+      "units": "inches",
+      "grade": "4340",
+      "heat_treatment": "Annealed",
+      "length": 121.87,
+      "width": 54.45,
+      "thickness": 0.521
+    },
+    "unit_price": 1503.68,
+    "availability": 188,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 979.74,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AS-A572-TR-OD3784x0793x23",
+    "description": "Alloy Steel A572 Round Tube, 3.784\" OD x 0.793\" wall x 23.3\" length",
+    "category": "Tube Round",
+    "material": "Alloy Steel A572",
+    "specifications": {
+      "units": "inches",
+      "grade": "A572",
+      "heat_treatment": "Annealed",
+      "outer_diameter": 3.784,
+      "wall_thickness": 0.793,
+      "length": 23.3
+    },
+    "unit_price": 162.52,
+    "availability": 734,
+    "supplier": "SteelCorp Supply",
+    "weight_per_unit": 49.2,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "BR-C240-TS-7115x7115x0353",
+    "description": "Brass C240 Tube Square, 7.115\" x 7.115\" x 0.353\" wall",
+    "category": "Tube Square",
+    "material": "Brass C240",
+    "specifications": {
+      "units": "inches",
+      "grade": "C240",
+      "temper": "O60",
+      "width": 7.115,
+      "height": 7.115,
+      "wall_thickness": 0.353,
+      "length": 65.2
+    },
+    "unit_price": 2416.99,
+    "availability": 330,
+    "supplier": "SteelSolutions Pro",
+    "weight_per_unit": 191.02,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "NI-Inconel 625-TS-2926x2926x0304",
+    "description": "Nickel Alloy Inconel 625 Tube Square, 2.926\" x 2.926\" x 0.304\" wall",
+    "category": "Tube Square",
+    "material": "Nickel Alloy Inconel 625",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 625",
+      "condition": "Aged",
+      "width": 2.926,
+      "height": 2.926,
+      "wall_thickness": 0.304,
+      "length": 98.7
+    },
+    "unit_price": 9274.59,
+    "availability": 623,
+    "supplier": "AlloyMasters Corp",
+    "weight_per_unit": 95.43,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TS-O1-CH-266",
+    "description": "Tool Steel O1 Channel",
+    "category": "Channel",
+    "material": "Tool Steel O1",
+    "specifications": {
+      "units": "inches",
+      "grade": "O1",
+      "condition": "Hardened"
+    },
+    "unit_price": 77.42,
+    "availability": 289,
+    "supplier": "AluminumDirect",
+    "weight_per_unit": 2.82,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "CU-145-BX-3332x3699x19",
+    "description": "Copper 145 Rectangular Bar, 3.332\" x 3.699\" x 19.0\" length",
+    "category": "Bar Rectangular",
+    "material": "Copper 145",
+    "specifications": {
+      "units": "inches",
+      "grade": "145",
+      "temper": "Soft",
+      "width": 3.332,
+      "height": 3.699,
+      "length": 19.0
+    },
+    "unit_price": 1018.25,
+    "availability": 63,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 75.75,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "NI-Inconel 625-BS-0920x81",
+    "description": "Nickel Alloy Inconel 625 Square Bar, 0.92\" x 81.1\" length",
+    "category": "Bar Square",
+    "material": "Nickel Alloy Inconel 625",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 625",
+      "condition": "Solution Annealed",
+      "side": 0.92,
+      "length": 81.1
+    },
+    "unit_price": 1800.61,
+    "availability": 603,
+    "supplier": "SteelWorks Express",
+    "weight_per_unit": 20.82,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "BZ-C510-TS-6583x6583x0383",
+    "description": "Bronze C510 Tube Square, 6.583\" x 6.583\" x 0.383\" wall",
+    "category": "Tube Square",
+    "material": "Bronze C510",
+    "specifications": {
+      "units": "inches",
+      "grade": "C510",
+      "condition": "Work Hardened",
+      "width": 6.583,
+      "height": 6.583,
+      "wall_thickness": 0.383,
+      "length": 13.6
+    },
+    "unit_price": 514.99,
+    "availability": 533,
+    "supplier": "MetalDistributors LLC",
+    "weight_per_unit": 41.04,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "NI-Inconel 718-TR-OD9944x0328x114",
+    "description": "Nickel Alloy Inconel 718 Round Tube, 9.944\" OD x 0.328\" wall x 114.4\" length",
+    "category": "Tube Round",
+    "material": "Nickel Alloy Inconel 718",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 718",
+      "condition": "Aged",
+      "outer_diameter": 9.944,
+      "wall_thickness": 0.328,
+      "length": 114.4
+    },
+    "unit_price": 37402.0,
+    "availability": 950,
+    "supplier": "SteelTech Solutions",
+    "weight_per_unit": 343.74,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "SS-17-4PH-BR-D0896x151",
+    "description": "Stainless Steel 17-4PH Round Bar, 0.896\" diameter x 151.4\" length",
+    "category": "Bar Round",
+    "material": "Stainless Steel 17-4PH",
+    "specifications": {
+      "units": "inches",
+      "grade": "17-4PH",
+      "finish": "No. 8",
+      "diameter": 0.896,
+      "length": 151.4
+    },
+    "unit_price": 137.49,
+    "availability": 432,
+    "supplier": "SteelSolutions Pro",
+    "weight_per_unit": 27.57,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "CU-101-CH-136",
+    "description": "Copper 101 Channel",
+    "category": "Channel",
+    "material": "Copper 101",
+    "specifications": {
+      "units": "inches",
+      "grade": "101",
+      "temper": "Spring"
+    },
+    "unit_price": 45.04,
+    "availability": 77,
+    "supplier": "MetalTech Industries",
+    "weight_per_unit": 3.23,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "AL-7050-FL-847",
+    "description": "Aluminum 7050 Foil, 7.2\" wide x 0.001\" thick x 2264.0 feet",
+    "category": "Foil",
+    "material": "Aluminum 7050",
+    "specifications": {
+      "units": "feet",
+      "grade": "7050",
+      "finish": "Painted",
+      "temper": "T3",
+      "thickness": 0.001,
+      "width": 7.2,
+      "length": 2264.0
+    },
+    "unit_price": 156.09,
+    "availability": 19,
+    "supplier": "AlloyMasters Corp",
+    "weight_per_unit": 19.07,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "SS-17-4PH-BR-D3979x200",
+    "description": "Stainless Steel 17-4PH Round Bar, 3.979\" diameter x 200.2\" length",
+    "category": "Bar Round",
+    "material": "Stainless Steel 17-4PH",
+    "specifications": {
+      "units": "inches",
+      "grade": "17-4PH",
+      "finish": "No. 4",
+      "diameter": 3.979,
+      "length": 200.2
+    },
+    "unit_price": 3292.0,
+    "availability": 203,
+    "supplier": "SteelSolutions Pro",
+    "weight_per_unit": 718.95,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "AL-6063-TS-6917x6917x0350",
+    "description": "Aluminum 6063 Tube Square, 6.917\" x 6.917\" x 0.35\" wall",
+    "category": "Tube Square",
+    "material": "Aluminum 6063",
+    "specifications": {
+      "units": "inches",
+      "grade": "6063",
+      "finish": "Powder Coated",
+      "temper": "T4",
+      "width": 6.917,
+      "height": 6.917,
+      "wall_thickness": 0.35,
+      "length": 56.6
+    },
+    "unit_price": 199.32,
+    "availability": 492,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 50.72,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "SS-317-PL-95x29x3645",
+    "description": "Stainless Steel 317 Plate, 94.9\" x 29.12\" x 3.645\" thick",
+    "category": "Plate",
+    "material": "Stainless Steel 317",
+    "specifications": {
+      "units": "inches",
+      "grade": "317",
+      "finish": "Polished",
+      "length": 94.9,
+      "width": 29.12,
+      "thickness": 3.645
+    },
+    "unit_price": 9976.91,
+    "availability": 617,
+    "supplier": "MetalDistributors LLC",
+    "weight_per_unit": 2909.06,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "TS-A2-SH-74x63x0741",
+    "description": "Tool Steel A2 Sheet, 74.07\" x 63.0\" x 0.741\" thick",
+    "category": "Sheet",
+    "material": "Tool Steel A2",
+    "specifications": {
+      "units": "inches",
+      "grade": "A2",
+      "condition": "Tempered",
+      "length": 74.07,
+      "width": 63.0,
+      "thickness": 0.741
+    },
+    "unit_price": 19748.99,
+    "availability": 448,
+    "supplier": "MetalSupply Direct",
+    "weight_per_unit": 973.65,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "SS-347-SH-16x24x0828",
+    "description": "Stainless Steel 347 Sheet, 16.5\" x 24.36\" x 0.828\" thick",
+    "category": "Sheet",
+    "material": "Stainless Steel 347",
+    "specifications": {
+      "units": "inches",
+      "grade": "347",
+      "finish": "BA",
+      "length": 16.5,
+      "width": 24.36,
+      "thickness": 0.828
+    },
+    "unit_price": 315.57,
+    "availability": 799,
+    "supplier": "IndustrialMetals Inc",
+    "weight_per_unit": 96.11,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "TI-Grade 5-TS-7334x7334x0295",
+    "description": "Titanium Grade 5 Tube Square, 7.334\" x 7.334\" x 0.295\" wall",
+    "category": "Tube Square",
+    "material": "Titanium Grade 5",
+    "specifications": {
+      "units": "inches",
+      "grade": "Grade 5",
+      "condition": "Solution Treated",
+      "width": 7.334,
+      "height": 7.334,
+      "wall_thickness": 0.295,
+      "length": 112.9
+    },
+    "unit_price": 11915.2,
+    "availability": 226,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 152.34,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "AL-7075-AN-185",
+    "description": "Aluminum 7075 Angle, 6.514\" x 2.934\" x 0.36\" thick",
+    "category": "Angle",
+    "material": "Aluminum 7075",
+    "specifications": {
+      "units": "inches",
+      "grade": "7075",
+      "finish": "Mill",
+      "temper": "T651",
+      "leg1": 6.514,
+      "leg2": 2.934,
+      "thickness": 0.36,
+      "length": 56.2
+    },
+    "unit_price": 45.56,
+    "availability": 456,
+    "supplier": "BrassWorks LLC",
+    "weight_per_unit": 17.92,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TS-H13-WR-173",
+    "description": "Tool Steel H13 Wire, 0.4517\" diameter x 1721.0 feet",
+    "category": "Wire",
+    "material": "Tool Steel H13",
+    "specifications": {
+      "units": "feet",
+      "grade": "H13",
+      "condition": "Annealed",
+      "diameter": 0.4517,
+      "length": 1721.0
+    },
+    "unit_price": 50018.89,
+    "availability": 5,
+    "supplier": "AlumTech Solutions",
+    "weight_per_unit": 931.87,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AL-5052-SH-128x13x0186",
+    "description": "Aluminum 5052 Sheet, 127.65\" x 13.26\" x 0.186\" thick",
+    "category": "Sheet",
+    "material": "Aluminum 5052",
+    "specifications": {
+      "units": "inches",
+      "grade": "5052",
+      "finish": "Painted",
+      "temper": "T3",
+      "length": 127.65,
+      "width": 13.26,
+      "thickness": 0.186
+    },
+    "unit_price": 78.89,
+    "availability": 58,
+    "supplier": "PrecisionMetal Co",
+    "weight_per_unit": 30.69,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "AS-A36-BH-HEX5493x56",
+    "description": "Alloy Steel A36 Hexagonal Bar, 5.493\" across flats x 55.5\" length",
+    "category": "Bar Hex",
+    "material": "Alloy Steel A36",
+    "specifications": {
+      "units": "inches",
+      "grade": "A36",
+      "heat_treatment": "Tempered",
+      "across_flats": 5.493,
+      "length": 55.5
+    },
+    "unit_price": 4310.48,
+    "availability": 949,
+    "supplier": "SteelCorp Supply",
+    "weight_per_unit": 1232.9,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AS-4340-AN-147",
+    "description": "Alloy Steel 4340 Angle, 3.07\" x 7.417\" x 0.515\" thick",
+    "category": "Angle",
+    "material": "Alloy Steel 4340",
+    "specifications": {
+      "units": "inches",
+      "grade": "4340",
+      "heat_treatment": "Stress Relieved",
+      "leg1": 3.07,
+      "leg2": 7.417,
+      "thickness": 0.515,
+      "length": 171.3
+    },
+    "unit_price": 668.28,
+    "availability": 828,
+    "supplier": "MetalWarehouse Co",
+    "weight_per_unit": 249.3,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CS-1008-WR-389",
+    "description": "Carbon Steel 1008 Wire, 0.4599\" diameter x 6635.0 feet",
+    "category": "Wire",
+    "material": "Carbon Steel 1008",
+    "specifications": {
+      "units": "feet",
+      "grade": "1008",
+      "finish": "Cold Rolled",
+      "diameter": 0.4599,
+      "length": 6635.0
+    },
+    "unit_price": 9798.11,
+    "availability": 79,
+    "supplier": "SteelMasters Ltd",
+    "weight_per_unit": 3748.14,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "CU-101-SH-60x35x0901",
+    "description": "Copper 101 Sheet, 60.16\" x 35.14\" x 0.901\" thick",
+    "category": "Sheet",
+    "material": "Copper 101",
+    "specifications": {
+      "units": "inches",
+      "grade": "101",
+      "temper": "Hard",
+      "length": 60.16,
+      "width": 35.14,
+      "thickness": 0.901
+    },
+    "unit_price": 5005.2,
+    "availability": 560,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 616.1,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "NI-Monel 400-CH-678",
+    "description": "Nickel Alloy Monel 400 Channel",
+    "category": "Channel",
+    "material": "Nickel Alloy Monel 400",
+    "specifications": {
+      "units": "inches",
+      "grade": "Monel 400",
+      "condition": "Solution Annealed"
+    },
+    "unit_price": 386.11,
+    "availability": 420,
+    "supplier": "AlloyMasters Corp",
+    "weight_per_unit": 3.03,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "CU-145-CH-970",
+    "description": "Copper 145 Channel",
+    "category": "Channel",
+    "material": "Copper 145",
+    "specifications": {
+      "units": "inches",
+      "grade": "145",
+      "temper": "Half Hard"
+    },
+    "unit_price": 63.09,
+    "availability": 802,
+    "supplier": "MetalSource Pro",
+    "weight_per_unit": 3.23,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "BZ-C220-BM-480",
+    "description": "Bronze C220 Beam I",
+    "category": "Beam I",
+    "material": "Bronze C220",
+    "specifications": {
+      "units": "inches",
+      "grade": "C220",
+      "condition": "Heat Treated"
+    },
+    "unit_price": 34.7,
+    "availability": 35,
+    "supplier": "SteelConnection",
+    "weight_per_unit": 3.18,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TS-M2-BR-D7464x18",
+    "description": "Tool Steel M2 Round Bar, 7.464\" diameter x 17.6\" length",
+    "category": "Bar Round",
+    "material": "Tool Steel M2",
+    "specifications": {
+      "units": "inches",
+      "grade": "M2",
+      "condition": "Annealed",
+      "diameter": 7.464,
+      "length": 17.6
+    },
+    "unit_price": 4843.23,
+    "availability": 641,
+    "supplier": "SteelCorp Supply",
+    "weight_per_unit": 216.84,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CS-1010-AN-630",
+    "description": "Carbon Steel 1010 Angle, 1.112\" x 1.614\" x 0.854\" thick",
+    "category": "Angle",
+    "material": "Carbon Steel 1010",
+    "specifications": {
+      "units": "inches",
+      "grade": "1010",
+      "finish": "Cold Rolled",
+      "leg1": 1.112,
+      "leg2": 1.614,
+      "thickness": 0.854,
+      "length": 70.7
+    },
+    "unit_price": 76.4,
+    "availability": 545,
+    "supplier": "PrecisionMetal Co",
+    "weight_per_unit": 32.03,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "TS-S7-BM-346",
+    "description": "Tool Steel S7 Beam I",
+    "category": "Beam I",
+    "material": "Tool Steel S7",
+    "specifications": {
+      "units": "inches",
+      "grade": "S7",
+      "condition": "Annealed"
+    },
+    "unit_price": 94.33,
+    "availability": 117,
+    "supplier": "AlloySupply Corp",
+    "weight_per_unit": 2.82,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AS-A572-BX-6857x3571x159",
+    "description": "Alloy Steel A572 Rectangular Bar, 6.857\" x 3.571\" x 158.8\" length",
+    "category": "Bar Rectangular",
+    "material": "Alloy Steel A572",
+    "specifications": {
+      "units": "inches",
+      "grade": "A572",
+      "heat_treatment": "Tempered",
+      "width": 6.857,
+      "height": 3.571,
+      "length": 158.8
+    },
+    "unit_price": 2865.45,
+    "availability": 216,
+    "supplier": "SteelWorks Express",
+    "weight_per_unit": 1101.92,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BR-C230-FL-115",
+    "description": "Brass C230 Foil, 47.5\" wide x 0.0045\" thick x 6978.0 feet",
+    "category": "Foil",
+    "material": "Brass C230",
+    "specifications": {
+      "units": "feet",
+      "grade": "C230",
+      "temper": "H04",
+      "thickness": 0.0045,
+      "width": 47.5,
+      "length": 6978.0
+    },
+    "unit_price": 148581.27,
+    "availability": 523,
+    "supplier": "MetalCrafters Inc",
+    "weight_per_unit": 5492.18,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "SS-317-BS-4569x25",
+    "description": "Stainless Steel 317 Square Bar, 4.569\" x 25.4\" length",
+    "category": "Bar Square",
+    "material": "Stainless Steel 317",
+    "specifications": {
+      "units": "inches",
+      "grade": "317",
+      "finish": "BA",
+      "side": 4.569,
+      "length": 25.4
+    },
+    "unit_price": 880.97,
+    "availability": 874,
+    "supplier": "MetalSource Pro",
+    "weight_per_unit": 153.13,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "BR-C230-BR-D6150x76",
+    "description": "Brass C230 Round Bar, 6.15\" diameter x 75.9\" length",
+    "category": "Bar Round",
+    "material": "Brass C230",
+    "specifications": {
+      "units": "inches",
+      "grade": "C230",
+      "temper": "H02",
+      "diameter": 6.15,
+      "length": 75.9
+    },
+    "unit_price": 6362.6,
+    "availability": 562,
+    "supplier": "TitaniumPro Inc",
+    "weight_per_unit": 691.84,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CS-1010-BH-HEX5063x56",
+    "description": "Carbon Steel 1010 Hexagonal Bar, 5.063\" across flats x 55.9\" length",
+    "category": "Bar Hex",
+    "material": "Carbon Steel 1010",
+    "specifications": {
+      "units": "inches",
+      "grade": "1010",
+      "finish": "Zinc Plated",
+      "across_flats": 5.063,
+      "length": 55.9
+    },
+    "unit_price": 2236.82,
+    "availability": 159,
+    "supplier": "AlumTech Solutions",
+    "weight_per_unit": 1054.98,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "BR-C464-CH-730",
+    "description": "Brass C464 Channel",
+    "category": "Channel",
+    "material": "Brass C464",
+    "specifications": {
+      "units": "inches",
+      "grade": "C464",
+      "temper": "O50"
+    },
+    "unit_price": 26.26,
+    "availability": 960,
+    "supplier": "IndustrialMetals Inc",
+    "weight_per_unit": 3.07,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "BZ-C932-BM-736",
+    "description": "Bronze C932 Beam I",
+    "category": "Beam I",
+    "material": "Bronze C932",
+    "specifications": {
+      "units": "inches",
+      "grade": "C932",
+      "condition": "As Cast"
+    },
+    "unit_price": 38.21,
+    "availability": 377,
+    "supplier": "AlloySupply Corp",
+    "weight_per_unit": 3.18,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "SS-17-4PH-WR-537",
+    "description": "Stainless Steel 17-4PH Wire, 0.0162\" diameter x 6614.0 feet",
+    "category": "Wire",
+    "material": "Stainless Steel 17-4PH",
+    "specifications": {
+      "units": "feet",
+      "grade": "17-4PH",
+      "finish": "Mill",
+      "diameter": 0.0162,
+      "length": 6614.0
+    },
+    "unit_price": 48.35,
+    "availability": 97,
+    "supplier": "IndustrialMetals Inc",
+    "weight_per_unit": 4.72,
+    "minimum_order": 10
+  },
+  {
+    "part_number": "BR-C230-TS-2156x2156x0347",
+    "description": "Brass C230 Tube Square, 2.156\" x 2.156\" x 0.347\" wall",
+    "category": "Tube Square",
+    "material": "Brass C230",
+    "specifications": {
+      "units": "inches",
+      "grade": "C230",
+      "temper": "H01",
+      "width": 2.156,
+      "height": 2.156,
+      "wall_thickness": 0.347,
+      "length": 53.7
+    },
+    "unit_price": 447.56,
+    "availability": 365,
+    "supplier": "MetalCrafters Inc",
+    "weight_per_unit": 41.37,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "AL-6063-BX-6880x0854x94",
+    "description": "Aluminum 6063 Rectangular Bar, 6.88\" x 0.854\" x 93.7\" length",
+    "category": "Bar Rectangular",
+    "material": "Aluminum 6063",
+    "specifications": {
+      "units": "inches",
+      "grade": "6063",
+      "finish": "Powder Coated",
+      "temper": "T6",
+      "width": 6.88,
+      "height": 0.854,
+      "length": 93.7
+    },
+    "unit_price": 180.72,
+    "availability": 122,
+    "supplier": "SteelMasters Ltd",
+    "weight_per_unit": 53.66,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "CU-101-PL-178x91x1714",
+    "description": "Copper 101 Plate, 177.84\" x 91.24\" x 1.714\" thick",
+    "category": "Plate",
+    "material": "Copper 101",
+    "specifications": {
+      "units": "inches",
+      "grade": "101",
+      "temper": "Spring",
+      "length": 177.84,
+      "width": 91.24,
+      "thickness": 1.714
+    },
+    "unit_price": 103730.23,
+    "availability": 606,
+    "supplier": "MetalTech Industries",
+    "weight_per_unit": 8995.82,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "CS-1008-SH-85x17x0051",
+    "description": "Carbon Steel 1008 Sheet, 85.21\" x 17.07\" x 0.051\" thick",
+    "category": "Sheet",
+    "material": "Carbon Steel 1008",
+    "specifications": {
+      "units": "inches",
+      "grade": "1008",
+      "finish": "Cold Rolled",
+      "length": 85.21,
+      "width": 17.07,
+      "thickness": 0.051
+    },
+    "unit_price": 28.19,
+    "availability": 940,
+    "supplier": "AlloyMasters Corp",
+    "weight_per_unit": 21.02,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "NI-Inconel 718-AN-521",
+    "description": "Nickel Alloy Inconel 718 Angle, 4.856\" x 3.566\" x 0.461\" thick",
+    "category": "Angle",
+    "material": "Nickel Alloy Inconel 718",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 718",
+      "condition": "Aged",
+      "leg1": 4.856,
+      "leg2": 3.566,
+      "thickness": 0.461,
+      "length": 163.6
+    },
+    "unit_price": 21534.89,
+    "availability": 287,
+    "supplier": "PremiumSteel Inc",
+    "weight_per_unit": 182.07,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CS-1045-WR-673",
+    "description": "Carbon Steel 1045 Wire, 0.3999\" diameter x 7926.0 feet",
+    "category": "Wire",
+    "material": "Carbon Steel 1045",
+    "specifications": {
+      "units": "feet",
+      "grade": "1045",
+      "finish": "Hot Rolled",
+      "diameter": 0.3999,
+      "length": 7926.0
+    },
+    "unit_price": 9770.88,
+    "availability": 38,
+    "supplier": "AlloySupply Corp",
+    "weight_per_unit": 3385.36,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "CS-1010-AN-166",
+    "description": "Carbon Steel 1010 Angle, 0.99\" x 3.491\" x 0.881\" thick",
+    "category": "Angle",
+    "material": "Carbon Steel 1010",
+    "specifications": {
+      "units": "inches",
+      "grade": "1010",
+      "finish": "Hot Rolled",
+      "leg1": 0.99,
+      "leg2": 3.491,
+      "thickness": 0.881,
+      "length": 16.1
+    },
+    "unit_price": 24.28,
+    "availability": 845,
+    "supplier": "SteelSolutions Pro",
+    "weight_per_unit": 14.47,
+    "minimum_order": 50
+  },
+  {
+    "part_number": "TS-H13-BM-500",
+    "description": "Tool Steel H13 Beam I",
+    "category": "Beam I",
+    "material": "Tool Steel H13",
+    "specifications": {
+      "units": "inches",
+      "grade": "H13",
+      "condition": "Tempered"
+    },
+    "unit_price": 88.45,
+    "availability": 853,
+    "supplier": "SpecialtyAlloys Ltd",
+    "weight_per_unit": 2.82,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "CU-145-BH-HEX5751x42",
+    "description": "Copper 145 Hexagonal Bar, 5.751\" across flats x 41.6\" length",
+    "category": "Bar Hex",
+    "material": "Copper 145",
+    "specifications": {
+      "units": "inches",
+      "grade": "145",
+      "temper": "Hard",
+      "across_flats": 5.751,
+      "length": 41.6
+    },
+    "unit_price": 17067.11,
+    "availability": 962,
+    "supplier": "MetalTech Industries",
+    "weight_per_unit": 1156.2,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "TS-M2-AN-587",
+    "description": "Tool Steel M2 Angle, 7.857\" x 3.292\" x 0.969\" thick",
+    "category": "Angle",
+    "material": "Tool Steel M2",
+    "specifications": {
+      "units": "inches",
+      "grade": "M2",
+      "condition": "Hardened",
+      "leg1": 7.857,
+      "leg2": 3.292,
+      "thickness": 0.969,
+      "length": 88.6
+    },
+    "unit_price": 6762.3,
+    "availability": 614,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 246.1,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "AL-6061-BS-4475x151",
+    "description": "Aluminum 6061 Square Bar, 4.475\" x 150.9\" length",
+    "category": "Bar Square",
+    "material": "Aluminum 6061",
+    "specifications": {
+      "units": "inches",
+      "grade": "6061",
+      "finish": "Clad",
+      "temper": "T6",
+      "side": 4.475,
+      "length": 150.9
+    },
+    "unit_price": 703.17,
+    "availability": 23,
+    "supplier": "TitaniumPro Inc",
+    "weight_per_unit": 294.54,
+    "minimum_order": 25
+  },
+  {
+    "part_number": "SS-316L-WR-274",
+    "description": "Stainless Steel 316L Wire, 0.2859\" diameter x 5746.0 feet",
+    "category": "Wire",
+    "material": "Stainless Steel 316L",
+    "specifications": {
+      "units": "feet",
+      "grade": "316L",
+      "finish": "2B",
+      "diameter": 0.2859,
+      "length": 5746.0
+    },
+    "unit_price": 10755.84,
+    "availability": 865,
+    "supplier": "PremiumSteel Inc",
+    "weight_per_unit": 1278.39,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "CU-110-TR-OD9852x0785x132",
+    "description": "Copper 110 Round Tube, 9.852\" OD x 0.785\" wall x 131.5\" length",
+    "category": "Tube Round",
+    "material": "Copper 110",
+    "specifications": {
+      "units": "inches",
+      "grade": "110",
+      "temper": "Hard",
+      "outer_diameter": 9.852,
+      "wall_thickness": 0.785,
+      "length": 131.5
+    },
+    "unit_price": 20506.69,
+    "availability": 479,
+    "supplier": "AlloySupply Corp",
+    "weight_per_unit": 951.09,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TS-W1-BX-3597x3628x52",
+    "description": "Tool Steel W1 Rectangular Bar, 3.597\" x 3.628\" x 52.2\" length",
+    "category": "Bar Rectangular",
+    "material": "Tool Steel W1",
+    "specifications": {
+      "units": "inches",
+      "grade": "W1",
+      "condition": "Hardened",
+      "width": 3.597,
+      "height": 3.628,
+      "length": 52.2
+    },
+    "unit_price": 4168.22,
+    "availability": 719,
+    "supplier": "MetalSupply Direct",
+    "weight_per_unit": 191.81,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BR-C230-BX-1642x2594x19",
+    "description": "Brass C230 Rectangular Bar, 1.642\" x 2.594\" x 19.3\" length",
+    "category": "Bar Rectangular",
+    "material": "Brass C230",
+    "specifications": {
+      "units": "inches",
+      "grade": "C230",
+      "temper": "O60",
+      "width": 1.642,
+      "height": 2.594,
+      "length": 19.3
+    },
+    "unit_price": 192.55,
+    "availability": 404,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 25.22,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "TI-Grade 1-AN-666",
+    "description": "Titanium Grade 1 Angle, 5.839\" x 3.077\" x 0.429\" thick",
+    "category": "Angle",
+    "material": "Titanium Grade 1",
+    "specifications": {
+      "units": "inches",
+      "grade": "Grade 1",
+      "condition": "Annealed",
+      "leg1": 5.839,
+      "leg2": 3.077,
+      "thickness": 0.429,
+      "length": 175.7
+    },
+    "unit_price": 5857.73,
+    "availability": 627,
+    "supplier": "SteelSolutions Pro",
+    "weight_per_unit": 103.92,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "NI-Hastelloy C276-AN-218",
+    "description": "Nickel Alloy Hastelloy C276 Angle, 1.63\" x 3.22\" x 0.559\" thick",
+    "category": "Angle",
+    "material": "Nickel Alloy Hastelloy C276",
+    "specifications": {
+      "units": "inches",
+      "grade": "Hastelloy C276",
+      "condition": "Cold Worked",
+      "leg1": 1.63,
+      "leg2": 3.22,
+      "thickness": 0.559,
+      "length": 105.8
+    },
+    "unit_price": 6324.81,
+    "availability": 798,
+    "supplier": "SteelTech Solutions",
+    "weight_per_unit": 76.96,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "SS-316L-TX-0823x1718x0254",
+    "description": "Stainless Steel 316L Tube Rectangular, 0.823\" x 1.718\" x 0.254\" wall",
+    "category": "Tube Rectangular",
+    "material": "Stainless Steel 316L",
+    "specifications": {
+      "units": "inches",
+      "grade": "316L",
+      "finish": "BA",
+      "width": 0.823,
+      "height": 1.718,
+      "wall_thickness": 0.254,
+      "length": 193.8
+    },
+    "unit_price": 427.87,
+    "availability": 278,
+    "supplier": "SpecialtyAlloys Ltd",
+    "weight_per_unit": 57.8,
+    "minimum_order": 100
+  },
+  {
+    "part_number": "NI-Inconel 718-TR-OD7264x0770x184",
+    "description": "Nickel Alloy Inconel 718 Round Tube, 7.264\" OD x 0.77\" wall x 183.9\" length",
+    "category": "Tube Round",
+    "material": "Nickel Alloy Inconel 718",
+    "specifications": {
+      "units": "inches",
+      "grade": "Inconel 718",
+      "condition": "Solution Annealed",
+      "outer_diameter": 7.264,
+      "wall_thickness": 0.77,
+      "length": 183.9
+    },
+    "unit_price": 88985.09,
+    "availability": 355,
+    "supplier": "MetalMart Industries",
+    "weight_per_unit": 876.03,
+    "minimum_order": 5
+  },
+  {
+    "part_number": "BZ-C220-CH-179",
+    "description": "Bronze C220 Channel",
+    "category": "Channel",
+    "material": "Bronze C220",
+    "specifications": {
+      "units": "inches",
+      "grade": "C220",
+      "condition": "Work Hardened"
+    },
+    "unit_price": 32.9,
+    "availability": 447,
+    "supplier": "AlloyExperts Inc",
+    "weight_per_unit": 3.18,
+    "minimum_order": 1
+  },
+  {
+    "part_number": "BZ-C932-BR-D0332x92",
+    "description": "Bronze C932 Round Bar, 0.332\" diameter x 91.6\" length",
+    "category": "Bar Round",
+    "material": "Bronze C932",
+    "specifications": {
+      "units": "inches",
+      "grade": "C932",
+      "condition": "Work Hardened",
+      "diameter": 0.332,
+      "length": 91.6
+    },
+    "unit_price": 20.42,
+    "availability": 892,
+    "supplier": "SteelMasters Ltd",
+    "weight_per_unit": 2.52,
+    "minimum_order": 100
+  }
+]

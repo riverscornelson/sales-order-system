@@ -9,7 +9,14 @@ import structlog
 from google.cloud import logging as cloud_logging
 from structlog.processors import JSONRenderer
 
-from .config import settings
+try:
+    from .config import settings
+except ImportError:
+    # Fallback for deployment
+    class MockSettings:
+        environment = "production"
+        debug = False
+    settings = MockSettings()
 
 
 class GoogleCloudLogHandler(logging.Handler):

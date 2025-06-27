@@ -2,10 +2,11 @@ import os
 from typing import Dict, Any, Optional
 import asyncio
 import structlog
-import fitz  # PyMuPDF
+import PyPDF2
 from email import message_from_string
 from email.mime.text import MIMEText
 import re
+import io
 
 logger = structlog.get_logger()
 
@@ -33,46 +34,41 @@ class DocumentParserAgent:
             raise ValueError(f"Unsupported file format: {file_ext}")
     
     async def _parse_pdf(self, content: str, filename: str) -> Dict[str, Any]:
-        """Parse PDF document using PyMuPDF"""
+        """Parse PDF document using PyPDF2"""
         
         try:
             # Convert content to bytes if it's a string (for base64 decoded content)
             if isinstance(content, str):
-                content_bytes = content.encode('utf-8')
+                content_bytes = content.encode('latin-1')  # PyPDF2 works better with latin-1
             else:
                 content_bytes = content
             
             # Open PDF document
-            doc = fitz.open(stream=content_bytes, filetype="pdf")
+            pdf_stream = io.BytesIO(content_bytes)
+            pdf_reader = PyPDF2.PdfReader(pdf_stream)
             
             text_content = ""
-            tables = []
+            tables = []  # Simple table extraction not available in PyPDF2
             metadata = {}
             
             # Extract text from each page
-            for page_num in range(len(doc)):
-                page = doc.load_page(page_num)
-                
+            for page_num, page in enumerate(pdf_reader.pages):
                 # Extract text
-                page_text = page.get_text()
+                page_text = page.extract_text()
                 text_content += f"\n--- Page {page_num + 1} ---\n"
                 text_content += page_text
-                
-                # Extract tables if any
-                try:
-                    page_tables = page.find_tables()
-                    for table in page_tables:
-                        table_data = table.extract()
-                        tables.append({
-                            "page": page_num + 1,
-                            "data": table_data
-                        })
-                except Exception as e:
-                    logger.debug("Table extraction failed", page=page_num, error=str(e))
             
-            # Extract metadata
-            metadata = doc.metadata
-            doc.close()
+            # Get document metadata
+            if pdf_reader.metadata:
+                metadata = {
+                    "title": pdf_reader.metadata.get("/Title", ""),
+                    "author": pdf_reader.metadata.get("/Author", ""),
+                    "subject": pdf_reader.metadata.get("/Subject", ""),
+                    "creator": pdf_reader.metadata.get("/Creator", ""),
+                    "producer": pdf_reader.metadata.get("/Producer", ""),
+                    "creation_date": str(pdf_reader.metadata.get("/CreationDate", "")),
+                    "modification_date": str(pdf_reader.metadata.get("/ModDate", ""))
+                }
             
             # Post-process text
             cleaned_text = self._clean_text(text_content)
@@ -80,7 +76,7 @@ class DocumentParserAgent:
             result = {
                 "raw_text": cleaned_text,
                 "document_type": "pdf",
-                "pages": len(doc),
+                "pages": len(pdf_reader.pages),
                 "tables": tables,
                 "metadata": metadata,
                 "text_length": len(cleaned_text)
@@ -88,7 +84,7 @@ class DocumentParserAgent:
             
             logger.info("PDF parsing completed", 
                        filename=filename, 
-                       pages=len(doc),
+                       pages=len(pdf_reader.pages),
                        text_length=len(cleaned_text))
             
             return result
@@ -203,7 +199,7 @@ class DocumentParserAgent:
         
         # Normalize quotes and dashes
         text = re.sub(r'["""]', '"', text)
-        text = re.sub(r'[''']', "'", text)
+        text = re.sub(r"[''']", "'", text)
         text = re.sub(r'[–—]', '-', text)
         
         # Remove page numbers (common pattern)

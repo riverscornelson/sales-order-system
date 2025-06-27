@@ -81,6 +81,10 @@ app.add_middleware(HealthCheckMiddleware)
 
 websocket_manager = WebSocketManager()
 
+# Inject WebSocket manager into upload module
+from .api import upload
+upload.websocket_manager = websocket_manager
+
 # Include API routers
 app.include_router(health.router, prefix="/api/v1")
 app.include_router(orders.router, prefix="/api/v1")
