@@ -859,7 +859,7 @@ class SalesOrderReasoningFramework:
                 "timeline_sensitivity": "variable",
                 "quality_requirements": "aerospace",
                 "typical_order_characteristics": ["exact_specifications", "certification_required", "traceability_critical"],
-                "emergency_indicators": ["flight", "critical", "aog", "aircraft"]
+                "emergency_indicators": ["flight", "aog", "aircraft on ground", "grounded"]
             },
             "general_manufacturing": {
                 "flexibility": CustomerFlexibility.MEDIUM,
@@ -886,7 +886,7 @@ class SalesOrderReasoningFramework:
                 "timeline_sensitivity": "medium",
                 "quality_requirements": "medical",
                 "typical_order_characteristics": ["exact_specifications", "FDA_compliance", "biocompatible_only"],
-                "emergency_indicators": ["patient", "surgery", "clinical", "medical"]
+                "emergency_indicators": ["patient", "surgery", "clinical", "medical", "fda deadline", "submission deadline", "regulatory deadline"]
             }
         }
     
@@ -1018,7 +1018,7 @@ class SalesOrderReasoningFramework:
                 industry = "research_development"
                 break
             elif any(keyword in customer_name.lower() for keyword in 
-                    ["medical", "hospital", "surgical", "medtronic"] if industry_key == "medical_device"):
+                    ["medical", "hospital", "surgical", "medtronic", "biomed", "implant"] if industry_key == "medical_device"):
                 industry = "medical_device"
                 break
         
@@ -1026,11 +1026,14 @@ class SalesOrderReasoningFramework:
         tier = "standard"
         key_account_indicators = ["ford", "boeing", "general motors", "airbus", "spacex", "tesla"]
         preferred_indicators = ["corporation", "corp", "inc", "ltd", "manufacturing", "systems"]
+        small_business_indicators = ["joe's", "bob's", "family", "small", "shop", "home", "garage"]
         
         if any(indicator in customer_name.lower() for indicator in key_account_indicators):
             tier = "key_account"
         elif any(indicator in customer_name.lower() for indicator in preferred_indicators):
             tier = "preferred"
+        elif any(indicator in customer_name.lower() for indicator in small_business_indicators):
+            tier = "small_business"
         
         # Get industry-specific patterns
         industry_pattern = self.industry_patterns.get(industry, self.industry_patterns["general_manufacturing"])
@@ -1104,8 +1107,17 @@ class SalesOrderReasoningFramework:
         
         complexity_score = 0
         
-        # Base complexity factors
-        if len(requirements) > 3:
+        # Base complexity factors (be more lenient for simple customer types)
+        if customer_context.industry_sector == "research_development":
+            requirement_threshold = 8  # Research often has multiple samples
+        elif customer_context.customer_tier == "small_business":
+            requirement_threshold = 10  # Small businesses have simple orders despite over-decomposition
+        elif customer_context.industry_sector == "general_manufacturing" and customer_context.customer_tier == "standard":
+            requirement_threshold = 6  # Small shops tend to have simple orders
+        else:
+            requirement_threshold = 5
+            
+        if len(requirements) > requirement_threshold:
             complexity_score += 1
         
         # Customer industry complexity
@@ -1125,7 +1137,11 @@ class SalesOrderReasoningFramework:
         
         # Emergency indicators
         emergency_keywords = ["emergency", "production down", "critical", "asap", "urgent"]
-        if any(keyword in order_request.lower() for keyword in emergency_keywords):
+        critical_emergency_keywords = ["production down", "line down", "plant shutdown", "production critical", "fda deadline", "submission deadline"]
+        
+        if any(keyword in order_request.lower() for keyword in critical_emergency_keywords):
+            complexity_score += 2  # Critical production emergencies get higher score
+        elif any(keyword in order_request.lower() for keyword in emergency_keywords):
             complexity_score += 1
         
         # Map to complexity levels
