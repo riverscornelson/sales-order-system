@@ -1,12 +1,15 @@
 """
-Comprehensive Structured Output Models for Sales Order Intelligence
+Legacy Structured Output Models for Sales Order Intelligence
 
-This module defines Pydantic models for all structured outputs in the system,
-solving the JSON consistency issues identified in OpenAI evaluations.
+⚠️  DEPRECATED: These complex models have been replaced with flat models
+for compatibility with OpenAI Responses API. See flat_responses_models.py
 
-Priority 1: ERP JSON Generation (fixes evaluation failures)
-Priority 2: LLM Agent Outputs (ensures consistency)
-Priority 3: Reasoning Framework Integration (structured intelligence)
+These models are maintained for:
+- Legacy compatibility during transition
+- Reference implementations
+- Complex data structures that may be needed for specific ERP formats
+
+For new development, use the flat models in flat_responses_models.py
 """
 
 from typing import Dict, List, Optional, Union, Literal, Any
@@ -368,6 +371,7 @@ class StructuredOutputResponse(BaseModel):
         ERPOrderOutput, 
         SalesOrderAnalysis, 
         SalesOrderReasoning,
+        Any,  # Support flat models and any Pydantic BaseModel
         Dict[str, Any]
     ] = Field(..., description="The structured output data")
     error: Optional[str] = Field(None, description="Error message if failed")

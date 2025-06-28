@@ -72,21 +72,37 @@ Evaluation data should be in JSONL format with the following structure:
   },
   "expected_output": {
     "erp_json": {
-      "customer": {
-        "name": "Acme Corp",
-        "customer_id": "ACME001"
-      },
-      "line_items": [
-        {
-          "part_number": "12345-ABC",
-          "description": "Widget Assembly",
-          "quantity": 10,
-          "unit_price": 25.00,
-          "total_price": 250.00
-        }
-      ],
-      "order_total": 250.00,
-      "order_date": "2024-06-28"
+      "customer_company_name": "Acme Corp",
+      "customer_contact_name": "Unknown",
+      "customer_email": "unknown@example.com",
+      "customer_phone": "Unknown",
+      "customer_id": "ACME001",
+      "item1_number": 1,
+      "item1_description": "Widget Assembly",
+      "item1_quantity": 10,
+      "item1_material": "Unknown",
+      "item1_unit_price": 25.00,
+      "item1_specifications": "Part: 12345-ABC",
+      "item2_number": 0,
+      "item2_description": "None",
+      "item2_quantity": 0,
+      "item2_material": "None",
+      "item2_unit_price": 0.0,
+      "item2_specifications": "None",
+      "item3_number": 0,
+      "item3_description": "None",
+      "item3_quantity": 0,
+      "item3_material": "None",
+      "item3_unit_price": 0.0,
+      "item3_specifications": "None",
+      "order_date": "2024-06-28",
+      "delivery_date": "Unknown",
+      "priority": "MEDIUM",
+      "payment_terms": "Unknown",
+      "special_instructions": "None",
+      "total_amount": 250.00,
+      "order_id": "ORD-2024-001",
+      "total_line_items": 1
     },
     "reasoning": [
       "Identified customer as 'Acme Corp'",
@@ -107,9 +123,9 @@ The ERP accuracy score (40% of total) includes:
 - Data type correctness
 
 ### Business Logic Accuracy (60%)
-- Line items parsing (25%)
-- Pricing calculations (15%)
-- Part number identification (10%)
+- Line items parsing with flat structure (25%)
+- Material field consistency (15%)
+- Pricing calculations (10%)
 - Quantity parsing (10%)
 
 ### ERP Integration (20%)
@@ -134,7 +150,9 @@ EVAL_MAX_PROCESSING_TIME=2000
 EVAL_TARGET_PROCESSING_TIME=500
 
 # Model settings
-EVAL_MODEL=gpt-4
+EVAL_MODEL=gpt-4.1
+EVAL_API_TYPE=responses_api
+EVAL_USE_FLAT_MODELS=true
 EVAL_DETAILED_LOGGING=true
 ```
 

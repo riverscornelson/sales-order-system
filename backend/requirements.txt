@@ -3,55 +3,38 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.20
 
-# LangChain/LangGraph
-langchain==0.0.350
-langchain-openai==0.0.2
-langgraph==0.0.24
-langchain-community==0.0.2
-
 # Document Processing
 PyPDF2==3.0.1
 python-docx==1.1.0
 email-validator==2.1.0
 
-# Google Cloud SDK
-google-cloud-storage==2.18.2
-cloud-sql-python-connector==1.18.2
-google-cloud-secret-manager==2.21.1
-google-cloud-aiplatform==1.76.0
-google-cloud-logging==3.12.0
-google-cloud-monitoring==2.25.0
-psycopg2-binary==2.9.9
-
-# OpenAI
+# OpenAI Responses API (gpt-4.1)
 openai==1.6.1
 
-# Database
+# Database (SQLite)
 sqlalchemy==2.0.23
 alembic==1.13.1
 
-# Utilities
+# Core Utilities
 pydantic==2.5.0
 pydantic-settings==2.1.0
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
 httpx==0.25.2
 aiofiles==23.2.1
 
-# Monitoring
+# Logging & Structure
 structlog==23.2.0
-prometheus-client==0.19.0
 
 # Development & Testing
 pytest==7.4.3
 pytest-asyncio==0.21.1
 pytest-cov==4.1.0
 pytest-mock==3.12.0
-httpx==0.25.2
 black==23.11.0
 isort==5.12.0
 flake8==6.1.0
 
-# Local Database
-sqlite3  # Built into Python
+# Environment
+python-dotenv==1.0.0
+
 # Note: SQLite database file (parts_catalog.db) is included in the repository
+# Built-in Python modules used: sqlite3, json, asyncio, typing, datetime

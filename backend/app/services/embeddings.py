@@ -50,7 +50,7 @@ class EmbeddingService:
             self.dimensions = 1536  # Standard embedding size for fallback
         else:
             self.client = AsyncOpenAI(api_key=api_key)
-            self.model_name = "text-embedding-3-large"
+            self.model_name = "text-embedding-3-large"  # Keep using the embedding model
             self.dimensions = 3072
             logger.info("Initialized OpenAI embeddings", model=self.model_name)
     

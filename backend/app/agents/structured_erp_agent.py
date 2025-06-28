@@ -15,10 +15,10 @@ from typing import Dict, Any, List, Optional
 import structlog
 from datetime import datetime
 
-from app.core.structured_llm import SalesOrderStructuredOutputs, StructuredOutputResponse
-from app.models.structured_outputs import (
-    ERPOrderOutput, ERPCustomerInfo, ERPLineItem, ERPOrderMetadata,
-    ERPMaterialSpecification, SalesOrderAnalysis
+from app.core.responses_client import ResponsesAPIClient, create_sales_order_client
+from app.models.structured_outputs import StructuredOutputResponse
+from app.models.flat_responses_models import (
+    FlatERPOrder, convert_flat_erp_to_standard
 )
 
 logger = structlog.get_logger()
@@ -33,7 +33,7 @@ class StructuredERPAgent:
     """
     
     def __init__(self):
-        self.structured_llm = SalesOrderStructuredOutputs()
+        self.sales_client = create_sales_order_client()
         self.logger = logger.bind(agent="structured_erp")
     
     async def process_sales_order_to_erp(
@@ -56,8 +56,8 @@ class StructuredERPAgent:
         )
         
         try:
-            # Step 1: Generate structured ERP JSON
-            erp_response = await self.structured_llm.generate_erp_json(
+            # Step 1: Generate structured ERP JSON using flat model
+            erp_response = await self.sales_client.generate_erp_json(
                 customer_email=customer_email,
                 customer_name=customer_name
             )
@@ -69,10 +69,11 @@ class StructuredERPAgent:
                 )
                 return erp_response
             
-            # Step 2: Validate and enhance the output
-            erp_output = erp_response.data
+            # Step 2: Convert flat model to standard format for processing
+            flat_erp_data = erp_response.data
+            standard_format = convert_flat_erp_to_standard(flat_erp_data)
             enhanced_output = await self._enhance_erp_output(
-                erp_output, customer_email, order_id
+                standard_format, customer_email, order_id
             )
             
             # Step 3: Perform final validation
@@ -83,19 +84,19 @@ class StructuredERPAgent:
             
             self.logger.info(
                 "Successfully generated structured ERP JSON",
-                order_id=enhanced_output.order_metadata.order_id,
-                line_items_count=len(enhanced_output.line_items)
+                order_id=enhanced_output.get("order_id"),
+                line_items_count=len(enhanced_output.get("line_items", []))
             )
             
             return StructuredOutputResponse(
                 success=True,
                 data=enhanced_output,
                 metadata={
-                    "processing_method": "structured_output",
+                    "processing_method": "flat_responses_api",
                     "validation_passed": True,
-                    "line_items_count": len(enhanced_output.line_items),
-                    "customer_tier": enhanced_output.customer.tier,
-                    "order_priority": enhanced_output.order_metadata.priority
+                    "line_items_count": len(enhanced_output.get("line_items", [])),
+                    "model": "gpt-4.1",
+                    "api": "responses_api"
                 }
             )
             
@@ -113,59 +114,55 @@ class StructuredERPAgent:
     
     async def _enhance_erp_output(
         self,
-        erp_output: ERPOrderOutput,
+        erp_output: Dict[str, Any],
         customer_email: str,
         order_id: Optional[str] = None
-    ) -> ERPOrderOutput:
+    ) -> Dict[str, Any]:
         """Enhance ERP output with additional business logic"""
         
         # Generate order ID if not provided
         if order_id:
-            erp_output.order_metadata.order_id = order_id
-        elif not erp_output.order_metadata.order_id:
-            erp_output.order_metadata.order_id = self._generate_order_id(
-                erp_output.customer.name
+            erp_output["order_id"] = order_id
+        elif not erp_output.get("order_id"):
+            erp_output["order_id"] = self._generate_order_id(
+                erp_output.get("customer_info", {}).get("company_name", "Unknown")
             )
         
         # Enhance line items with business rules
-        for i, line_item in enumerate(erp_output.line_items):
-            if not line_item.line_id:
-                line_item.line_id = f"L{i+1:03d}"
-            
+        line_items = erp_output.get("line_items", [])
+        for i, line_item in enumerate(line_items):
             # Apply urgency rules based on email content
             if any(keyword in customer_email.lower() for keyword in 
                    ["urgent", "emergency", "asap", "critical", "rush"]):
-                line_item.urgency = "emergency"
-                erp_output.order_metadata.priority = "emergency"
+                erp_output["priority"] = "HIGH"
         
         return erp_output
     
-    def _validate_erp_output(self, erp_output: ERPOrderOutput) -> StructuredOutputResponse:
+    def _validate_erp_output(self, erp_output: Dict[str, Any]) -> StructuredOutputResponse:
         """Comprehensive validation of ERP output"""
         
         errors = []
         
         # Validate customer information
-        if not erp_output.customer.name.strip():
+        customer_info = erp_output.get("customer_info", {})
+        if not customer_info.get("company_name", "").strip():
             errors.append("Customer name cannot be empty")
         
         # Validate line items
-        if not erp_output.line_items:
+        line_items = erp_output.get("line_items", [])
+        if not line_items:
             errors.append("Order must have at least one line item")
         
-        for i, line_item in enumerate(erp_output.line_items):
+        for i, line_item in enumerate(line_items):
             # Critical: Ensure 'material' field is present and valid
-            if not line_item.material or not line_item.material.strip():
+            if not line_item.get("material", "").strip():
                 errors.append(f"Line item {i+1}: Material field is required and cannot be empty")
             
-            if line_item.quantity <= 0:
+            if line_item.get("quantity", 0) <= 0:
                 errors.append(f"Line item {i+1}: Quantity must be greater than zero")
-            
-            if not line_item.specifications.material_grade:
-                errors.append(f"Line item {i+1}: Material grade is required")
         
         # Validate order metadata
-        if not erp_output.order_metadata.order_id:
+        if not erp_output.get("order_id"):
             errors.append("Order ID is required")
         
         if errors:
@@ -190,7 +187,7 @@ class StructuredERPAgent:
     ) -> StructuredOutputResponse:
         """Extract structured customer analysis for ERP processing"""
         
-        return await self.structured_llm.extract_sales_order_analysis(
+        return await self.sales_client.extract_sales_order_analysis(
             customer_email=customer_email,
             customer_name=customer_name
         )
@@ -202,58 +199,55 @@ class StructuredERPAgent:
     ) -> StructuredOutputResponse:
         """Detect emergency situations for priority processing"""
         
-        return await self.structured_llm.detect_emergency_situation(
+        return await self.sales_client.detect_emergency_situation(
             customer_email=customer_email,
             customer_name=customer_name
         )
     
-    def convert_to_legacy_format(self, erp_output: ERPOrderOutput) -> Dict[str, Any]:
+    def convert_to_legacy_format(self, erp_output: Dict[str, Any]) -> Dict[str, Any]:
         """
         Convert structured output to legacy format for backward compatibility
         
         This allows gradual migration from the old system.
         """
         
+        customer_info = erp_output.get("customer_info", {})
+        line_items = erp_output.get("line_items", [])
+        
         return {
             "customer_validation": {
                 "valid": True,
-                "customer_name": erp_output.customer.name,
-                "customer_id": erp_output.customer.customer_id,
-                "tier": erp_output.customer.tier,
-                "industry": erp_output.customer.industry
+                "customer_name": customer_info.get("company_name", "Unknown"),
+                "customer_id": customer_info.get("customer_id"),
+                "tier": "standard",  # Default for flat model
+                "industry": "unknown"  # Default for flat model
             },
             "inventory_check": {
                 "status": "completed",
                 "parts": {
-                    item.line_id: {
-                        "material": item.material,  # CONSISTENT FIELD NAME
-                        "quantity": item.quantity,
-                        "availability": item.availability,
-                        "part_number": item.part_number
+                    f"L{i+1:03d}": {
+                        "material": item.get("material", "Unknown"),  # CONSISTENT FIELD NAME
+                        "quantity": item.get("quantity", 1),
+                        "availability": "unknown",
+                        "part_number": item.get("part_number")
                     }
-                    for item in erp_output.line_items
+                    for i, item in enumerate(line_items)
                 },
-                "available_count": len([
-                    item for item in erp_output.line_items 
-                    if item.availability == "in_stock"
-                ]),
-                "total_parts_checked": len(erp_output.line_items)
+                "available_count": 0,  # Not tracked in flat model
+                "total_parts_checked": len(line_items)
             },
             "order_totals": {
-                "line_count": len(erp_output.line_items),
-                "total_quantity": sum(item.quantity for item in erp_output.line_items),
-                "priority": erp_output.order_metadata.priority,
-                "complexity": erp_output.order_metadata.complexity_level
+                "line_count": len(line_items),
+                "total_quantity": sum(item.get("quantity", 1) for item in line_items),
+                "priority": erp_output.get("priority", "MEDIUM"),
+                "complexity": "MEDIUM"  # Default for flat model
             },
             "business_rules": {
-                "emergency_processing": erp_output.order_metadata.priority in ["emergency", "critical"],
-                "special_handling": bool(erp_output.order_metadata.special_instructions),
-                "certifications_required": any(
-                    item.specifications.certifications 
-                    for item in erp_output.line_items
-                )
+                "emergency_processing": erp_output.get("priority") == "HIGH",
+                "special_handling": bool(erp_output.get("special_instructions")),
+                "certifications_required": False  # Not tracked in flat model
             },
-            "erp_json": erp_output.model_dump()  # Full structured output
+            "erp_json": erp_output  # Full structured output
         }
 
 
@@ -289,7 +283,7 @@ def validate_erp_json_structure(json_data: Dict[str, Any]) -> bool:
     This can be used to check if existing JSON meets the new standards.
     """
     try:
-        ERPOrderOutput(**json_data)
+        FlatERPOrder(**json_data)
         return True
     except Exception:
         return False

@@ -1,220 +1,146 @@
 """
-Structured LLM Output Integration Layer
+Structured LLM Output Integration Layer - Responses API Only
 
 This module provides utilities for integrating Pydantic structured outputs
-with LLM agents, solving the JSON consistency issues from OpenAI evaluations.
+with LLM agents using the OpenAI Responses API and gpt-4.1 exclusively.
 
 Key Features:
-- OpenAI structured outputs integration
-- LangChain Pydantic output parser integration  
-- Automatic schema generation for prompts
-- Validation and error handling
-- Migration utilities for existing agents
+- OpenAI Responses API with structured outputs only
+- Always uses gpt-4.1 model for consistency
+- Conversation state management with previous_response_id
+- Comprehensive error handling and validation
+- Clean, simple interface without legacy baggage
 """
 
 import json
 from typing import Type, TypeVar, Dict, Any, Optional, Union, List
 from pydantic import BaseModel, ValidationError
-from openai import OpenAI
-from langchain_core.output_parsers import PydanticOutputParser
-from langchain_core.prompts import PromptTemplate
-from langchain_openai import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
+import structlog
 
-from app.models.structured_outputs import (
-    ERPOrderOutput, SalesOrderAnalysis, SalesOrderReasoning,
-    CustomerContextAnalysis, EmergencyDetection, ProductRequirement,
-    StructuredOutputResponse, STRUCTURED_OUTPUT_MODELS
+from app.core.responses_client import (
+    ResponsesAPIClient, SalesOrderResponsesClient,
+    create_responses_client, get_global_responses_client
+)
+from app.models.structured_outputs import StructuredOutputResponse
+from app.models.flat_responses_models import (
+    FlatERPOrder, FlatOrderAnalysis, FlatPartMatch, FlatOrderData,
+    FLAT_STRUCTURED_OUTPUT_MODELS
 )
 
 T = TypeVar('T', bound=BaseModel)
 
+logger = structlog.get_logger()
+
 
 class StructuredLLMClient:
     """
-    Enhanced LLM client with structured output support
+    Enhanced LLM client using only OpenAI Responses API with gpt-4.1
     
-    Provides multiple methods for getting structured outputs:
-    1. OpenAI native structured outputs (beta)
-    2. LangChain Pydantic parsers (stable)
-    3. Manual JSON parsing with validation
+    Simple, clean interface focused on structured outputs using the latest
+    OpenAI technology. No legacy methods or backwards compatibility.
     """
     
-    def __init__(self, model: str = "gpt-4.1", temperature: float = 0.1):
-        self.model = model
+    def __init__(self, temperature: float = 0.1, max_tokens: Optional[int] = None):
+        self.model = "gpt-4.1"  # Fixed model for consistency
         self.temperature = temperature
-        self.openai_client = OpenAI()
-        self.langchain_client = ChatOpenAI(
-            model=model, 
-            temperature=temperature
+        self.max_tokens = max_tokens
+        
+        # Use new Responses API client exclusively
+        self.responses_client = ResponsesAPIClient(
+            temperature=temperature, 
+            max_tokens=max_tokens
         )
+        
+        logger.info("Initialized StructuredLLMClient with Responses API only", 
+                   model=self.model, temperature=temperature)
     
     async def get_structured_output(
         self,
         prompt: str,
-        output_model: Type[T],
+        flat_model_name: str,
         system_message: Optional[str] = None,
-        method: str = "openai_structured"
+        previous_response_id: Optional[str] = None,
+        store: bool = True
     ) -> StructuredOutputResponse:
         """
-        Get structured output using specified method
+        Get structured output using flat models and Responses API exclusively
         
         Args:
             prompt: User prompt
-            output_model: Pydantic model class for output structure
+            flat_model_name: Name of flat model to use
             system_message: Optional system message
-            method: "openai_structured", "langchain_parser", or "manual_parse"
+            previous_response_id: For conversation continuity
+            store: Whether to store the response
         """
         
-        try:
-            if method == "openai_structured":
-                result = await self._openai_structured_output(
-                    prompt, output_model, system_message
-                )
-            elif method == "langchain_parser":
-                result = await self._langchain_pydantic_output(
-                    prompt, output_model, system_message
-                )
-            elif method == "manual_parse":
-                result = await self._manual_json_parse(
-                    prompt, output_model, system_message
-                )
-            else:
-                raise ValueError(f"Unknown method: {method}")
-            
-            return StructuredOutputResponse(
-                success=True,
-                data=result,
-                metadata={"method": method, "model": self.model}
-            )
-            
-        except Exception as e:
-            return StructuredOutputResponse(
-                success=False,
-                data={},
-                error=str(e),
-                metadata={"method": method, "model": self.model}
-            )
-    
-    async def _openai_structured_output(
-        self,
-        prompt: str,
-        output_model: Type[T],
-        system_message: Optional[str] = None
-    ) -> T:
-        """Use OpenAI's native structured outputs (beta feature)"""
+        logger.debug("Getting structured output via Responses API", 
+                   model=flat_model_name)
         
-        messages = []
-        if system_message:
-            messages.append({"role": "system", "content": system_message})
-        messages.append({"role": "user", "content": prompt})
-        
-        # Convert Pydantic model to OpenAI function schema
-        function_schema = {
-            "name": f"generate_{output_model.__name__.lower()}",
-            "description": f"Generate structured {output_model.__name__}",
-            "parameters": output_model.model_json_schema()
-        }
-        
-        response = self.openai_client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            functions=[function_schema],
-            function_call={"name": function_schema["name"]},
-            temperature=self.temperature
+        return await self.responses_client.get_flat_structured_response(
+            input_messages=prompt,
+            flat_model_name=flat_model_name,
+            system_message=system_message,
+            previous_response_id=previous_response_id,
+            store=store
         )
-        
-        # Extract function call arguments and validate
-        function_call = response.choices[0].message.function_call
-        if not function_call:
-            raise ValueError("No function call in response")
-        
-        arguments = json.loads(function_call.arguments)
-        return output_model(**arguments)
     
-    async def _langchain_pydantic_output(
+    async def get_structured_output_from_messages(
         self,
-        prompt: str,
-        output_model: Type[T],
-        system_message: Optional[str] = None
-    ) -> T:
-        """Use LangChain's Pydantic output parser"""
+        messages: List[Dict[str, str]],
+        flat_model_name: str,
+        previous_response_id: Optional[str] = None,
+        store: bool = True
+    ) -> StructuredOutputResponse:
+        """
+        Get structured output from pre-formatted message list using flat models
         
-        parser = PydanticOutputParser(pydantic_object=output_model)
-        
-        # Create prompt with format instructions
-        format_instructions = parser.get_format_instructions()
-        
-        full_prompt = f"{prompt}\n\n{format_instructions}"
-        
-        messages = []
-        if system_message:
-            messages.append(SystemMessage(content=system_message))
-        messages.append(HumanMessage(content=full_prompt))
-        
-        response = await self.langchain_client.ainvoke(messages)
-        return parser.parse(response.content)
-    
-    async def _manual_json_parse(
-        self,
-        prompt: str,
-        output_model: Type[T],
-        system_message: Optional[str] = None
-    ) -> T:
-        """Manual JSON parsing with validation"""
-        
-        # Enhanced system message with schema
-        schema_str = json.dumps(output_model.model_json_schema(), indent=2)
-        
-        enhanced_system = f"""
-        {system_message or 'You are a helpful assistant.'}
-        
-        CRITICAL: Return ONLY valid JSON that matches this exact schema:
-        
-        {schema_str}
-        
-        Do not include any explanations, markdown formatting, or additional text.
-        Return only the JSON object.
+        Args:
+            messages: List of messages in OpenAI format
+            flat_model_name: Name of flat model to use
+            previous_response_id: For conversation continuity
+            store: Whether to store the response
         """
         
-        messages = [
-            {"role": "system", "content": enhanced_system},
-            {"role": "user", "content": prompt}
-        ]
+        logger.debug("Getting structured output from messages via Responses API", 
+                   model=flat_model_name, message_count=len(messages))
         
-        response = self.openai_client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            temperature=self.temperature
+        return await self.responses_client.get_flat_structured_response(
+            input_messages=messages,
+            flat_model_name=flat_model_name,
+            previous_response_id=previous_response_id,
+            store=store
         )
+    
+    async def simple_text_response(
+        self,
+        prompt: str,
+        system_message: Optional[str] = None,
+        previous_response_id: Optional[str] = None,
+        store: bool = True
+    ) -> str:
+        """
+        Get simple text response without structured output
         
-        content = response.choices[0].message.content.strip()
+        Args:
+            prompt: User prompt
+            system_message: Optional system message
+            previous_response_id: For conversation continuity
+            store: Whether to store the response
+        """
         
-        # Extract JSON from response (handle markdown wrapping)
-        if content.startswith("```json"):
-            content = content[7:]
-        if content.endswith("```"):
-            content = content[:-3]
+        logger.debug("Getting simple text response via Responses API")
         
-        # Find JSON boundaries
-        start = content.find('{')
-        end = content.rfind('}') + 1
-        
-        if start == -1 or end == 0:
-            raise ValueError("No JSON found in response")
-        
-        json_str = content[start:end]
-        data = json.loads(json_str)
-        return output_model(**data)
+        return await self.responses_client.simple_text_response(
+            input_messages=prompt,
+            system_message=system_message,
+            previous_response_id=previous_response_id,
+            store=store
+        )
 
-
-# =============================================================================
-# SALES ORDER SPECIFIC STRUCTURED OUTPUT FUNCTIONS
-# =============================================================================
 
 class SalesOrderStructuredOutputs:
     """
-    Sales order specific structured output functions
+    Sales order specific structured output functions using Responses API
     
     These functions solve the specific issues identified in the OpenAI evaluations
     by ensuring consistent field names and validated JSON structures.
@@ -222,252 +148,106 @@ class SalesOrderStructuredOutputs:
     
     def __init__(self, llm_client: Optional[StructuredLLMClient] = None):
         self.llm_client = llm_client or StructuredLLMClient()
+        self.sales_client = SalesOrderResponsesClient(self.llm_client.responses_client)
     
     async def extract_sales_order_analysis(
         self,
         customer_email: str,
-        customer_name: str
+        customer_name: str,
+        previous_response_id: Optional[str] = None
     ) -> StructuredOutputResponse:
         """
-        Extract structured sales order analysis - FIXES EVAL ISSUES
+        Extract structured sales order analysis - USES RESPONSES API
         
         This replaces the inconsistent JSON generation that caused
         OpenAI evaluation failures.
         """
         
-        system_message = """
-        You are a sales order analysis expert for a metals manufacturing company.
-        Analyze customer emails and extract structured information for order processing.
-        
-        Focus on:
-        - Customer context and industry classification
-        - Emergency situation detection  
-        - Product requirements extraction
-        - Complexity assessment
-        """
-        
-        prompt = f"""
-        Analyze this sales order request:
-        
-        Customer: {customer_name}
-        Email: {customer_email}
-        
-        Extract complete structured analysis including customer context, 
-        emergency assessment, product requirements, and complexity level.
-        """
-        
-        return await self.llm_client.get_structured_output(
-            prompt=prompt,
-            output_model=SalesOrderAnalysis,
-            system_message=system_message,
-            method="langchain_parser"  # Most stable for complex structures
+        return await self.sales_client.extract_sales_order_analysis(
+            customer_email=customer_email,
+            customer_name=customer_name,
+            previous_response_id=previous_response_id
         )
     
     async def generate_erp_json(
         self,
         customer_email: str,
         customer_name: str,
-        order_analysis: Optional[SalesOrderAnalysis] = None
+        order_analysis: Optional[Any] = None,
+        previous_response_id: Optional[str] = None
     ) -> StructuredOutputResponse:
         """
-        Generate ERP JSON with consistent structure - SOLVES OPENAI EVAL FAILURES
+        Generate ERP JSON with consistent structure - USES RESPONSES API
         
         This ensures the 'material' field is always present and consistent,
         fixing the exact issue that caused our evaluations to fail.
         """
         
-        system_message = """
-        You are an ERP data conversion specialist. Convert sales orders into 
-        structured JSON for ERP system import.
-        
-        CRITICAL REQUIREMENTS:
-        - Always use 'material' field (never 'product' or other variants)
-        - Include complete customer information
-        - Structure line items with consistent field names
-        - Include order metadata for processing
-        
-        The output must be valid for direct ERP import.
-        """
-        
-        # Include analysis context if available
-        analysis_context = ""
-        if order_analysis:
-            analysis_context = f"""
-            
-        Previous Analysis Context:
-        - Industry: {order_analysis.customer_context.industry_sector}
-        - Urgency: {order_analysis.emergency_assessment.urgency_level}
-        - Complexity: {order_analysis.complexity_assessment}
-        """
-        
-        prompt = f"""
-        Convert this sales order to ERP JSON format:
-        
-        Customer: {customer_name}
-        Email: {customer_email}{analysis_context}
-        
-        Generate complete ERP order structure with customer info, line items, and metadata.
-        Ensure all material specifications use 'material' field consistently.
-        """
-        
-        return await self.llm_client.get_structured_output(
-            prompt=prompt,
-            output_model=ERPOrderOutput,
-            system_message=system_message,
-            method="openai_structured"  # Best for strict schema compliance
+        return await self.sales_client.generate_erp_json(
+            customer_email=customer_email,
+            customer_name=customer_name,
+            order_analysis=order_analysis,
+            previous_response_id=previous_response_id
         )
     
     async def detect_emergency_situation(
         self,
         customer_email: str,
-        customer_name: str
+        customer_name: str,
+        previous_response_id: Optional[str] = None
     ) -> StructuredOutputResponse:
-        """Extract structured emergency detection"""
+        """Extract structured emergency detection using Responses API"""
         
-        system_message = """
-        You are an emergency situation detection specialist for a manufacturing company.
-        Analyze customer communications for urgent situations requiring immediate response.
-        """
-        
-        prompt = f"""
-        Analyze this customer communication for emergency indicators:
-        
-        Customer: {customer_name}
-        Message: {customer_email}
-        
-        Detect any emergency situations, assess urgency level, and identify
-        time constraints or business impact.
-        """
-        
-        return await self.llm_client.get_structured_output(
-            prompt=prompt,
-            output_model=EmergencyDetection,
-            system_message=system_message
+        return await self.sales_client.detect_emergency_situation(
+            customer_email=customer_email,
+            customer_name=customer_name,
+            previous_response_id=previous_response_id
         )
     
     async def extract_customer_context(
         self,
         customer_email: str,
-        customer_name: str
+        customer_name: str,
+        previous_response_id: Optional[str] = None
     ) -> StructuredOutputResponse:
-        """Extract structured customer context analysis"""
+        """Extract structured customer context analysis using Responses API"""
         
-        system_message = """
-        You are a customer intelligence analyst. Analyze customer communications
-        to understand their business context, industry, and requirements.
-        """
-        
-        prompt = f"""
-        Analyze this customer communication for business context:
-        
-        Customer: {customer_name}
-        Message: {customer_email}
-        
-        Determine industry sector, business size, compliance requirements,
-        and customer tier classification.
-        """
-        
-        return await self.llm_client.get_structured_output(
-            prompt=prompt,
-            output_model=CustomerContextAnalysis,
-            system_message=system_message
+        return await self.sales_client.extract_customer_context(
+            customer_email=customer_email,
+            customer_name=customer_name,
+            previous_response_id=previous_response_id
         )
 
 
 # =============================================================================
-# MIGRATION UTILITIES FOR EXISTING AGENTS
-# =============================================================================
-
-class AgentMigrationUtils:
-    """Utilities for migrating existing agents to structured outputs"""
-    
-    @staticmethod
-    def create_structured_prompt_template(
-        base_template: str,
-        output_model: Type[BaseModel]
-    ) -> PromptTemplate:
-        """Convert existing prompt template to use structured outputs"""
-        
-        parser = PydanticOutputParser(pydantic_object=output_model)
-        format_instructions = parser.get_format_instructions()
-        
-        enhanced_template = f"""
-        {base_template}
-        
-        RESPONSE FORMAT:
-        {format_instructions}
-        """
-        
-        return PromptTemplate(
-            template=enhanced_template,
-            input_variables=["customer_email", "customer_name"]
-        )
-    
-    @staticmethod
-    def validate_legacy_json_output(
-        json_output: Dict[str, Any],
-        target_model: Type[T]
-    ) -> Union[T, ValidationError]:
-        """Validate legacy JSON output against new structured model"""
-        
-        try:
-            return target_model(**json_output)
-        except ValidationError as e:
-            return e
-    
-    @staticmethod
-    def convert_legacy_agent_response(
-        response: str,
-        target_model: Type[T]
-    ) -> StructuredOutputResponse:
-        """Convert legacy agent string response to structured output"""
-        
-        try:
-            # Try to extract JSON from response
-            if response.strip().startswith('{'):
-                data = json.loads(response)
-            else:
-                # Look for JSON within text
-                start = response.find('{')
-                end = response.rfind('}') + 1
-                if start == -1 or end == 0:
-                    raise ValueError("No JSON found in response")
-                json_str = response[start:end]
-                data = json.loads(json_str)
-            
-            # Validate against model
-            validated_data = target_model(**data)
-            
-            return StructuredOutputResponse(
-                success=True,
-                data=validated_data,
-                metadata={"converted_from_legacy": True}
-            )
-            
-        except Exception as e:
-            return StructuredOutputResponse(
-                success=False,
-                data={},
-                error=f"Legacy conversion failed: {str(e)}",
-                metadata={"converted_from_legacy": True}
-            )
-
-
-# =============================================================================
-# FACTORY FUNCTIONS FOR COMMON USE CASES
+# FACTORY FUNCTIONS FOR EASY INSTANTIATION
 # =============================================================================
 
 def create_sales_order_analyzer() -> SalesOrderStructuredOutputs:
-    """Factory function for sales order structured outputs"""
+    """Factory function for sales order structured outputs using Responses API"""
     return SalesOrderStructuredOutputs()
 
-def get_structured_model(model_name: str) -> Type[BaseModel]:
-    """Get structured output model by name"""
-    if model_name not in STRUCTURED_OUTPUT_MODELS:
-        raise ValueError(f"Unknown model: {model_name}")
-    return STRUCTURED_OUTPUT_MODELS[model_name]
+def get_flat_model(model_name: str) -> Type[BaseModel]:
+    """Get flat model by name"""
+    if model_name not in FLAT_STRUCTURED_OUTPUT_MODELS:
+        raise ValueError(f"Unknown flat model: {model_name}")
+    return FLAT_STRUCTURED_OUTPUT_MODELS[model_name]
 
-def create_erp_json_generator(model: str = "gpt-4.1") -> SalesOrderStructuredOutputs:
-    """Factory function specifically for ERP JSON generation"""
-    client = StructuredLLMClient(model=model, temperature=0.0)  # Zero temp for consistency
+def create_erp_json_generator() -> SalesOrderStructuredOutputs:
+    """Factory function specifically for ERP JSON generation using Responses API"""
+    client = StructuredLLMClient(temperature=0.0)  # Zero temp for consistency
     return SalesOrderStructuredOutputs(llm_client=client)
+
+def create_structured_llm_client(temperature: float = 0.1) -> StructuredLLMClient:
+    """Factory function for creating StructuredLLMClient with Responses API"""
+    return StructuredLLMClient(temperature=temperature)
+
+# Global client instance for reuse
+_global_structured_client = None
+
+def get_global_structured_client() -> StructuredLLMClient:
+    """Get or create global StructuredLLMClient instance"""
+    global _global_structured_client
+    if _global_structured_client is None:
+        _global_structured_client = StructuredLLMClient()
+    return _global_structured_client
