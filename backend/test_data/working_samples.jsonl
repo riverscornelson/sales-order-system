@@ -1,0 +1,3 @@
+{"item": {"customer_email": "Need 10 pieces of 1018 steel rod, 1 inch diameter, 12 inches long", "customer_name": "Joe's Machine Shop", "expected_erp_json": {"customer": {"name": "Joe's Machine Shop"}, "line_items": [{"material": "1018 steel rod", "quantity": 10}]}}}
+{"item": {"customer_email": "URGENT: Need 5 pieces of 316L stainless plate", "customer_name": "Emergency Manufacturing", "expected_erp_json": {"customer": {"name": "Emergency Manufacturing"}, "line_items": [{"material": "316L stainless plate", "quantity": 5}]}}}
+{"item": {"customer_email": "Looking for aluminum 6061-T6, about 20 pieces", "customer_name": "Research Lab", "expected_erp_json": {"customer": {"name": "Research Lab"}, "line_items": [{"material": "aluminum 6061-T6", "quantity": 20}]}}}
