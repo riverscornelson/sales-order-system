@@ -1,0 +1,22 @@
+From: john.smith@acme-manufacturing.com
+To: orders@yourcompany.com
+Subject: Urgent - Material Order for Production Run
+
+Hello,
+
+We need to order the following materials for our upcoming production run:
+
+1. Stainless Steel 304 Sheet - 4ft x 8ft x 0.125" thick - Quantity: 10 sheets
+2. Aluminum 6061 Round Bar - 2" diameter x 12ft length - Quantity: 5 bars
+3. Carbon Steel 1018 Plate - 12" x 12" x 0.5" thick - Quantity: 8 pieces
+4. Brass 360 Hex Bar - 1" hex x 6ft length - Quantity: 15 bars
+5. Copper C110 Sheet - 24" x 24" x 0.062" thick - Quantity: 6 sheets
+
+Please provide pricing and lead time. We need delivery by next Friday if possible.
+
+Best regards,
+John Smith
+Purchasing Manager
+ACME Manufacturing Co.
+Phone: (555) 123-4567
+Email: john.smith@acme-manufacturing.com

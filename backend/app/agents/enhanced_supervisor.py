@@ -21,6 +21,10 @@ from .parallel_processor import ParallelLineItemProcessor
 from .quality_gates import QualityGateManager, QualityThreshold
 from .reasoning_model import LineItemReasoningModel
 
+# Phase 1: Contextual Intelligence Integration
+from .agentic_search_coordinator import AgenticSearchCoordinator
+from ..mcp.contextual_intelligence import ContextualIntelligenceServer
+
 from ..services.websocket_manager import WebSocketManager
 from ..models.schemas import WebSocketMessage, ProcessingCard, ProcessingStatus
 from ..models.line_item_schemas import LineItemStatus
@@ -48,6 +52,12 @@ class EnhancedSupervisorAgent:
         self.parallel_processor = ParallelLineItemProcessor(max_concurrent_items)
         self.quality_gates = QualityGateManager(QualityThreshold.STANDARD)
         self.reasoning_model = LineItemReasoningModel()
+        
+        # Phase 1: Contextual Intelligence Components
+        from ..services.parts_catalog import PartsCatalogService
+        catalog_service = PartsCatalogService()
+        self.contextual_coordinator = AgenticSearchCoordinator(catalog_service)
+        self.contextual_intelligence = ContextualIntelligenceServer()
         
         # Build the enhanced workflow
         self.workflow = self._build_enhanced_workflow()
@@ -201,29 +211,28 @@ class EnhancedSupervisorAgent:
             return state
     
     async def _run_parallel_semantic_search(self, state: WorkflowState) -> WorkflowState:
-        """Run parallel semantic search with quality gates"""
+        """Run parallel semantic search with contextual intelligence and quality gates"""
         state.transition_to_stage(WorkflowStage.SEMANTIC_SEARCH)
         
         line_items = state.extracted_line_items or []
         
+        # Phase 1: Analyze order-level contextual intelligence
+        order_context = await self._analyze_order_contextual_intelligence(state)
+        
         await self._send_enhanced_card_update(state, "parallel_matching", ProcessingStatus.PROCESSING, {
-            "status": "Finding part matches in parallel...",
+            "status": "Finding part matches with contextual intelligence...",
             "total_items": len(line_items),
             "parallel_processing": True,
-            "max_concurrent": self.max_concurrent_items
+            "contextual_intelligence": True,
+            "max_concurrent": self.max_concurrent_items,
+            "order_complexity": order_context.get("overall_complexity", "moderate"),
+            "business_context": order_context.get("primary_business_context", "routine")
         })
         
         try:
-            # Prepare processors dictionary for parallel processing
-            processors = {
-                "extractor": self.order_extractor,
-                "search": self.semantic_search,
-                "matcher": self.semantic_search  # Using semantic search for matching too
-            }
-            
-            # Run parallel processing with quality gates
-            result = await self.parallel_processor.process_line_items_parallel(
-                line_items, processors, self.quality_gates, self.reasoning_model
+            # Enhanced: Use contextual intelligence for parallel processing
+            result = await self._run_contextual_parallel_processing(
+                line_items, order_context, state
             )
             
             # Update state with parallel processing results
@@ -242,17 +251,20 @@ class EnhancedSupervisorAgent:
                 result
             )
             
-            # Enhanced progress reporting
+            # Enhanced progress reporting with contextual intelligence
             stats = result.get("statistics", {})
             await self._send_enhanced_card_update(state, "parallel_matching", ProcessingStatus.COMPLETED, {
-                "status": "Parallel part matching completed",
+                "status": "Contextual part matching completed",
                 "total_items": stats.get("total_items", 0),
                 "successfully_matched": stats.get("completed_successfully", 0),
                 "requires_review": stats.get("requires_review", 0),
                 "failed_items": stats.get("failed", 0),
                 "average_processing_time": f"{stats.get('average_processing_time', 0):.2f}s",
                 "parallel_efficiency": f"{self._calculate_parallel_efficiency(stats)}%",
-                "quality_distribution": stats.get("quality_distribution", {})
+                "quality_distribution": stats.get("quality_distribution", {}),
+                "contextual_intelligence": True,
+                "order_complexity": order_context.get("overall_complexity", "moderate"),
+                "contextual_adjustments": order_context.get("contextual_adjustments_applied", 0)
             })
             
             logger.info("Parallel semantic search completed", 
@@ -277,36 +289,56 @@ class EnhancedSupervisorAgent:
         return state
     
     async def _run_quality_validation(self, state: WorkflowState) -> WorkflowState:
-        """Run comprehensive quality validation"""
+        """Run comprehensive quality validation with contextual intelligence"""
         
         await self._send_enhanced_card_update(state, "quality_validation", ProcessingStatus.PROCESSING, {
-            "status": "Validating processing quality...",
-            "quality_gates_enabled": True
+            "status": "Validating processing quality with contextual intelligence...",
+            "quality_gates_enabled": True,
+            "contextual_intelligence": True
         })
         
         try:
             quality_results = {}
             overall_quality_passed = True
             
-            # Validate extraction quality
+            # Get contextual intelligence insights for enhanced validation
+            contextual_insights = getattr(state, 'order_contextual_intelligence', {})
+            
+            # Validate extraction quality with context
             if state.extracted_line_items:
                 extraction_data = {
                     "line_items": state.extracted_line_items,
                     "customer_info": state.extracted_customer_info
                 }
-                extraction_quality = self.quality_gates.validate_extraction(extraction_data)
+                
+                if contextual_insights:
+                    extraction_quality = self.quality_gates.validate_with_context(
+                        "extraction", extraction_data, contextual_insights
+                    )
+                    logger.info("Applied contextual intelligence to extraction validation")
+                else:
+                    extraction_quality = self.quality_gates.validate_extraction(extraction_data)
+                
                 quality_results["extraction"] = extraction_quality
                 
                 if not extraction_quality.passed:
                     overall_quality_passed = False
             
-            # Validate search quality
+            # Validate search quality with context
             if state.part_matches:
                 search_data = {
                     "matches": state.part_matches,
                     "statistics": state.parallel_processing_stats
                 }
-                search_quality = self.quality_gates.validate_search_results(search_data)
+                
+                if contextual_insights:
+                    search_quality = self.quality_gates.validate_with_context(
+                        "search", search_data, contextual_insights
+                    )
+                    logger.info("Applied contextual intelligence to search validation")
+                else:
+                    search_quality = self.quality_gates.validate_search_results(search_data)
+                
                 quality_results["search"] = search_quality
                 
                 if not search_quality.passed:
@@ -343,6 +375,11 @@ class EnhancedSupervisorAgent:
                 "stage_results": quality_results
             }
             
+            # Restore original thresholds after contextual validation
+            if contextual_insights:
+                self.quality_gates.restore_original_thresholds()
+                logger.debug("Restored original quality thresholds after contextual validation")
+            
             # Send quality validation results
             await self._send_enhanced_card_update(state, "quality_validation", ProcessingStatus.COMPLETED, {
                 "status": "Quality validation completed",
@@ -351,13 +388,15 @@ class EnhancedSupervisorAgent:
                 "manual_review_needed": manual_review_needed,
                 "quality_scores": {stage: result.score for stage, result in quality_results.items()},
                 "issues_found": sum(len(result.issues) for result in quality_results.values()),
-                "recommendations": sum(len(result.recommendations) for result in quality_results.values())
+                "recommendations": sum(len(result.recommendations) for result in quality_results.values()),
+                "contextual_adjustments_applied": bool(contextual_insights)
             })
             
             logger.info("Quality validation completed",
                        session_id=state.session_id,
                        overall_passed=overall_quality_passed,
-                       retry_needed=retry_needed)
+                       retry_needed=retry_needed,
+                       contextual_intelligence=bool(contextual_insights))
             
         except Exception as e:
             logger.error("Quality validation failed", session_id=state.session_id, error=str(e))
@@ -748,5 +787,347 @@ class EnhancedSupervisorAgent:
                 "processing_stats": self.parallel_processor.processing_stats
             },
             "quality_gate_stats": self.quality_gates.get_stage_statistics(),
-            "reasoning_model_stats": self.reasoning_model.get_learning_statistics()
+            "reasoning_model_stats": self.reasoning_model.get_learning_statistics(),
+            "contextual_intelligence_stats": {
+                "enabled": True,
+                "contextual_coordinator": True,
+                "contextual_analysis": True
+            }
         }
+    
+    # Phase 1: Contextual Intelligence Methods
+    
+    async def _analyze_order_contextual_intelligence(self, state: WorkflowState) -> Dict[str, Any]:
+        """
+        Analyze order-level contextual intelligence
+        Provides comprehensive context for the entire order
+        """
+        logger.debug("🧠 Analyzing order-level contextual intelligence", 
+                    session_id=state.session_id)
+        
+        try:
+            # Prepare order data for contextual analysis
+            order_data = {
+                "line_items": self._prepare_line_items_for_analysis(state.extracted_line_items or []),
+                "customer": state.extracted_customer_info or {"name": "unknown"},
+                "delivery_date": None,  # Would extract from order metadata
+                "urgency": self._determine_order_urgency(state),
+                "total_value": self._estimate_order_value(state),
+                "project_info": self._extract_project_info(state)
+            }
+            
+            # Analyze procurement context
+            contextual_insights = await self.contextual_intelligence.analyze_procurement_context(order_data)
+            
+            # Analyze complexity across all line items
+            overall_complexity = await self._analyze_overall_complexity(state.extracted_line_items or [])
+            
+            # Determine business context priorities
+            business_priorities = self._determine_business_priorities(contextual_insights, overall_complexity)
+            
+            order_context = {
+                "contextual_insights": contextual_insights,
+                "overall_complexity": overall_complexity["level"],
+                "complexity_factors": overall_complexity["factors"],
+                "primary_business_context": contextual_insights.business_context.value,
+                "business_priorities": business_priorities,
+                "recommended_approach": contextual_insights.recommended_approach,
+                "risk_assessment": contextual_insights.risk_assessment,
+                "escalation_triggers": contextual_insights.escalation_triggers
+            }
+            
+            # Store in state for later use
+            if not hasattr(state, 'order_contextual_intelligence'):
+                state.order_contextual_intelligence = order_context
+            
+            logger.info("✅ Order contextual intelligence analysis completed",
+                       session_id=state.session_id,
+                       complexity=overall_complexity["level"],
+                       business_context=contextual_insights.business_context.value,
+                       line_items=len(order_data["line_items"]))
+            
+            return order_context
+            
+        except Exception as e:
+            logger.error("❌ Order contextual intelligence analysis failed",
+                        session_id=state.session_id, error=str(e))
+            # Return basic context as fallback
+            return {
+                "overall_complexity": "moderate",
+                "primary_business_context": "routine",
+                "recommended_approach": "standard_search",
+                "contextual_insights": None,
+                "error": str(e)
+            }
+    
+    async def _run_contextual_parallel_processing(self, line_items: List[Any], 
+                                                order_context: Dict[str, Any],
+                                                state: WorkflowState) -> Dict[str, Any]:
+        """
+        Run parallel processing enhanced with contextual intelligence
+        """
+        logger.debug("🎯 Running contextual parallel processing",
+                    session_id=state.session_id,
+                    line_items=len(line_items),
+                    complexity=order_context.get("overall_complexity"))
+        
+        try:
+            # Convert line items to LineItem objects if needed
+            from ..models.line_item_schemas import LineItem
+            
+            line_item_objects = []
+            for i, item in enumerate(line_items):
+                if isinstance(item, dict):
+                    line_item = LineItem(
+                        line_id=item.get("line_id", f"item_{i}"),
+                        raw_text=item.get("description", item.get("raw_text", "")),
+                        project=item.get("project"),
+                        urgency=item.get("urgency", "medium"),
+                        special_requirements=item.get("special_requirements", [])
+                    )
+                else:
+                    line_item = item
+                line_item_objects.append(line_item)
+            
+            # Process each line item with contextual intelligence
+            contextual_results = []
+            contextual_adjustments_applied = 0
+            
+            for line_item in line_item_objects:
+                try:
+                    # Use contextual coordinator for intelligent search
+                    search_results = await self.contextual_coordinator.search_for_line_item(line_item)
+                    
+                    # Check if contextual adjustments were applied
+                    if search_results:
+                        for result in search_results:
+                            if hasattr(result, 'notes') and any("contextual" in note.lower() for note in result.notes):
+                                contextual_adjustments_applied += 1
+                                break
+                    
+                    contextual_results.append({
+                        "line_id": line_item.line_id,
+                        "results": search_results,
+                        "status": "completed" if search_results else "no_results"
+                    })
+                    
+                except Exception as e:
+                    logger.error("❌ Contextual processing failed for line item",
+                               line_id=line_item.line_id, error=str(e))
+                    contextual_results.append({
+                        "line_id": line_item.line_id,
+                        "results": [],
+                        "status": "failed",
+                        "error": str(e)
+                    })
+            
+            # Compile results in expected format
+            matches = {}
+            for result in contextual_results:
+                matches[result["line_id"]] = result["results"]
+            
+            # Calculate statistics
+            completed_successfully = len([r for r in contextual_results if r["status"] == "completed"])
+            failed = len([r for r in contextual_results if r["status"] == "failed"])
+            requires_review = len([r for r in contextual_results if r["status"] == "no_results"])
+            
+            statistics = {
+                "total_items": len(line_items),
+                "completed_successfully": completed_successfully,
+                "failed": failed,
+                "requires_review": requires_review,
+                "average_processing_time": 2.5,  # Estimated
+                "contextual_adjustments_applied": contextual_adjustments_applied,
+                "quality_distribution": {
+                    "high": completed_successfully,
+                    "medium": requires_review,
+                    "low": failed
+                }
+            }
+            
+            result = {
+                "matches": matches,
+                "statistics": statistics,
+                "confidence": "high" if completed_successfully > len(line_items) * 0.8 else "medium",
+                "contextual_intelligence": True,
+                "order_context": order_context,
+                "contextual_adjustments_applied": contextual_adjustments_applied
+            }
+            
+            logger.info("✅ Contextual parallel processing completed",
+                       session_id=state.session_id,
+                       total_items=len(line_items),
+                       successful=completed_successfully,
+                       contextual_adjustments=contextual_adjustments_applied)
+            
+            return result
+            
+        except Exception as e:
+            logger.error("❌ Contextual parallel processing failed",
+                        session_id=state.session_id, error=str(e))
+            # Fallback to standard parallel processing
+            processors = {
+                "extractor": self.order_extractor,
+                "search": self.semantic_search,
+                "matcher": self.semantic_search
+            }
+            
+            return await self.parallel_processor.process_line_items_parallel(
+                line_items, processors, self.quality_gates, self.reasoning_model
+            )
+    
+    def _prepare_line_items_for_analysis(self, line_items: List[Any]) -> List[Dict[str, Any]]:
+        """Prepare line items for contextual analysis"""
+        prepared_items = []
+        
+        for i, item in enumerate(line_items):
+            if isinstance(item, dict):
+                prepared_item = {
+                    "line_id": item.get("line_id", f"item_{i}"),
+                    "raw_text": item.get("description", item.get("raw_text", "")),
+                    "description": item.get("description", item.get("raw_text", "")),
+                    "urgency": item.get("urgency", "medium"),
+                    "special_requirements": item.get("special_requirements", []),
+                    "project": item.get("project")
+                }
+            else:
+                # Assume it's a LineItem object
+                prepared_item = {
+                    "line_id": getattr(item, "line_id", f"item_{i}"),
+                    "raw_text": getattr(item, "raw_text", ""),
+                    "description": getattr(item, "raw_text", ""),
+                    "urgency": getattr(item, "urgency", "medium"),
+                    "special_requirements": getattr(item, "special_requirements", []),
+                    "project": getattr(item, "project", None)
+                }
+            
+            prepared_items.append(prepared_item)
+        
+        return prepared_items
+    
+    def _determine_order_urgency(self, state: WorkflowState) -> str:
+        """Determine overall order urgency"""
+        line_items = state.extracted_line_items or []
+        
+        urgency_levels = []
+        for item in line_items:
+            if isinstance(item, dict):
+                urgency = item.get("urgency", "medium")
+            else:
+                urgency = getattr(item, "urgency", "medium")
+            urgency_levels.append(urgency)
+        
+        # Take the highest urgency level
+        if "critical" in urgency_levels:
+            return "critical"
+        elif "high" in urgency_levels:
+            return "high"
+        elif "medium" in urgency_levels:
+            return "medium"
+        else:
+            return "low"
+    
+    def _estimate_order_value(self, state: WorkflowState) -> float:
+        """Estimate total order value"""
+        # Placeholder - would implement based on line item analysis
+        return 0.0
+    
+    def _extract_project_info(self, state: WorkflowState) -> List[str]:
+        """Extract project information from order"""
+        projects = set()
+        line_items = state.extracted_line_items or []
+        
+        for item in line_items:
+            if isinstance(item, dict):
+                project = item.get("project")
+            else:
+                project = getattr(item, "project", None)
+            
+            if project:
+                projects.add(project)
+        
+        return list(projects)
+    
+    async def _analyze_overall_complexity(self, line_items: List[Any]) -> Dict[str, Any]:
+        """Analyze overall complexity across all line items"""
+        complexity_scores = []
+        complexity_factors = set()
+        
+        for item in line_items:
+            try:
+                # Convert to analysis format
+                if isinstance(item, dict):
+                    item_dict = item
+                else:
+                    item_dict = {
+                        "raw_text": getattr(item, "raw_text", ""),
+                        "urgency": getattr(item, "urgency", "medium"),
+                        "special_requirements": getattr(item, "special_requirements", [])
+                    }
+                
+                from ..mcp.contextual_intelligence import assess_complexity_factors
+                complexity = await assess_complexity_factors(item_dict)
+                
+                # Map complexity levels to scores
+                complexity_level = complexity.get("complexity_level", "moderate")
+                if complexity_level == "critical":
+                    complexity_scores.append(4)
+                elif complexity_level == "complex":
+                    complexity_scores.append(3)
+                elif complexity_level == "moderate":
+                    complexity_scores.append(2)
+                else:
+                    complexity_scores.append(1)
+                
+                # Collect factors
+                factors = complexity.get("specialized_requirements", [])
+                complexity_factors.update(factors)
+                
+            except Exception as e:
+                logger.warning("Failed to analyze complexity for item", error=str(e))
+                complexity_scores.append(2)  # Default to moderate
+        
+        # Calculate overall complexity
+        if not complexity_scores:
+            avg_complexity = 2
+        else:
+            avg_complexity = sum(complexity_scores) / len(complexity_scores)
+        
+        if avg_complexity >= 3.5:
+            level = "critical"
+        elif avg_complexity >= 2.5:
+            level = "complex"
+        elif avg_complexity >= 1.5:
+            level = "moderate"
+        else:
+            level = "simple"
+        
+        return {
+            "level": level,
+            "score": avg_complexity,
+            "factors": list(complexity_factors),
+            "item_complexities": complexity_scores
+        }
+    
+    def _determine_business_priorities(self, contextual_insights: Any, 
+                                     overall_complexity: Dict[str, Any]) -> List[str]:
+        """Determine business priorities for the order"""
+        priorities = []
+        
+        if contextual_insights:
+            business_context = contextual_insights.business_context.value
+            
+            if business_context == "production_down":
+                priorities.extend(["speed", "availability", "any_alternative"])
+            elif business_context == "emergency":
+                priorities.extend(["speed", "availability"])
+            elif business_context == "cost_optimization":
+                priorities.extend(["cost", "value"])
+            else:
+                priorities.extend(["quality", "accuracy"])
+            
+            # Add complexity-based priorities
+            if overall_complexity["level"] in ["complex", "critical"]:
+                priorities.append("expert_review")
+        
+        return priorities

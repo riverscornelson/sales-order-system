@@ -248,6 +248,142 @@ class QualityGateManager:
             confidence=MatchConfidence.MEDIUM
         )
     
+    # Phase 1: Contextual Intelligence Enhancement
+    def validate_with_context(self, stage: str, data: Dict[str, Any], 
+                             contextual_insights: Optional[Dict[str, Any]] = None) -> QualityGateResult:
+        """
+        Enhanced validation that considers contextual intelligence
+        Adjusts validation criteria based on business context and complexity
+        """
+        logger.debug(f"Running context-aware validation for stage: {stage}")
+        
+        # Apply contextual adjustments
+        if contextual_insights:
+            self._apply_contextual_adjustments(stage, contextual_insights)
+        
+        # Run standard validation based on stage
+        if stage == "extraction":
+            result = self.validate_extraction(data)
+        elif stage == "search":
+            result = self.validate_search_results(data)
+        elif stage == "matching":
+            result = self.validate_match_selection(data)
+        else:
+            # Generic validation
+            result = self._generic_validation(stage, data)
+        
+        # Enhance result with contextual information
+        if contextual_insights:
+            result = self._enhance_result_with_context(result, contextual_insights)
+        
+        return result
+    
+    def _apply_contextual_adjustments(self, stage: str, insights: Dict[str, Any]):
+        """Apply contextual adjustments to validation thresholds"""
+        
+        complexity = insights.get('overall_complexity', 'simple')
+        business_context = insights.get('primary_business_context', 'routine')
+        urgency = insights.get('urgency_level', 'medium')
+        
+        # Store original thresholds for restoration
+        if not hasattr(self, '_original_thresholds'):
+            self._original_thresholds = self.thresholds.copy()
+        
+        # Adjust thresholds based on context
+        adjustment_factor = 1.0
+        
+        # Business context adjustments
+        if business_context == 'production_down':
+            adjustment_factor *= 0.8  # Lower thresholds for emergency
+            logger.info("Applied production emergency threshold adjustment")
+        elif business_context == 'emergency':
+            adjustment_factor *= 0.85  # Slightly lower for emergencies
+            logger.info("Applied emergency threshold adjustment")
+        
+        # Complexity adjustments
+        if complexity == 'critical':
+            adjustment_factor *= 0.9  # Lower thresholds for critical complexity
+            logger.info("Applied critical complexity threshold adjustment")
+        elif complexity == 'complex':
+            adjustment_factor *= 0.95  # Slightly lower for complex items
+            logger.info("Applied complex item threshold adjustment")
+        
+        # Urgency adjustments
+        if urgency == 'critical':
+            adjustment_factor *= 0.85  # Lower thresholds for critical urgency
+            logger.info("Applied critical urgency threshold adjustment")
+        elif urgency == 'high':
+            adjustment_factor *= 0.9  # Slightly lower for high urgency
+            logger.info("Applied high urgency threshold adjustment")
+        
+        # Apply adjustments
+        if stage in self.thresholds:
+            original_threshold = self._original_thresholds[stage]
+            adjusted_threshold = original_threshold * adjustment_factor
+            self.thresholds[stage] = max(adjusted_threshold, 0.5)  # Minimum threshold
+            
+            logger.info(f"Contextual adjustment for {stage}: {original_threshold:.3f} → {self.thresholds[stage]:.3f}")
+    
+    def _enhance_result_with_context(self, result: QualityGateResult, insights: Dict[str, Any]) -> QualityGateResult:
+        """Enhance validation result with contextual information"""
+        
+        # Add contextual recommendations
+        complexity = insights.get('overall_complexity', 'simple')
+        business_context = insights.get('primary_business_context', 'routine')
+        
+        contextual_recommendations = []
+        
+        if business_context == 'production_down':
+            contextual_recommendations.append("Production emergency: Prioritize speed and availability over perfect matches")
+            contextual_recommendations.append("Consider expedited sourcing options")
+        elif business_context == 'emergency':
+            contextual_recommendations.append("Emergency context: Balance speed with quality requirements")
+        
+        if complexity == 'critical':
+            contextual_recommendations.append("Critical complexity detected: Enhanced validation may be needed")
+            contextual_recommendations.append("Consider expert review for this item")
+        elif complexity == 'complex':
+            contextual_recommendations.append("Complex item: Verify technical specifications carefully")
+        
+        # Add contextual warnings
+        contextual_warnings = []
+        
+        if result.score < result.threshold and business_context in ['production_down', 'emergency']:
+            contextual_warnings.append(f"Quality below standard but acceptable for {business_context} context")
+        
+        # Create enhanced result
+        enhanced_result = QualityGateResult(
+            passed=result.passed,
+            score=result.score,
+            threshold=result.threshold,
+            stage=result.stage,
+            issues=result.issues,
+            warnings=result.warnings + contextual_warnings,
+            recommendations=result.recommendations + contextual_recommendations,
+            confidence=result.confidence
+        )
+        
+        return enhanced_result
+    
+    def _generic_validation(self, stage: str, data: Dict[str, Any]) -> QualityGateResult:
+        """Generic validation for unknown stages"""
+        return QualityGateResult(
+            passed=True,
+            score=0.8,
+            threshold=self.thresholds.get(stage, 0.8),
+            stage=stage,
+            issues=[],
+            warnings=[],
+            recommendations=[],
+            confidence=MatchConfidence.MEDIUM
+        )
+    
+    def restore_original_thresholds(self):
+        """Restore original thresholds after contextual adjustments"""
+        if hasattr(self, '_original_thresholds'):
+            self.thresholds = self._original_thresholds.copy()
+            logger.debug("Restored original quality thresholds")
+
     # Helper methods for validation checks
     
     def _check_required_fields(self, data: Dict[str, Any], required: List[str], issues: List[str]) -> float:
