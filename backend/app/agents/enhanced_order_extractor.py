@@ -84,7 +84,7 @@ class EnhancedOrderExtractor:
                         error=str(e))
             raise
     
-    async def _extract_order_metadata(self, document_content: str) -> OrderMetadata:
+    async def _extract_order_metadata(self, document_content: str) -> Dict[str, Any]:
         """Extract order-level metadata using Responses API"""
         
         system_message = """
@@ -142,15 +142,15 @@ class EnhancedOrderExtractor:
             logger.error("Metadata extraction error", error=str(e))
             return self._get_default_metadata()
     
-    def _get_default_metadata(self) -> OrderMetadata:
+    def _get_default_metadata(self) -> Dict[str, Any]:
         """Return default metadata when extraction fails"""
-        return OrderMetadata(
-            customer="Unknown Customer",
-            priority="MEDIUM",
-            extracted_at=datetime.now()
-        )
+        return {
+            "customer": "Unknown Customer",
+            "priority": "MEDIUM",
+            "extracted_at": datetime.now().isoformat()
+        }
     
-    async def _extract_line_items(self, document_content: str) -> List[LineItem]:
+    async def _extract_line_items(self, document_content: str) -> List[Dict[str, Any]]:
         """Extract individual line items using Responses API"""
         
         system_message = """
@@ -202,7 +202,7 @@ class EnhancedOrderExtractor:
             logger.error("Line items extraction error", error=str(e))
             return []
     
-    async def _parse_line_items_response(self, response_text: str) -> List[LineItem]:
+    async def _parse_line_items_response(self, response_text: str) -> List[Dict[str, Any]]:
         """Parse line items response and convert to LineItem objects"""
         
         line_items = []
@@ -231,23 +231,22 @@ class EnhancedOrderExtractor:
                 if qty_match:
                     quantity = int(qty_match.group(1) or qty_match.group(2) or qty_match.group(3))
                 
-                # Create LineItem object
-                line_item = LineItem(
-                    line_id=f"line_{current_line_number}",
-                    line_number=current_line_number,
-                    description=description,
-                    quantity=quantity,
-                    raw_text=line,
-                    extracted_specs=ExtractedSpecs(),
-                    status=LineItemStatus.EXTRACTED
-                )
+                # Create line item dictionary
+                line_item = {
+                    "line_id": f"line_{current_line_number}",
+                    "line_number": current_line_number,
+                    "description": description,
+                    "quantity": quantity,
+                    "raw_text": line,
+                    "status": "EXTRACTED"
+                }
                 
                 line_items.append(line_item)
                 current_line_number += 1
         
         return line_items
     
-    async def _extract_delivery_instructions(self, document_content: str) -> DeliveryInstructions:
+    async def _extract_delivery_instructions(self, document_content: str) -> Dict[str, Any]:
         """Extract delivery instructions using Responses API"""
         
         system_message = """
@@ -281,20 +280,25 @@ class EnhancedOrderExtractor:
             
             if result.success:
                 data = result.data
-                return DeliveryInstructions(
-                    delivery_address=data.delivery_address,
-                    special_instructions=data.special_instructions,
-                    delivery_date=data.delivery_date,
-                    delivery_method=data.delivery_method,
-                    contact_for_delivery=data.contact_for_delivery
-                )
+                return {
+                    "delivery_address": data.delivery_address,
+                    "special_instructions": data.special_instructions,
+                    "delivery_date": data.delivery_date,
+                    "delivery_method": data.delivery_method,
+                    "contact_for_delivery": data.contact_for_delivery
+                }
             else:
                 logger.warning("Delivery instructions extraction failed", error=result.error)
-                return DeliveryInstructions()
+                return {}
                 
         except Exception as e:
             logger.error("Delivery instructions extraction error", error=str(e))
-            return DeliveryInstructions()
+            return {}
+
+    async def extract_order_data(self, document_content: str) -> Dict[str, Any]:
+        """Alias for extract_order_with_line_items for compatibility"""
+        session_id = f"test_{int(datetime.now().timestamp())}"
+        return await self.extract_order_with_line_items(document_content, session_id)
 
 
 # Factory function for easy instantiation
